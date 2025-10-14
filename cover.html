@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Carta de Presentación — Pablo Caballero</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #0f2847 100%);
+      color: #e0e0e0;
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      background: rgba(15, 15, 35, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(100, 200, 255, 0.2);
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      animation: slideDown 0.5s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #64c8ff, #00d9ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: #b0b0d0;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #64c8ff, #00d9ff);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #64c8ff;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Container */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(100, 200, 255, 0.05) 0%, rgba(0, 217, 255, 0.05) 100%);
+      border: 1px solid rgba(100, 200, 255, 0.2);
+      border-radius: 16px;
+      padding: 3rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Header */
+    .letter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid rgba(100, 200, 255, 0.3);
+    }
+
+    .sender-info h1 {
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, #64c8ff, #00d9ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.3rem;
+    }
+
+    .sender-info p {
+      color: #b0b0d0;
+      font-size: 0.9rem;
+      margin: 0.2rem 0;
+    }
+
+    .date {
+      text-align: right;
+      color: #8a8aaa;
+      font-size: 0.95rem;
+    }
+
+    /* Letter Content */
+    .letter-content {
+      margin-bottom: 2.5rem;
+    }
+
+    .recipient {
+      margin-bottom: 2rem;
+      color: #b0b0d0;
+      font-size: 0.95rem;
+    }
+
+    .recipient p {
+      margin: 0.25rem 0;
+    }
+
+    p {
+      margin-bottom: 1.2rem;
+      color: #d0d0e0;
+      font-size: 0.95rem;
+      text-align: justify;
+    }
+
+    .highlight {
+      color: #64c8ff;
+      font-weight: 600;
+    }
+
+    .signature {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(100, 200, 255, 0.2);
+    }
+
+    .signature p {
+      margin: 0.5rem 0;
+      font-size: 0.95rem;
+    }
+
+    .signature-name {
+      font-weight: 700;
+      color: #64c8ff;
+      margin-top: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(100, 200, 255, 0.2);
+      font-size: 0.85rem;
+      color: #8a8aaa;
+    }
+
+    a {
+      color: #64c8ff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: #00d9ff;
+    }
+
+    .contact-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(100, 200, 255, 0.2);
+      font-size: 0.9rem;
+    }
+
+    .contact-info p {
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .letter-header {
+        flex-direction: column;
+      }
+
+      .date {
+        text-align: left;
+        margin-top: 1rem;
+      }
+
+      .container {
+        padding: 1.5rem;
+      }
+
+      .contact-info {
+        grid-template-columns: 1fr;
+      }
+
+      p {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="logo">Pablo Caballero</a>
+    <div class="nav-links">
+      <a href="cv.html">CV</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="cover.html">Carta</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <header class="letter-header">
+      <div class="sender-info">
+        <h1>Pablo Caballero</h1>
+        <p>Desarrollador — Estudiante de DAM</p>
+        <p>Leganés, Madrid</p>
+      </div>
+      <div class="date">
+        <p id="today"></p>
+      </div>
+    </header>
+
+    <div class="letter-content">
+      <div class="recipient">
+        <p><strong>Departamento de Recursos Humanos</strong></p>
+
+      </div>
+
+      <p>Estimado/a departamento de Recursos Humanos,</p>
+
+      <p>Me dirijo a usted para expresar mi interés en incorporarme a esta empresa como desarrollador. Soy estudiante de <span class="highlight">Desarrollo de Aplicaciones Multiplataforma (DAM)</span> en CDM Escuela de Profesionales Digitales, y cuento con experiencia práctica en tecnologías clave para el desarrollo moderno.</p>
+
+      <p>Durante mis prácticas en <span class="highlight">Hyundai Motor España</span>, he tenido la oportunidad de trabajar en proyectos web reales, desarrollando componentes con HTML, CSS y JavaScript, optimizando accesibilidad y rendimiento. Esta experiencia y lo he estudiado tanto en las clases como por mi cuenta me ha permitido consolidar mis conocimientos en <span class="highlight">Java, Python, desarrollo web y cloud computing</span>, reforzados además por certificaciones en AWS y Google Cloud.</p>
+
+      <p>Me caracteriza un enfoque orientado a <span class="highlight">soluciones eficientes e innovadoras</span>. Busco contribuir al impacto tecnológico mediante la automatización de procesos, mejora continua y pensamiento analítico. Mi disponibilidad total y capacidad para trabajar bajo presión me permiten adaptarme rápidamente a nuevos desafíos y equipos.</p>
+
+      <p>Considero que mi perfil técnico, mi actitud proactiva y mi pasión por la tecnología me convierten en un candidato valioso para vuestro equipo. Estaría encantado de discutir cómo puedo aportar valor a vuestro proyecto y objetivos.</p>
+
+
+      <p>Quedo atento a cualquier oportunidad y disponible para una entrevista en el momento que considere oportuno.</p>
+
+      <div class="signature">
+        <p>Atentamente,</p>
+        <p class="signature-name">Pablo Caballero</p>
+        <p>📱 628 580 671</p>
+        <p>✉️ <a href="mailto:pcaballero155@gmail.com">pcaballero155@gmail.com</a></p>
+      </div>
+    </div>
+
+    <footer>Carta de presentación personalizable — Reemplaza los campos entre corchetes [...]</footer>
+  </div>
+
+  <script>
+
+    const today = new Date();
+    const formatter = new Intl.DateTimeFormat('es-ES', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+    document.getElementById('today').textContent = formatter.format(today);
+  </script>
+</body>
+</html>
