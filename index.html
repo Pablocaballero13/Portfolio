@@ -6,12 +6,12 @@
   <title>Portfolio — Pablo Caballero</title>
   <link rel="icon" type="image/png" href="../Portfolio/favii.png"> 
   <style>
-    html {
+    html, body {
+      margin: 0;
+      padding: 0;
       scroll-behavior: smooth; 
     }
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
     }
 
@@ -27,7 +27,7 @@
     /* Navbar */
     nav {
       display: flex;
-      justify-content: space-between;
+      justify-content: center; 
       align-items: center;
       padding: 1.5rem 2rem;
       background: rgba(15, 15, 35, 0.8);
@@ -50,20 +50,10 @@
       }
     }
 
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #64c8ff, #00d9ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-decoration: none;
-      letter-spacing: 1px;
-    }
-
     .nav-links {
       display: flex;
       gap: 2rem;
+      justify-content: center; 
     }
 
     .nav-links a {
@@ -72,6 +62,7 @@
       font-weight: 500;
       position: relative;
       transition: color 0.3s;
+  
     }
 
     .nav-links a::after {
@@ -83,10 +74,12 @@
       height: 2px;
       background: linear-gradient(90deg, #64c8ff, #00d9ff);
       transition: width 0.3s;
+  
     }
 
     .nav-links a:hover {
       color: #64c8ff;
+      
     }
 
     .nav-links a:hover::after {
@@ -366,7 +359,6 @@
 </head>
 <body>
   <nav class="nav">
-    <a href="index.html" class="logo">Pablo Caballero Laserna</a>
     <div class="nav-links">
       <a href="cv.html">CV</a>
       <a href="#proyectos-destacados">Proyectos</a>
@@ -390,24 +382,24 @@
         <article class="card">
           <h3>🎨 Web Frontend</h3>
           <p>SPA accesible y responsive con buenas prácticas, componentes modernos y pruebas básicas. Enfoque en UX y rendimiento.</p>
-          <a href="projects/web-frontend/index.html">Ver Demo →</a>
+          <a href="web.html">Ver Demo →</a>
         </article>
         <article class="card">
           <h3>⚙️ Java Backend</h3>
           <p>Microservicio robusto con endpoints escalables, pruebas unitarias y arquitectura limpia. API RESTful lista para producción.</p>
-          <a href="projects/java-backend/index.html">Ver Demo →</a>
+          <a href="java.html">Ver Demo →</a>
         </article>
         <article class="card">
           <h3>🐍 Python Tools</h3>
           <p>Scripts inteligentes para automatización, generación de reportes y análisis rápido. Herramientas prácticas y reutilizables.</p>
-          <a href="projects/python-tools/index.html">Ver Demo →</a>
+          <a href="python.html">Ver Demo →</a>
         </article>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>📧 pcaballero155@gmail.com · 📍 Leganés, Madrid · <a href="https://github.com/Pablocaballero13">GitHub</a></p>
+    <p> pcaballero155@gmail.com · Leganés, Madrid · <a href="https://github.com/Pablocaballero13">GitHub</a></p>
   </footer>
 </body>
 </html>

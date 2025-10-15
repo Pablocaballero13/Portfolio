@@ -7,9 +7,13 @@
   <link rel="icon" type="image/png" href="../Portfolio/favii.png"> 
   <style>
 
-    * {
+    html, body { 
       margin: 0;
       padding: 0;
+      scroll-behavior: smooth; 
+    }
+
+    * {
       box-sizing: border-box;
     }
 
@@ -19,21 +23,20 @@
       color: #e0e0e0;
       line-height: 1.8;
       min-height: 100vh;
-      padding: 0; 
       overflow-x: hidden;
     }
 
    
     nav {
       display: flex;
-      justify-content: space-between;
+      justify-content: center; 
       align-items: center;
       padding: 1.5rem 2rem;
       background: rgba(15, 15, 35, 0.8);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(100, 200, 255, 0.2);
       position: sticky;
-      top: 0;
+      top: 0; 
       z-index: 1000; 
       animation: slideDown 0.5s ease-out;
       border-radius: 0;
@@ -50,21 +53,11 @@
         opacity: 1;
       }
     }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #64c8ff, #00d9ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-decoration: none;
-      letter-spacing: 1px;
-    }
-
     .nav-links {
       display: flex;
       gap: 2rem;
+      justify-content: center;
+      flex-grow: 1; 
     }
 
     .nav-links a {
@@ -258,7 +251,6 @@
 </head>
 <body>
   <nav class="nav">
-    <a href="index.html" class="logo">Pablo Caballero Laserna</a>
     <div class="nav-links">
       <a href="cv.html">CV</a>
       <a href="index.html#proyectos-destacados">Proyectos</a>
