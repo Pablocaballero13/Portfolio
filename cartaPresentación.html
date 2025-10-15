@@ -4,7 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Carta de Presentación — Pablo Caballero</title>
+  <link rel="icon" type="image/png" href="../Portfolio/favii.png"> 
   <style>
+
     * {
       margin: 0;
       padding: 0;
@@ -17,10 +19,11 @@
       color: #e0e0e0;
       line-height: 1.8;
       min-height: 100vh;
-      padding: 2rem;
+      padding: 0; 
+      overflow-x: hidden;
     }
 
-    /* Navbar */
+   
     nav {
       display: flex;
       justify-content: space-between;
@@ -29,9 +32,12 @@
       background: rgba(15, 15, 35, 0.8);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(100, 200, 255, 0.2);
-      border-radius: 12px;
-      margin-bottom: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000; 
       animation: slideDown 0.5s ease-out;
+      border-radius: 0;
+      margin-bottom: 0;
     }
 
     @keyframes slideDown {
@@ -46,7 +52,7 @@
     }
 
     .logo {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       font-weight: 700;
       background: linear-gradient(135deg, #64c8ff, #00d9ff);
       -webkit-background-clip: text;
@@ -88,10 +94,10 @@
       width: 100%;
     }
 
-    /* Container */
+
     .container {
       max-width: 800px;
-      margin: 0 auto;
+      margin: 2rem auto; 
       background: linear-gradient(135deg, rgba(100, 200, 255, 0.05) 0%, rgba(0, 217, 255, 0.05) 100%);
       border: 1px solid rgba(100, 200, 255, 0.2);
       border-radius: 16px;
@@ -112,7 +118,7 @@
       }
     }
 
-    /* Header */
+
     .letter-header {
       display: flex;
       justify-content: space-between;
@@ -143,7 +149,7 @@
       font-size: 0.95rem;
     }
 
-    /* Letter Content */
+
     .letter-content {
       margin-bottom: 2.5rem;
     }
@@ -187,7 +193,7 @@
       margin-top: 1rem;
     }
 
-    /* Footer */
+
     footer {
       text-align: center;
       margin-top: 2rem;
@@ -256,7 +262,7 @@
     <div class="nav-links">
       <a href="cv.html">CV</a>
       <a href="index.html#proyectos-destacados">Proyectos</a>
-      <a href="cover.html">Carta</a>
+      <a href="cartaPresentación.html">Carta de presentación</a>
     </div>
   </nav>
 
@@ -293,13 +299,12 @@
 
       <div class="signature">
         <p>Atentamente,</p>
-        <p class="signature-name">Pablo Caballero</p>
-        <p>📱 628 580 671</p>
-        <p>✉️ <a href="mailto:pcaballero155@gmail.com">pcaballero155@gmail.com</a></p>
+        <p class="signature-name">Pablo Caballero Laserna</p>
+        <p>628 580 671</p>
+        <p><a href="mailto:pcaballero155@gmail.com">pcaballero155@gmail.com</a></p>
       </div>
     </div>
 
-    <footer>Carta de presentación personalizable — Reemplaza los campos entre corchetes [...]</footer>
   </div>
 
   <script>

@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Web Frontend — SPA Accesible y Responsive</title>
+
+  <!-- Estilos base -->
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #0f2847 100%);
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 4rem 2rem;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h1 {
+      background: linear-gradient(135deg, #64c8ff, #00d9ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #b0b0d0;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    section {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: linear-gradient(135deg, rgba(100, 200, 255, 0.05), rgba(0, 217, 255, 0.1));
+      border: 1px solid rgba(100, 200, 255, 0.2);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(100, 200, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(100, 200, 255, 0.2);
+    }
+
+    .card h2 {
+      color: #64c8ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: #b0b0d0;
+      font-size: 1rem;
+    }
+
+    .btn {
+      margin-top: 1rem;
+      display: inline-block;
+      background: linear-gradient(135deg, #64c8ff, #00d9ff);
+      color: #0f0f23;
+      border: none;
+      border-radius: 25px;
+      padding: 0.6rem 1.5rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
+    }
+
+    pre {
+      background: rgba(15, 20, 40, 0.9);
+      border: 1px solid rgba(100, 200, 255, 0.2);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      display: none;
+      white-space: pre-wrap;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #b0b0d0;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(100, 200, 255, 0.2);
+      margin-top: 3rem;
+    }
+
+    code {
+      color: #64c8ff;
+    }
+
+    @media (max-width: 768px) {
+      h1 {font-size: 2.2rem;}
+      p {font-size: 1rem;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎨 Web Frontend</h1>
+    <p>SPA moderna, accesible y responsive creada por un alumno de 2º DAM. Incluye componentes reutilizables, buenas prácticas y un enfoque UX centrado en el usuario.</p>
+  </header>
+
+  <section>
+    <div class="card">
+      <h2>💡 Estructura del Proyecto</h2>
+      <p>La aplicación está construida con HTML, CSS y JavaScript modular, siguiendo principios de accesibilidad y rendimiento.</p>
+      <p><strong>Tecnologías:</strong> HTML5 · CSS3 · JavaScript (ES6) · Flexbox · Fetch API</p>
+      <button class="btn" onclick="toggleCode('estructura')">Ver Código</button>
+      <pre id="estructura">
+📁 web-frontend/
+ ├─ index.html
+ ├─ css/
+ │   └─ styles.css
+ ├─ js/
+ │   ├─ app.js
+ │   └─ components/
+ │       ├─ navbar.js
+ │       └─ card.js
+ └─ assets/
+     └─ img/
+      </pre>
+    </div>
+
+    <div class="card">
+      <h2>🧩 Componente Navbar</h2>
+      <p>Componente reutilizable que muestra una barra de navegación responsive con menú hamburguesa.</p>
+      <button class="btn" onclick="toggleCode('navbar')">Ver Código</button>
+      <pre id="navbar">
+export function Navbar() {
+  const nav = document.createElement('nav');
+  nav.innerHTML = \`
+    <div class="logo">Mi WebApp</div>
+    <button class="menu-btn" aria-label="Abrir menú">☰</button>
+    <ul class="menu">
+      <li><a href="#home">Inicio</a></li>
+      <li><a href="#about">Sobre mí</a></li>
+      <li><a href="#projects">Proyectos</a></li>
+    </ul>
+  \`;
+
+  const button = nav.querySelector('.menu-btn');
+  const menu = nav.querySelector('.menu');
+  button.addEventListener('click', () => {
+    menu.classList.toggle('active');
+  });
+
+  return nav;
+}
+      </pre>
+    </div>
+
+    <div class="card">
+      <h2>⚙️ Lógica Principal (SPA)</h2>
+      <p>Gestión de navegación simple sin recargar la página, usando JavaScript nativo (sin frameworks).</p>
+      <button class="btn" onclick="toggleCode('spa')">Ver Código</button>
+      <pre id="spa">
+// app.js
+import { Navbar } from './components/navbar.js';
+
+document.body.prepend(Navbar());
+
+const routes = {
+  home: "<h2>Inicio</h2><p>Bienvenido a mi SPA!</p>",
+  about: "<h2>Sobre mí</h2><p>Alumno de 2º de DAM apasionado por el desarrollo web.</p>",
+  projects: "<h2>Proyectos</h2><p>Aquí muestro mis trabajos más destacados.</p>",
+};
+
+window.addEventListener('hashchange', renderRoute);
+function renderRoute() {
+  const hash = window.location.hash.replace('#', '') || 'home';
+  document.getElementById('root').innerHTML = routes[hash];
+}
+renderRoute();
+      </pre>
+    </div>
+
+    <div class="card">
+      <h2>🧪 Prueba Básica</h2>
+      <p>Ejemplo simple de prueba unitaria con Jest para comprobar la generación del navbar.</p>
+      <button class="btn" onclick="toggleCode('test')">Ver Código</button>
+      <pre id="test">
+// navbar.test.js
+import { Navbar } from './navbar.js';
+
+test('El componente Navbar crea un elemento nav', () => {
+  const nav = Navbar();
+  expect(nav.tagName).toBe('NAV');
+});
+      </pre>
+    </div>
+
+    <div class="card">
+      <h2>🚀 Buenas Prácticas UX/UI</h2>
+      <p>Diseño minimalista, uso de contraste, accesibilidad con etiquetas ARIA y navegación fluida para usuarios móviles.</p>
+      <button class="btn" onclick="toggleCode('ux')">Ver Detalles</button>
+      <pre id="ux">
+🎯 Buenas prácticas implementadas:
+- Layout responsive con Flexbox y Grid.
+- Paleta de colores accesible (AA+).
+- Navegación fluida sin recargar.
+- Animaciones suaves y coherentes.
+- Código modular y reutilizable.
+      </pre>
+    </div>
+  </section>
+
+  <footer>
+    <p>Proyecto realizado por <strong>Pablo Caballero</strong> · 2º DAM · 2025</p>
+  </footer>
+
+  <script>
+    function toggleCode(id) {
+      const pre = document.getElementById(id);
+      pre.style.display = pre.style.display === "block" ? "none" : "block";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Java Backend — Microservicio REST</title>
+
+  <!-- Estilos base -->
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #0f2847 100%);
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 4rem 2rem;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h1 {
+      background: linear-gradient(135deg, #64c8ff, #00d9ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #b0b0d0;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    section {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: linear-gradient(135deg, rgba(100, 200, 255, 0.05), rgba(0, 217, 255, 0.1));
+      border: 1px solid rgba(100, 200, 255, 0.2);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(100, 200, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(100, 200, 255, 0.2);
+    }
+
+    .card h2 {
+      color: #64c8ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: #b0b0d0;
+      font-size: 1rem;
+    }
+
+    .btn {
+      margin-top: 1rem;
+      display: inline-block;
+      background: linear-gradient(135deg, #64c8ff, #00d9ff);
+      color: #0f0f23;
+      border: none;
+      border-radius: 25px;
+      padding: 0.6rem 1.5rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
+    }
+
+    pre {
+      background: rgba(15, 20, 40, 0.9);
+      border: 1px solid rgba(100, 200, 255, 0.2);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      display: none;
+      white-space: pre-wrap;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #b0b0d0;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(100, 200, 255, 0.2);
+      margin-top: 3rem;
+    }
+
+    code {
+      color: #64c8ff;
+    }
+
+    @media (max-width: 768px) {
+      h1 {font-size: 2.2rem;}
+      p {font-size: 1rem;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>⚙️ Java Backend</h1>
+    <p>Microservicio REST desarrollado con una arquitectura limpia, endpoints CRUD, pruebas unitarias y Docker.</p>
+  </header>
+
+  <section>
+    <div class="card">
+      <h2>📁 Estructura del Proyecto</h2>
+      <p>Proyecto Maven con Spring Boot estructurado en capas: Controller, Service, Repository y Model.</p>
+      <p><strong>Tecnologías:</strong> Java · Spring Boot · JPA · H2 · Maven</p>
+      <button class="btn" onclick="toggleCode('estructura')">Ver Código</button>
+      <pre id="estructura">
+src/
+├─ main/java/com/example/demo/
+│  ├─ controller/UserController.java
+│  ├─ service/UserService.java
+│  ├─ repository/UserRepository.java
+│  ├─ model/User.java
+│  └─ DemoApplication.java
+└─ resources/application.properties
+      </pre>
+    </div>
+
+    <div class="card">
+      <h2>🧩 Controlador REST</h2>
+      <p>Controlador que expone endpoints CRUD para gestionar usuarios desde la API.</p>
+      <p><strong>Rutas:</strong> /api/users</p>
+      <button class="btn" onclick="toggleCode('controller')">Ver Código</button>
+      <pre id="controller">
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+  @Autowired
+  private UserService service;
+
+  @GetMapping
+  public List&lt;User&gt; getAll() { return service.findAll(); }
+
+  @PostMapping
+  public User add(@RequestBody User user) { return service.save(user); }
+
+  @PutMapping("/{id}")
+  public User update(@PathVariable Long id, @RequestBody User user) {
+    return service.update(id, user);
+  }
+
+  @DeleteMapping("/{id}")
+  public void delete(@PathVariable Long id) {
+    service.delete(id);
+  }
+}
+      </pre>
+    </div>
+
+    <div class="card">
+      <h2>🧠 Capa Service</h2>
+      <p>Contiene la lógica de negocio y validaciones antes de guardar o modificar datos.</p>
+      <p><strong>Tecnologías:</strong> Spring Service · JPA</p>
+      <button class="btn" onclick="toggleCode('service')">Ver Código</button>
+      <pre id="service">
+@Service
+public class UserService {
+
+  @Autowired
+  private UserRepository repo;
+
+  public List&lt;User&gt; findAll() { return repo.findAll(); }
+
+  public User save(User user) { return repo.save(user); }
+
+  public User update(Long id, User newUser) {
+    return repo.findById(id).map(u -&gt; {
+      u.setName(newUser.getName());
+      u.setEmail(newUser.getEmail());
+      return repo.save(u);
+    }).orElse(null);
+  }
+
+  public void delete(Long id) { repo.deleteById(id); }
+}
+      </pre>
+    </div>
+
+    <div class="card">
+      <h2>🧪 Pruebas Unitarias</h2>
+      <p>Ejemplo de test con JUnit y Mockito para verificar la capa de servicio.</p>
+      <p><strong>Tecnologías:</strong> JUnit 5 · Mockito</p>
+      <button class="btn" onclick="toggleCode('test')">Ver Código</button>
+      <pre id="test">
+@SpringBootTest
+class UserServiceTest {
+
+  @MockBean
+  private UserRepository repo;
+
+  @Autowired
+  private UserService service;
+
+  @Test
+  void testFindAll() {
+    when(repo.findAll()).thenReturn(List.of(new User(1L, "Pablo", "pablo@mail.com")));
+    assertEquals(1, service.findAll().size());
+  }
+}
+      </pre>
+    </div>
+
+    <div class="card">
+      <h2>🐳 Dockerfile</h2>
+      <p>Archivo Dockerfile que permite desplegar el microservicio fácilmente.</p>
+      <button class="btn" onclick="toggleCode('docker')">Ver Código</button>
+      <pre id="docker">
+FROM openjdk:17-jdk-slim
+COPY target/demo-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+      </pre>
+    </div>
+  </section>
+
+  <footer>
+    <p>Proyecto realizado por <strong>Pablo Caballero</strong> · 2º DAM · 2025</p>
+  </footer>
+
+  <script>
+    function toggleCode(id) {
+      const pre = document.getElementById(id);
+      pre.style.display = pre.style.display === "block" ? "none" : "block";
+    }
+  </script>
+</body>
+</html>

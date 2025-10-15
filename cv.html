@@ -4,7 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>CV — Pablo Caballero</title>
+  <link rel="icon" type="image/png" href="../Portfolio/favii.png"> 
   <style>
+
     * {
       margin: 0;
       padding: 0;
@@ -17,10 +19,11 @@
       color: #e0e0e0;
       line-height: 1.6;
       min-height: 100vh;
-      padding: 2rem;
+      padding: 0; 
+      overflow-x: hidden;
     }
 
-    /* Navbar */
+
     nav {
       display: flex;
       justify-content: space-between;
@@ -29,9 +32,12 @@
       background: rgba(15, 15, 35, 0.8);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(100, 200, 255, 0.2);
-      border-radius: 12px;
-      margin-bottom: 2rem;
+      position: sticky; 
+      top: 0; 
+      z-index: 1000; 
       animation: slideDown 0.5s ease-out;
+      border-radius: 0;
+      margin-bottom: 0;
     }
 
     @keyframes slideDown {
@@ -46,7 +52,7 @@
     }
 
     .logo {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       font-weight: 700;
       background: linear-gradient(135deg, #64c8ff, #00d9ff);
       -webkit-background-clip: text;
@@ -88,16 +94,27 @@
       width: 100%;
     }
 
-    /* Container */
     .container {
       max-width: 1000px;
-      margin: 0 auto;
+      margin: 2rem auto; 
       background: linear-gradient(135deg, rgba(100, 200, 255, 0.05) 0%, rgba(0, 217, 255, 0.05) 100%);
       border: 1px solid rgba(100, 200, 255, 0.2);
       border-radius: 16px;
       padding: 3rem;
       backdrop-filter: blur(10px);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Header */
@@ -314,7 +331,7 @@
     <div class="nav-links">
       <a href="cv.html">CV</a>
       <a href="index.html#proyectos-destacados">Proyectos</a> 
-      <a href="cartaPresentación.html">Carta</a>
+      <a href="cartaPresentación.html">Carta de presentación</a>
     </div>
   </nav>
 
@@ -325,15 +342,15 @@
         <p class="muted">Estudiante de DAM — Desarrollo de Aplicaciones Multiplataforma</p>
       </div>
       <div class="contact">
-        <p>📍 Leganés, Madrid</p>
-        <p>📱 628 580 671</p>
-        <p>✉️ <a href="mailto:pcaballero155@gmail.com">pcaballero155@gmail.com</a></p>
+        <p>Leganés, Madrid</p>
+        <p>628 580 671</p>
+        <p><a href="mailto:pcaballero155@gmail.com">pcaballero155@gmail.com</a></p>
       </div>
     </header>
 
     <section>
       <h2>Sobre mí</h2>
-      <p>Estudiante de DAM con experiencia en Java y Python entre otras tecnologías. Priorizo un enfoque en soluciones eficientes e innovadoras. Busco contribuir al impacto tecnológico en consultoría.</p>
+      <p>Estudiante apasionado de Desarrollo de Aplicaciones Multiplataforma (DAM), con una sólida base y experiencia práctica en lenguajes como Java y Python, además de familiaridad con diversas tecnologías del stack de desarrollo moderno. Mi enfoque principal se centra en la creación de soluciones eficientes, escalables e innovadoras, siempre buscando optimizar procesos y mejorar la experiencia del usuario. Estoy firmemente comprometido con la excelencia técnica y ansío aplicar mis conocimientos y mi entusiasmo para contribuir significativamente al impacto tecnológico en el ámbito de la consultoría, enfrentando nuevos desafíos y creciendo profesionalmente en un entorno dinámico.</p>
     </section>
 
     <section class="two-col">
@@ -366,7 +383,13 @@
           <p><strong>Google Cloud Fundamentals for AWS Professionals</strong></p>
           <p class="muted">Octubre 2025</p>
         </div>
+
+        <div class="certification">
+          <p><strong>Google Cloud Skills Boost</strong></p>
+          <p class="muted">Octubre 2025</p>
+        </div>
       </div>
+      
 
       <div>
         <h3>Tecnologías</h3>

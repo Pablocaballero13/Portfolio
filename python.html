@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Python Tools — Automatización y Reportes</title>
+
+  <!-- Estilos base -->
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #0f2847 100%);
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 4rem 2rem;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h1 {
+      background: linear-gradient(135deg, #64c8ff, #00d9ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #b0b0d0;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    section {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: linear-gradient(135deg, rgba(100, 200, 255, 0.05), rgba(0, 217, 255, 0.1));
+      border: 1px solid rgba(100, 200, 255, 0.2);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(100, 200, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(100, 200, 255, 0.2);
+    }
+
+    .card h2 {
+      color: #64c8ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: #b0b0d0;
+      font-size: 1rem;
+    }
+
+    .btn {
+      margin-top: 1rem;
+      display: inline-block;
+      background: linear-gradient(135deg, #64c8ff, #00d9ff);
+      color: #0f0f23;
+      border: none;
+      border-radius: 25px;
+      padding: 0.6rem 1.5rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
+    }
+
+    pre {
+      background: rgba(15, 20, 40, 0.9);
+      border: 1px solid rgba(100, 200, 255, 0.2);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      display: none;
+      white-space: pre-wrap;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #b0b0d0;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(100, 200, 255, 0.2);
+      margin-top: 3rem;
+    }
+
+    code {
+      color: #64c8ff;
+    }
+
+    @media (max-width: 768px) {
+      h1 {font-size: 2.2rem;}
+      p {font-size: 1rem;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🐍 Python Tools</h1>
+    <p>Conjunto de scripts creados para automatizar tareas, generar reportes y analizar datos de forma rápida.</p>
+  </header>
+
+  <section>
+    <div class="card">
+      <h2>📊 Generador de Reportes Excel</h2>
+      <p>Procesa datos y genera reportes automáticos en Excel con gráficos y resúmenes.</p>
+      <p><strong>Tecnologías:</strong> Python · Pandas · OpenPyXL</p>
+      <button class="btn" onclick="toggleCode('excel')">Ver Código</button>
+      <pre id="excel">
+import pandas as pd
+
+data = {
+    "Alumno": ["Ana", "Luis", "Marta"],
+    "Nota": [8.5, 7.0, 9.2],
+}
+
+df = pd.DataFrame(data)
+df.to_excel("reporte_notas.xlsx", index=False)
+print("✅ Reporte Excel generado con éxito.")
+      </pre>
+    </div>
+
+    <div class="card">
+      <h2>🗂️ Organizador de Archivos</h2>
+      <p>Clasifica archivos en carpetas según su extensión, ideal para mantener el escritorio limpio y organizado.</p>
+      <p><strong>Tecnologías:</strong> Python · OS · Shutil</p>
+      <button class="btn" onclick="toggleCode('organizer')">Ver Código</button>
+      <pre id="organizer">
+import os, shutil
+
+source = "./downloads"
+for file in os.listdir(source):
+    ext = file.split(".")[-1]
+    folder = os.path.join(source, ext.upper())
+    os.makedirs(folder, exist_ok=True)
+    shutil.move(os.path.join(source, file), os.path.join(folder, file))
+
+print("✅ Archivos organizados por tipo.")
+      </pre>
+    </div>
+
+    <div class="card">
+      <h2>📈 Análisis de Datos</h2>
+      <p>Lee un archivo CSV y muestra estadísticas rápidas como promedio, máximo, mínimo y conteos.</p>
+      <p><strong>Tecnologías:</strong> Python · Pandas</p>
+      <button class="btn" onclick="toggleCode('analysis')">Ver Código</button>
+      <pre id="analysis">
+import pandas as pd
+
+df = pd.read_csv("datos.csv")
+print("📈 Estadísticas del conjunto de datos:")
+print(df.describe())
+      </pre>
+    </div>
+  </section>
+
+  <footer>
+    <p>Proyecto realizado por <strong>Pablo Caballero</strong> · 2º DAM · 2025</p>
+  </footer>
+
+  <script>
+    function toggleCode(id) {
+      const pre = document.getElementById(id);
+      pre.style.display = pre.style.display === "block" ? "none" : "block";
+    }
+  </script>
+</body>
+</html>
