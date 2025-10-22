@@ -227,7 +227,7 @@
       margin-left: 0.8rem;
       transition: transform 0.3s ease-in-out;
       display: inline-block;
-      font-size: 2rem; /* Aumentado de 1.5rem a 2rem para hacerla más gorda */
+      font-size: 2rem;
       line-height: 1; 
     }
 
@@ -399,15 +399,20 @@
       .cta-row {
         flex-direction: column; 
         width: 100%;
+        align-items: center; 
       }
 
-      .btn, .btn-scroll { 
+      .btn { 
         width: 100%; 
+        max-width: 300px; 
         min-width: unset; 
       }
       
       .btn-scroll {
+        width: 100%; 
+        max-width: 300px; 
         margin-top: 1rem; 
+        min-width: unset; 
       }
 
       h2 {
