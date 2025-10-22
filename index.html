@@ -1,258 +1,279 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="google-site-verification" content="googleccb1f33346b4d06c.html" />
-  <title>Portfolio — Pablo Caballero</title>
-  <link rel="icon" type="image/png" href="../Portfolio/favii.png"> 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hyundai i30N - Performance Engineering</title>
+  <link rel="icon" type="image/png" href="Hy/unnamed.png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      scroll-behavior: smooth; 
-    }
-    * {
-      box-sizing: border-box;
+    :root {
+      --primary-blue: #002c5f;
+      --accent-blue: #00aad2;
+      --dark-blue: #001a3d;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --text-dark: #1a1a1a;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #0f2847 100%);
-      color: #e0e0e0;
-      line-height: 1.6;
-      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.7;
+      color: var(--text-dark);
       overflow-x: hidden;
+      background: var(--light-gray);
+    }
+
+    header {
+      background: linear-gradient(180deg, rgba(0, 44, 95, 0.95) 0%, rgba(0, 44, 95, 0.85) 100%);
+      padding: 1.2rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1001;
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(15px);
+      transition: all 0.3s ease;
+    }
+
+    header.scrolled {
+      padding: 0.8rem 0;
+      background: rgba(0, 44, 95, 0.98);
     }
 
     nav {
       display: flex;
-      justify-content: center; 
+      justify-content: center;
       align-items: center;
-      padding: 1.5rem 2rem;
-      background: rgba(15, 15, 35, 0.8);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(100, 200, 255, 0.2);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      animation: slideDown 0.5s ease-out;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
     }
 
-    @keyframes slideDown {
-      from {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+    .nav-logo-link {
+      text-decoration: none;
+      margin-right: auto;
+      transition: all 0.3s ease;
+      transform: perspective(1px) translateZ(0);
+      flex-shrink: 0;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      justify-content: center; 
+    .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: linear-gradient(45deg, var(--white) 30%, var(--accent-blue) 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 
+        0 0 7px rgba(255, 255, 255, 0.6),
+        0 0 12px rgba(0, 170, 210, 0.4);
     }
 
-    .nav-links a {
-      color: #b0b0d0;
+    .nav-logo-link:hover .nav-logo {
+      text-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.8), 
+        0 0 20px rgba(0, 170, 210, 0.6),
+        3px 3px 12px rgba(0,0,0,0.4);
+    }
+    
+    .nav-logo-link:hover {
+        transform: scale(1.05) perspective(1px) translateZ(0);
+    }
+
+    .nav-links-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    nav a {
+      color: rgba(255, 255, 255, 0.9);
       text-decoration: none;
       font-weight: 500;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
       position: relative;
-      transition: color 0.3s;
+      padding: 0.5rem 0;
+      margin: 0 1.5rem;
+      white-space: nowrap;
     }
 
-    .nav-links a::after {
+    nav a::after {
       content: '';
       position: absolute;
-      bottom: -5px;
+      bottom: 0;
       left: 0;
       width: 0;
       height: 2px;
-      background: linear-gradient(90deg, #64c8ff, #00d9ff);
-      transition: width 0.3s;
+      background: var(--accent-blue);
+      transition: width 0.3s ease;
     }
 
-    .nav-links a:hover {
-      color: #64c8ff;
+    nav a:hover {
+      color: var(--white);
     }
 
-    .nav-links a:hover::after {
+    nav a:hover::after {
       width: 100%;
     }
 
+    nav a + a::before {
+      content: '';
+      position: absolute;
+      left: -1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 60%;
+      background-color: rgba(255, 255, 255, 0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    nav a:hover + a::before,
+    nav a.active + a::before {
+        background-color: rgba(255, 255, 255, 0.6);
+    }
+
     .hero {
-      min-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 4rem 2rem;
       position: relative;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
+      margin-bottom: 4rem;
+      padding-top: 80px;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(100, 200, 255, 0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      top: -200px;
-      right: -200px;
-      animation: float 6s ease-in-out infinite;
+    .hero video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
+      object-fit: cover;
+      z-index: 0;
     }
 
-    .hero::after {
-      content: '';
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
-      border-radius: 50%;
-      bottom: -150px;
-      left: -150px;
-      animation: float 8s ease-in-out infinite reverse;
+    .hero-content {
+      text-align: center;
+      color: var(--white);
+      padding: 4rem 3rem;
+      border-radius: 16px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      animation: fadeInUp 1s ease-out;
+      box-shadow: var(--shadow-lg);
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(30px); }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .hero h1 {
-      font-size: clamp(2.5rem, 10vw, 5rem);
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #64c8ff, #00d9ff, #64c8ff);
-      background-size: 200% 200%;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, #00aad2 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: gradientShift 3s ease infinite;
-      position: relative;
-      z-index: 1;
     }
 
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    .lead {
-      font-size: 1.3rem;
-      color: #64c8ff;
-      margin-bottom: 2rem;
-      position: relative;
-      z-index: 1;
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
       font-weight: 300;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
     }
 
-    .cta-buttons {
-      display: flex;
-      flex-direction: column; 
-      gap: 1rem; 
-      justify-content: center;
-      align-items: center; 
-      position: relative;
-      z-index: 1;
-      width: 100%; 
-      max-width: 600px; 
-      margin-top: 1rem; 
+    .hero-price {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0087a8;
+      margin: 1rem 0;
     }
 
-    .cta-row {
-      display: flex; 
-      gap: 1.5rem; 
-      justify-content: center;
-      flex-wrap: wrap; 
-      width: 100%; 
+    .hero p {
+      font-size: 1.1rem;
+      margin: 0.8rem 0;
+      opacity: 0.95;
+      line-height: 1.6;
     }
 
-    .btn {
-      padding: 0.9rem 2rem;
-      border-radius: 50px;
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 2.5rem;
+      padding: 1.2rem 3rem;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, #0090b8 100%);
+      color: var(--white);
       text-decoration: none;
       font-weight: 600;
-      transition: all 0.3s;
-      border: 2px solid;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      flex-grow: 1; 
-      width: 200px; 
-      max-width: 100%; 
+      border-radius: 50px;
+      transition: all 0.4s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 8px 24px rgba(0, 170, 210, 0.3);
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #64c8ff, #00d9ff);
-      color: #0f0f23;
-      border-color: #64c8ff;
-      box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(100, 200, 255, 0.4);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: #64c8ff;
-      border-color: #64c8ff;
-    }
-
-    .btn-ghost:hover {
-      background: rgba(100, 200, 255, 0.1);
-      transform: translateY(-2px);
-      box-shadow: 0 0 20px rgba(100, 200, 255, 0.2);
-    }
-
-    .btn-scroll {
-        padding: 0.9rem 2rem; 
-        font-size: 1rem; 
-        margin-top: 1rem; 
-        width: 250px; 
-        max-width: 100%; 
-    }
-
-    .btn-scroll .arrow-down {
-      margin-left: 0.8rem;
-      transition: transform 0.3s ease-in-out;
-      display: inline-block;
-      font-size: 2rem; /* Aumentado de 1.5rem a 2rem para hacerla más gorda */
-      line-height: 1; 
-    }
-
-    .btn-scroll:hover .arrow-down {
-      transform: translateY(5px); 
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
+    .hero-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0, 170, 210, 0.5);
+      background: linear-gradient(135deg, #0090b8 0%, var(--accent-blue) 100%);
     }
 
     section {
-      margin-bottom: 6rem;
+      padding: 6rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto 4rem auto;
+      position: relative;
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    #ficha {
+      background: var(--white);
+      position: relative;
+      z-index: 2;
     }
 
     h2 {
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
       text-align: center;
-      background: linear-gradient(135deg, #64c8ff, #00d9ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 3rem;
+      margin-bottom: 3rem;
+      color: var(--primary-blue);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
       position: relative;
       padding-bottom: 1rem;
     }
@@ -264,278 +285,634 @@
       left: 50%;
       transform: translateX(-50%);
       width: 80px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #64c8ff, transparent);
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--primary-blue));
+      border-radius: 2px;
     }
 
-    .tech-stack-section {
-      margin-bottom: 6rem;
-    }
-
-    .tech-stack-title {
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-      text-align: center;
-      background: linear-gradient(135deg, #64c8ff, #00d9ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative;
-      padding-bottom: 1rem;
-    }
-
-    .tech-stack-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #64c8ff, transparent);
-    }
-
-    .tech-columns {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
-    }
-
-    .tech-column h3 {
+    h3 {
+      color: var(--primary-blue);
       font-size: 1.8rem;
-      margin-bottom: 2rem;
-      text-align: center;
-      color: #e0e0e0;
+      margin: 3rem 0 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
-    .tech-item {
-      background: linear-gradient(135deg, rgba(100, 200, 255, 0.05) 0%, rgba(0, 217, 255, 0.05) 100%);
-      border: 1px solid rgba(100, 200, 255, 0.2);
+    .ficha {
+      background: var(--white);
+    }
+
+    .ficha ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      padding: 0;
+      margin: 0;
+    }
+
+    .ficha li {
+      background: var(--white);
+      padding: 2rem;
       border-radius: 12px;
-      padding: 1rem 1.5rem;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      box-shadow: var(--shadow-sm);
+      border-left: 5px solid var(--accent-blue);
+      transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
     }
 
-    .tech-item::before {
+    .ficha li::before {
       content: '';
       position: absolute;
       top: 0;
-      left: -100%;
-      width: 100%;
+      left: 0;
+      width: 0;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(100, 200, 255, 0.1), transparent);
-      transition: left 0.5s;
+      background: linear-gradient(90deg, rgba(0, 170, 210, 0.05), transparent);
+      transition: width 0.3s ease;
     }
 
-    .tech-item:hover {
-      transform: translateX(5px);
-      border-color: rgba(100, 200, 255, 0.5);
-      background: linear-gradient(135deg, rgba(100, 200, 255, 0.1) 0%, rgba(0, 217, 255, 0.1) 100%);
-      box-shadow: 0 5px 15px rgba(100, 200, 255, 0.2);
+    .ficha li:hover {
+      transform: translateX(8px);
+      box-shadow: var(--shadow-md);
     }
 
-    .tech-item:hover::before {
-      left: 100%;
+    .ficha li:hover::before {
+      width: 100%;
     }
 
-    .tech-icon {
-      font-size: 1.5rem;
-      min-width: 30px;
-      text-align: center;
+    .ficha strong {
+      color: var(--primary-blue);
+      font-weight: 600;
+      font-size: 1.05rem;
     }
 
-    .tech-name {
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: #b0b0d0;
+    #Imagenes {
+      background: var(--white);
+    }
+
+    .imagenes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+      margin-top: 3rem;
+    }
+
+    .imagen-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .imagen-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 44, 95, 0.8) 100%);
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .imagen-card:hover::before {
+      opacity: 1;
+    }
+
+    .imagen-card:hover {
+      transform: translateY(-12px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .imagen-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .imagen-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .imagen-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem;
+      color: var(--white);
+      z-index: 2;
+      transform: translateY(100%);
+      transition: transform 0.4s ease;
+    }
+
+    .imagen-card:hover .imagen-overlay {
+      transform: translateY(0);
+    }
+
+    .imagen-overlay h4 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .imagen-overlay p {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .especificaciones {
+      background: var(--white);
+    }
+
+    .especificaciones p {
+      text-align: justify;
+      margin-bottom: 2rem;
+      line-height: 1.9;
+      font-size: 1.05rem;
+      color: #333;
+    }
+
+    .spec-highlight {
+      background: var(--light-gray);
+      padding: 2.5rem;
+      border-radius: 12px;
+      margin: 2rem 0;
+      box-shadow: var(--shadow-sm);
+      border-left: 5px solid var(--accent-blue);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .spec-highlight::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--primary-blue));
+      transition: all 0.3s ease;
+      z-index: 0;
+    }
+
+    .spec-highlight:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .spec-highlight:hover::before {
+      width: 100%;
+      opacity: 0.1;
+    }
+
+    .spec-highlight h3,
+    .spec-highlight p {
       position: relative;
       z-index: 1;
     }
 
-    .tech-item:hover .tech-name {
-      color: #64c8ff;
+    .contacto {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: var(--white);
     }
 
-    .footer {
-      background: rgba(15, 15, 35, 0.8);
-      border-top: 1px solid rgba(100, 200, 255, 0.2);
-      padding: 0.8rem; 
+    .contacto h2 {
+      color: var(--white);
+    }
+
+    .contacto h2::after {
+      background: linear-gradient(90deg, var(--accent-blue), var(--white));
+    }
+
+    form {
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+
+    input, textarea {
+      padding: 1.2rem 1.5rem;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      background: rgba(255, 255, 255, 0.95);
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(0, 170, 210, 0.1);
+    }
+
+    button {
+      padding: 1.2rem 3rem;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, #0090b8 100%);
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 8px 24px rgba(0, 170, 210, 0.3);
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0, 170, 210, 0.5);
+      background: linear-gradient(135deg, #0090b8 0%, var(--accent-blue) 100%);
+    }
+
+    .web {
       text-align: center;
-      color: #b0b0d0;
-      margin-top: 4rem; 
-      font-size: 0.9rem; 
+      background: var(--white);
     }
 
-    .footer a {
-      color: #64c8ff;
+    .web p {
+      margin-bottom: 2.5rem;
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .web a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1.2rem 3rem;
+      background: var(--primary-blue);
+      color: var(--white);
       text-decoration: none;
-      transition: color 0.3s;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.4s ease;
+      letter-spacing: 1px;
+      box-shadow: var(--shadow-md);
     }
 
-    .footer a:hover {
-      color: #00d9ff;
+    .web a:hover {
+      background: var(--dark-blue);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
     }
 
-    @media (max-width: 768px) {
-      nav {
-        flex-direction: column;
-        gap: 1rem;
-      }
+    footer {
+      background: var(--dark-blue);
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      padding: 3rem 2rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+    }
 
-      .nav-links {
-        gap: 1rem;
-      }
+    @media (min-width: 1025px) {
+        nav {
+            padding: 0 2rem;
+        }
+    }
 
+    @media (max-width: 1024px) {
       .hero h1 {
-        font-size: 2rem;
-      }
-
-      .cta-row {
-        flex-direction: column; 
-        width: 100%;
-      }
-
-      .btn, .btn-scroll { 
-        width: 100%; 
-        min-width: unset; 
-      }
-      
-      .btn-scroll {
-        margin-top: 1rem; 
+        font-size: 3rem;
       }
 
       h2 {
-        font-size: 1.8rem;
+        font-size: 2.5rem;
       }
 
-      .tech-stack-title {
-        font-size: 1.8rem;
+      section {
+        padding: 4rem 1.5rem;
+        margin-bottom: 3rem;
       }
 
-      .tech-column h3 {
+      nav {
+        padding: 0 1.5rem;
+      }
+      .nav-links-wrapper a {
+        margin: 0 1rem;
+      }
+      .nav-links-wrapper a + a::before {
+        left: -1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 0.5rem 0;
+      }
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        align-items: center;
+      }
+
+      .nav-logo-link {
+        margin: 0 auto 0.5rem auto;
+        width: auto;
+      }
+      
+      .nav-logo {
+          font-size: 1.6rem;
+          letter-spacing: 2px;
+      }
+
+      .nav-links-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        gap: 0.5rem;
+      }
+
+      .nav-links-wrapper a {
+        margin: 0;
+        font-size: 0.9rem;
+        padding: 0.3rem 0.5rem;
+        display: inline-block;
+        text-align: center;
+      }
+
+      .nav-links-wrapper a::after {
+          bottom: -2px;
+          height: 1px;
+      }
+
+      .nav-links-wrapper a + a::before {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 100px;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+        letter-spacing: 2px;
+      }
+
+      .hero-content {
+        padding: 2.5rem 2rem;
+        max-width: 90%;
+      }
+
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+
+      .hero-price {
+        font-size: 1.6rem;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .ficha ul,
+      .imagenes-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ficha,
+      .especificaciones,
+      .contacto,
+      .web {
+        padding: 2.5rem 1.5rem;
+      }
+      
+      .imagen-card img {
+        height: 220px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+          padding: 0.5rem 0;
+      }
+      nav {
+        gap: 0.3rem;
+        padding: 0.3rem 0.5rem;
+      }
+      .nav-logo {
+        font-size: 1.3rem;
+        letter-spacing: 1px;
+      }
+      .nav-links-wrapper a {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.4rem;
+      }
+      .hero {
+          padding-top: 80px;
+      }
+      .hero h1 {
+        font-size: 1.8rem;
+        letter-spacing: 1px;
+      }
+      .hero-subtitle, .hero-price {
+        font-size: 1.1rem;
+      }
+      .hero p {
+        font-size: 0.95rem;
+      }
+      .hero-cta {
+        padding: 1rem 2rem;
+        font-size: 0.9rem;
+      }
+      h2 {
+        font-size: 1.7rem;
+        margin-bottom: 2rem;
+      }
+      h3 {
         font-size: 1.5rem;
       }
-
-      .footer {
-        padding: 0.5rem; 
-        font-size: 0.8rem; 
+      .ficha li {
+        padding: 1.5rem;
       }
-
-      .tech-columns {
-        grid-template-columns: 1fr; 
-        gap: 2rem;
+      .imagen-card img {
+        height: 180px;
+      }
+      .imagen-overlay h4 {
+        font-size: 1.1rem;
+      }
+      .imagen-overlay p {
+        font-size: 0.85rem;
+      }
+      input, textarea, button {
+        padding: 1rem 1.2rem;
+        font-size: 0.95rem;
+      }
+      .web p {
+        font-size: 1rem;
+      }
+      .web a {
+        padding: 1rem 2rem;
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
-  <nav class="nav">
-    <div class="nav-links">
-      <a href="cv.html">CV</a>
-      <a href="Proyectos.html">Proyectos</a>
-      <a href="cartaPresentación.html">Carta de presentación</a>
-    </div>
-  </nav>
 
-  <header class="hero">
-    <h1>Pablo Caballero</h1>
-    <p class="lead">Estudiante de DAM · Java · Python · Desarrollo Web</p>
-    <div class="cta-buttons">
-      <div class="cta-row">
-        <a href="cv.html" class="btn btn-primary">Ver CV</a>
-        <a href="Proyectos.html" class="btn btn-ghost">Ver Proyectos</a>
+  <header id="header">
+    <nav>
+      <a href="https://www.hyundai.com/es/es/modelos/i30-n.html" class="nav-logo-link">
+        <div class="nav-logo">i30N</div>
+      </a>
+      <div class="nav-links-wrapper">
+          <a href="#ficha">Especificaciones</a>
+          <a href="#Imagenes">Gama N</a>
+          <a href="#especificaciones">Tecnología</a>
+          <a href="#contacto">Contacto</a>
       </div>
-      <a href="#stack-tecnologico" class="btn btn-ghost btn-scroll">Stack Tecnológico <span class="arrow-down">↓</span></a>
-    </div>
+    </nav>
   </header>
 
-  <main class="container">
-    <section id="stack-tecnologico" class="tech-stack-section">
-      <h2 class="tech-stack-title">Stack Tecnológico</h2>
-      <div class="tech-columns">
-        <div class="tech-column">
-          <h3>Front-End</h3>
-          <div class="tech-item">
-            <span class="tech-icon">⚛️</span>
-            <span class="tech-name">React</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">N</span>
-            <span class="tech-name">Next.js</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">⚡</span>
-            <span class="tech-name">Electron</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🤖</span>
-            <span class="tech-name">Kotlin</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🎨</span>
-            <span class="tech-name">Figma</span>
-          </div>
-        </div>
+  <section class="hero">
+    <video autoplay muted loop playsinline>
+      <source src="Hy/hyundai-i30-n-highlights - Compressed with FlexClip.mp4" type="video/mp4">
+    </video>
+    <div class="hero-content">
+      <h1>Cambia el momento</h1>
+      <p class="hero-subtitle">Performance Engineering</p>
+      <p class="hero-price">Desde 35.000€</p>
+      <p>Con 4 años de mantenimientos gratuitos y sin compromiso de devolución</p>
+      <p>Financialo con Hyundai Finance hasta el 31/05/2025</p>
+      <a href="#contacto" class="hero-cta">Solicitar prueba →</a>
+    </div>
+  </section>
 
-        <div class="tech-column">
-          <h3>Back-End</h3>
-          <div class="tech-item">
-            <span class="tech-icon">☕</span>
-            <span class="tech-name">Java</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🍃</span>
-            <span class="tech-name">Spring Boot</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">📗</span>
-            <span class="tech-name">Node.js</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🐘</span>
-            <span class="tech-name">PostgreSQL</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🍃</span>
-            <span class="tech-name">MongoDB</span>
-          </div>
-        </div>
+  <section id="ficha" class="ficha">
+    <h2>Especificaciones Técnicas</h2>
+    <ul>
+      <li><strong>Motor:</strong> 2.0 T-GDi (turboalimentado, inyección directa)</li>
+      <li><strong>Potencia máxima:</strong> 280 CV (206 kW) a 5.500-6.000 rpm</li>
+      <li><strong>Par máximo:</strong> 392 Nm a 2.100-4.700 rpm</li>
+      <li><strong>Aceleración:</strong> 0-100 km/h en 5.4 s</li>
+      <li><strong>Transmisión:</strong> Manual de 6 velocidades o DCT</li>
+      <li><strong>Tracción:</strong> Delantera con diferencial N Corner Carving</li>
+      <li><strong>Sistema N Grin Control:</strong> 5 modos de conducción</li>
+      <li><strong>Llantas:</strong> 19 pulgadas con neumáticos Pirelli P-Zero específicos</li>
+      <li><strong>Consumo Mixto:</strong> 8.0–8.5 l/100 km (según versión)</li>
+    </ul>
+  </section>
 
-        <div class="tech-column">
-          <h3>DevOps</h3>
-          <div class="tech-item">
-            <span class="tech-icon">☁️</span>
-            <span class="tech-name">AWS</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🐳</span>
-            <span class="tech-name">Docker</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">☸️</span>
-            <span class="tech-name">Kubernetes</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🔧</span>
-            <span class="tech-name">Jenkins</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">📊</span>
-            <span class="tech-name">Kafka</span>
-          </div>
+  <section id="Imagenes">
+    <h2>Familia N Performance</h2>
+    <div class="imagenes-grid">
+      <a href="https://www.hyundai.com/es/es/modelos/i30.html" class="imagen-card">
+        <img src="Hy/haatchback.avif" alt="Hyundai Hatchback" />
+        <div class="imagen-overlay">
+          <h4>i30 Hatchback</h4>
+          <p>Diseño versátil con tecnología avanzada</p>
         </div>
-      </div>
-    </section>
-  </main>
+      </a>
+      <a href="https://www.hyundai.com/es/es/modelos/i30-fastback.html" class="imagen-card">
+        <img src="Hy/fastback.avif" alt="Hyundai Fastback" />
+        <div class="imagen-overlay">
+          <h4>i30 Fastback N</h4>
+          <p>Elegancia deportiva y rendimiento</p>
+        </div>
+      </a>
+      <a href="https://www.hyundai.com/es/es/modelos/i20-n.html" class="imagen-card">
+        <img src="Hy/i20n.avif" alt="Hyundai i20N" />
+        <div class="imagen-overlay">
+          <h4>i20 N</h4>
+          <p>Pura emoción en formato compacto</p>
+        </div>
+      </a>
+    </div>
+  </section>
 
-  <footer class="footer">
-    <p> pcaballero155@gmail.com · Leganés, Madrid · <a href="https://github.com/Pablocaballero13">GitHub</a></p>
+  <section id="especificaciones" class="especificaciones">
+    <h2>Tecnología y Performance</h2>
+
+    <div class="spec-highlight">
+      <h3>Garantía de kilometraje ilimitado de 5 años</h3>
+      <p>Como cada Hyundai, el i30 N se produce siguiendo los estándares más altos posibles. Respaldamos esa calidad con la garantía de kilometraje ilimitado de 5 años, para que puedas disfrutar de las cosas que más te importan en la vida sin tener que preocuparte por tu coche. Disfruta de la tranquilidad que te proporciona una de las garantías líderes del mercado, de serie con tu Hyundai.</p>
+    </div>
+
+    <div class="spec-highlight">
+      <h3>Familia de alto rendimiento N: toda la emoción al volante</h3>
+      <p>Los modelos i30 N e i30 Fastback N se unen al i20 N y al KONA N para aumentar la familia de alto rendimiento de Hyundai. Todos estos modelos te ofrecen un rendimiento perfecto para circuito además de usabilidad para el día a día sin que tengas que renunciar a diversión.</p>
+    </div>
+
+    <div class="spec-highlight">
+      <h3>Un modelo increíble, llevado más allá</h3>
+      <p>Desde el lanzamiento del galardonado i30 N, hemos seguido trabajando para mejorar este modelo. Con el progreso del exitoso i30 N TRC y los comentarios de la comunidad N en mente, hemos incluido cambios en la transmisión, funciones de alto rendimiento y un aumento de la potencia y el par.</p>
+    </div>
+
+    <div class="spec-highlight">
+      <h3>Rendimiento elevado al siguiente nivel</h3>
+      <p>La última generación de este modelo se basa en el éxito de su predecesor y ahora te ofrece materiales más ligeros para mejorar la agilidad en la conducción. La suspensión y la dirección han sido mejoradas para ofrecer un rendimiento más alto con ambas transmisiones. En el interior, disfrutarás de las últimas funciones de rendimiento y tecnología innovadora.</p>
+    </div>
+  </section>
+
+  <section id="contacto" class="contacto">
+    <h2>Solicita una prueba de conducción</h2>
+    <form>
+      <input type="text" placeholder="Nombre completo" required />
+      <input type="email" placeholder="Correo electrónico" required />
+      <input type="tel" placeholder="Teléfono de contacto" />
+      <textarea rows="5" placeholder="Mensaje o concesionario preferido"></textarea>
+      <button type="submit">Enviar solicitud</button>
+    </form>
+  </section>
+
+  <section id="web" class="web">
+    <h2>Descubre más</h2>
+    <p>Para más información visita la web oficial de Hyundai. Encontrarás información detallada de este modelo y toda la gama, además de poder configurar y solicitar el vehículo que buscas con todas las opciones disponibles.</p>
+    <a href="https://www.hyundai.com/es/es/modelos/i30-n.html">Visitar web oficial →</a>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Hyundai Motor Company. Todos los derechos reservados.</p>
+    <p style="margin-top: 0.5rem; opacity: 0.7;">Desarrollado por Pablo Caballero</p>
   </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const headerHeight = document.getElementById('header').offsetHeight;
+          const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>
