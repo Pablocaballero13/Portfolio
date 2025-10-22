@@ -25,7 +25,6 @@
       overflow-x: hidden;
     }
 
-    /* Navbar */
     nav {
       display: flex;
       justify-content: center; 
@@ -87,7 +86,6 @@
       width: 100%;
     }
 
-    /* Hero */
     .hero {
       min-height: 90vh;
       display: flex;
@@ -202,14 +200,12 @@
       box-shadow: 0 0 20px rgba(100, 200, 255, 0.2);
     }
 
-    /* Container */
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem;
     }
 
-    /* Section */
     section {
       margin-bottom: 6rem;
     }
@@ -237,25 +233,61 @@
       background: linear-gradient(90deg, transparent, #64c8ff, transparent);
     }
 
-    /* Grid */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+    .tech-stack-section {
+      margin-bottom: 6rem;
     }
 
-    /* Card */
-    .card {
+    .tech-stack-title {
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      text-align: center;
+      background: linear-gradient(135deg, #64c8ff, #00d9ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .tech-stack-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #64c8ff, transparent);
+    }
+
+    .tech-columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+
+    .tech-column h3 {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: #e0e0e0;
+    }
+
+    .tech-item {
       background: linear-gradient(135deg, rgba(100, 200, 255, 0.05) 0%, rgba(0, 217, 255, 0.05) 100%);
       border: 1px solid rgba(100, 200, 255, 0.2);
       border-radius: 12px;
-      padding: 2rem;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
       transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
       position: relative;
       overflow: hidden;
     }
 
-    .card::before {
+    .tech-item::before {
       content: '';
       position: absolute;
       top: 0;
@@ -266,46 +298,35 @@
       transition: left 0.5s;
     }
 
-    .card:hover {
-      transform: translateY(-10px);
+    .tech-item:hover {
+      transform: translateX(5px);
       border-color: rgba(100, 200, 255, 0.5);
       background: linear-gradient(135deg, rgba(100, 200, 255, 0.1) 0%, rgba(0, 217, 255, 0.1) 100%);
-      box-shadow: 0 20px 40px rgba(100, 200, 255, 0.2);
+      box-shadow: 0 5px 15px rgba(100, 200, 255, 0.2);
     }
 
-    .card:hover::before {
+    .tech-item:hover::before {
       left: 100%;
     }
 
-    .card h3 {
+    .tech-icon {
       font-size: 1.5rem;
-      margin-bottom: 1rem;
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .tech-name {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #b0b0d0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tech-item:hover .tech-name {
       color: #64c8ff;
     }
 
-    .card p {
-      color: #b0b0d0;
-      margin-bottom: 1rem;
-      line-height: 1.7;
-    }
-
-    .card a {
-      display: inline-block;
-      color: #00d9ff;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      border-radius: 25px;
-      border: 1px solid #00d9ff;
-      transition: all 0.3s;
-    }
-
-    .card a:hover {
-      background: rgba(0, 217, 255, 0.1);
-      transform: translateX(5px);
-    }
-
-    /* Footer */
     .footer {
       background: rgba(15, 15, 35, 0.8);
       border-top: 1px solid rgba(100, 200, 255, 0.2);
@@ -323,6 +344,13 @@
 
     .footer a:hover {
       color: #00d9ff;
+    }
+
+    @media (max-width: 968px) {
+      .tech-columns {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
     }
 
     @media (max-width: 768px) {
@@ -352,8 +380,12 @@
         font-size: 1.8rem;
       }
 
-      .grid {
-        grid-template-columns: 1fr;
+      .tech-stack-title {
+        font-size: 1.8rem;
+      }
+
+      .tech-column h3 {
+        font-size: 1.5rem;
       }
     }
   </style>
@@ -362,7 +394,7 @@
   <nav class="nav">
     <div class="nav-links">
       <a href="cv.html">CV</a>
-      <a href="#proyectos-destacados">Proyectos</a>
+      <a href="proyectos.html">Proyectos</a>
       <a href="cartaPresentación.html">Carta de presentación</a>
     </div>
   </nav>
@@ -372,29 +404,85 @@
     <p class="lead">Estudiante de DAM · Java · Python · Desarrollo Web</p>
     <div class="cta-buttons">
       <a href="cv.html" class="btn btn-primary">Ver CV</a>
-      <a href="#proyectos-destacados" class="btn btn-ghost">Ver Proyectos</a>
+      <a href="Proyectos.html" class="btn btn-ghost">Ver Proyectos</a>
     </div>
   </header>
 
   <main class="container">
-    <section id="proyectos-destacados">
-      <h2>Proyectos Destacados</h2>
-      <div class="grid">
-        <article class="card">
-          <h3>🎨 Web Frontend</h3>
-          <p>SPA accesible y responsive con buenas prácticas, componentes modernos y pruebas básicas. Enfoque en UX y rendimiento.</p>
-          <a href="web.html">Ver Demo →</a>
-        </article>
-        <article class="card">
-          <h3>⚙️ Java Backend</h3>
-          <p>Microservicio robusto con endpoints escalables, pruebas unitarias y arquitectura limpia. API RESTful lista para producción.</p>
-          <a href="java.html">Ver Demo →</a>
-        </article>
-        <article class="card">
-          <h3>🐍 Python Tools</h3>
-          <p>Scripts inteligentes para automatización, generación de reportes y análisis rápido. Herramientas prácticas y reutilizables.</p>
-          <a href="python.html">Ver Demo →</a>
-        </article>
+    <section id="stack-tecnologico" class="tech-stack-section">
+      <h2 class="tech-stack-title">Stack Tecnológico</h2>
+      <div class="tech-columns">
+        <div class="tech-column">
+          <h3>Front-End</h3>
+          <div class="tech-item">
+            <span class="tech-icon">⚛️</span>
+            <span class="tech-name">React</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">N</span>
+            <span class="tech-name">Next.js</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">⚡</span>
+            <span class="tech-name">Electron</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">🤖</span>
+            <span class="tech-name">Android</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">🎨</span>
+            <span class="tech-name">Figma</span>
+          </div>
+        </div>
+
+        <div class="tech-column">
+          <h3>Back-End</h3>
+          <div class="tech-item">
+            <span class="tech-icon">☕</span>
+            <span class="tech-name">Java</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">🍃</span>
+            <span class="tech-name">Spring Boot</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">📗</span>
+            <span class="tech-name">Node.js</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">🐘</span>
+            <span class="tech-name">PostgreSQL</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">🍃</span>
+            <span class="tech-name">MongoDB</span>
+          </div>
+        </div>
+
+        <div class="tech-column">
+          <h3>DevOps</h3>
+          <div class="tech-item">
+            <span class="tech-icon">☁️</span>
+            <span class="tech-name">AWS</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">🐳</span>
+            <span class="tech-name">Docker</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">☸️</span>
+            <span class="tech-name">Kubernetes</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">🔧</span>
+            <span class="tech-name">Jenkins</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">📊</span>
+            <span class="tech-name">Kafka</span>
+          </div>
+        </div>
       </div>
     </section>
   </main>
