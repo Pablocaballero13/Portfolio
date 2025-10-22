@@ -166,11 +166,11 @@
     }
 
     .cta-row {
-      display: flex; 
-      gap: 1.5rem; 
+      display: flex;
+      gap: 1rem;
       justify-content: center;
       flex-wrap: wrap; 
-      width: 100%; 
+      width: 100%;
     }
 
     .btn {
@@ -187,8 +187,7 @@
       align-items: center; 
       justify-content: center; 
       flex-grow: 1; 
-      width: 200px; 
-      max-width: 100%; 
+      max-width: 300px; 
     }
 
     .btn-primary {
@@ -213,14 +212,6 @@
       background: rgba(100, 200, 255, 0.1);
       transform: translateY(-2px);
       box-shadow: 0 0 20px rgba(100, 200, 255, 0.2);
-    }
-
-    .btn-scroll {
-        padding: 0.9rem 2rem; 
-        font-size: 1rem; 
-        margin-top: 1rem; 
-        width: 250px; 
-        max-width: 100%; 
     }
 
     .btn-scroll .arrow-down {
@@ -382,6 +373,15 @@
       color: #00d9ff;
     }
 
+    @media (min-width: 769px) {
+      .cta-buttons {
+        flex-direction: column; 
+      }
+      .cta-row {
+        flex-direction: row; 
+      }
+    }
+
     @media (max-width: 768px) {
       nav {
         flex-direction: column;
@@ -396,6 +396,10 @@
         font-size: 2rem;
       }
 
+      .cta-buttons {
+        flex-direction: column; 
+      }
+
       .cta-row {
         flex-direction: column; 
         width: 100%;
@@ -405,16 +409,8 @@
       .btn { 
         width: 100%; 
         max-width: 300px; 
-        min-width: unset; 
       }
       
-      .btn-scroll {
-        width: 100%; 
-        max-width: 300px; 
-        margin-top: 1rem; 
-        min-width: unset; 
-      }
-
       h2 {
         font-size: 1.8rem;
       }
