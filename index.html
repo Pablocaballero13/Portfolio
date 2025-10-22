@@ -62,7 +62,6 @@
       font-weight: 500;
       position: relative;
       transition: color 0.3s;
-  
     }
 
     .nav-links a::after {
@@ -74,12 +73,10 @@
       height: 2px;
       background: linear-gradient(90deg, #64c8ff, #00d9ff);
       transition: width 0.3s;
-  
     }
 
     .nav-links a:hover {
       color: #64c8ff;
-      
     }
 
     .nav-links a:hover::after {
@@ -157,11 +154,23 @@
 
     .cta-buttons {
       display: flex;
-      gap: 1.5rem;
+      flex-direction: column; 
+      gap: 1rem; 
       justify-content: center;
+      align-items: center; 
       position: relative;
       z-index: 1;
-      flex-wrap: wrap;
+      width: 100%; 
+      max-width: 600px; 
+      margin-top: 1rem; 
+    }
+
+    .cta-row {
+      display: flex; 
+      gap: 1.5rem; 
+      justify-content: center;
+      flex-wrap: wrap; 
+      width: 100%; 
     }
 
     .btn {
@@ -174,6 +183,12 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      flex-grow: 1; 
+      width: 200px; 
+      max-width: 100%; 
     }
 
     .btn-primary {
@@ -198,6 +213,26 @@
       background: rgba(100, 200, 255, 0.1);
       transform: translateY(-2px);
       box-shadow: 0 0 20px rgba(100, 200, 255, 0.2);
+    }
+
+    .btn-scroll {
+        padding: 0.9rem 2rem; 
+        font-size: 1rem; 
+        margin-top: 1rem; 
+        width: 250px; 
+        max-width: 100%; 
+    }
+
+    .btn-scroll .arrow-down {
+      margin-left: 0.8rem;
+      transition: transform 0.3s ease-in-out;
+      display: inline-block;
+      font-size: 2rem; /* Aumentado de 1.5rem a 2rem para hacerla más gorda */
+      line-height: 1; 
+    }
+
+    .btn-scroll:hover .arrow-down {
+      transform: translateY(5px); 
     }
 
     .container {
@@ -330,10 +365,11 @@
     .footer {
       background: rgba(15, 15, 35, 0.8);
       border-top: 1px solid rgba(100, 200, 255, 0.2);
-      padding: 2rem;
+      padding: 0.8rem; 
       text-align: center;
       color: #b0b0d0;
-      margin-top: 4rem;
+      margin-top: 4rem; 
+      font-size: 0.9rem; 
     }
 
     .footer a {
@@ -344,13 +380,6 @@
 
     .footer a:hover {
       color: #00d9ff;
-    }
-
-    @media (max-width: 968px) {
-      .tech-columns {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
     }
 
     @media (max-width: 768px) {
@@ -367,13 +396,18 @@
         font-size: 2rem;
       }
 
-      .cta-buttons {
-        flex-direction: column;
+      .cta-row {
+        flex-direction: column; 
         width: 100%;
       }
 
-      .btn {
-        width: 100%;
+      .btn, .btn-scroll { 
+        width: 100%; 
+        min-width: unset; 
+      }
+      
+      .btn-scroll {
+        margin-top: 1rem; 
       }
 
       h2 {
@@ -386,6 +420,16 @@
 
       .tech-column h3 {
         font-size: 1.5rem;
+      }
+
+      .footer {
+        padding: 0.5rem; 
+        font-size: 0.8rem; 
+      }
+
+      .tech-columns {
+        grid-template-columns: 1fr; 
+        gap: 2rem;
       }
     }
   </style>
@@ -403,8 +447,11 @@
     <h1>Pablo Caballero</h1>
     <p class="lead">Estudiante de DAM · Java · Python · Desarrollo Web</p>
     <div class="cta-buttons">
-      <a href="cv.html" class="btn btn-primary">Ver CV</a>
-      <a href="Proyectos.html" class="btn btn-ghost">Ver Proyectos</a>
+      <div class="cta-row">
+        <a href="cv.html" class="btn btn-primary">Ver CV</a>
+        <a href="proyectos.html" class="btn btn-ghost">Ver Proyectos</a>
+      </div>
+      <a href="#stack-tecnologico" class="btn btn-ghost btn-scroll">Stack Tecnológico <span class="arrow-down">↓</span></a>
     </div>
   </header>
 
