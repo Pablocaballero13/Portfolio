@@ -288,8 +288,8 @@
 
     .tech-columns {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
     }
 
     .tech-column h3 {
@@ -432,6 +432,10 @@
         grid-template-columns: 1fr; 
         gap: 2rem;
       }
+      
+      .tech-column {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -446,7 +450,7 @@
 
   <header class="hero">
     <h1>Pablo Caballero</h1>
-    <p class="lead">Estudiante de DAM · Java · Python · Desarrollo Web</p>
+    <p class="lead">Estudiante de DAM · Java · Python · Business Intelligence · Power BI</p>
     <div class="cta-buttons">
       <div class="cta-row">
         <a href="cv.html" class="btn btn-primary">Ver CV</a>
@@ -467,14 +471,6 @@
             <span class="tech-name">React</span>
           </div>
           <div class="tech-item">
-            <span class="tech-icon">N</span>
-            <span class="tech-name">Next.js</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">⚡</span>
-            <span class="tech-name">Electron</span>
-          </div>
-          <div class="tech-item">
             <span class="tech-icon">🤖</span>
             <span class="tech-name">Kotlin</span>
           </div>
@@ -483,20 +479,15 @@
             <span class="tech-name">Figma</span>
           </div>
         </div>
-
-        <div class="tech-column">
+                <div class="tech-column">
           <h3>Back-End</h3>
+          <div class="tech-item">
+            <span class="tech-icon">🐍</span>
+            <span class="tech-name">Python</span>
+          </div>
           <div class="tech-item">
             <span class="tech-icon">☕</span>
             <span class="tech-name">Java</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🍃</span>
-            <span class="tech-name">Spring Boot</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">📗</span>
-            <span class="tech-name">Node.js</span>
           </div>
           <div class="tech-item">
             <span class="tech-icon">🐘</span>
@@ -505,6 +496,26 @@
           <div class="tech-item">
             <span class="tech-icon">🍃</span>
             <span class="tech-name">MongoDB</span>
+          </div>
+        </div>
+
+        <div class="tech-column">
+          <h3>Data & BI <span style="font-size: 0.8rem; color: #64c8ff; font-weight: 400;">(En formación)</span></h3>
+          <div class="tech-item">
+            <span class="tech-icon">📊</span>
+            <span class="tech-name">Power BI</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">📈</span>
+            <span class="tech-name">DAX</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">🔄</span>
+            <span class="tech-name">Power Query</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">📉</span>
+            <span class="tech-name">Data Visualization</span>
           </div>
         </div>
 
@@ -519,24 +530,17 @@
             <span class="tech-name">Docker</span>
           </div>
           <div class="tech-item">
-            <span class="tech-icon">☸️</span>
-            <span class="tech-name">Kubernetes</span>
-          </div>
-          <div class="tech-item">
             <span class="tech-icon">🔧</span>
             <span class="tech-name">Jenkins</span>
           </div>
-          <div class="tech-item">
-            <span class="tech-icon">📊</span>
-            <span class="tech-name">Kafka</span>
-          </div>
+        
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p> pcaballero155@gmail.com · Leganés, Madrid · <a href="https://github.com/Pablocaballero13">GitHub</a></p>
+    <p>pcaballero155@gmail.com · Leganés, Madrid · <a href="https://github.com/Pablocaballero13">GitHub</a></p>
   </footer>
 </body>
 </html>
