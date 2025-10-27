@@ -281,6 +281,15 @@
       color: #8a8aaa;
     }
 
+    /* Estilos para el Chatbot */
+    #chatbase-bubble-wrapper {
+        bottom: 40px !important; /* Más separado del borde inferior */
+        right: 40px !important;  /* Más separado del borde derecho */
+        /* Aseguramos que se mantenga fijo y encima de todo */
+        position: fixed !important;
+        z-index: 10000 !important; 
+    }
+
     @media (max-width: 768px) {
       nav {
         flex-direction: column;
@@ -311,6 +320,12 @@
 
       .cv-header h1 {
         font-size: 1.8rem;
+      }
+
+      /* Ajustes para el chatbot en móviles */
+      #chatbase-bubble-wrapper {
+          bottom: 20px !important; /* Puede que quieras menos espacio en pantallas pequeñas */
+          right: 20px !important;
       }
     }
   </style>
@@ -421,5 +436,8 @@
 
     <footer>CV de Pablo Caballero — Última actualización: Octubre 2025</footer>
   </div>
+  <script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="uVmZm_Ul-oWWqe-pX7uAz";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+</script>
 </body>
 </html>
