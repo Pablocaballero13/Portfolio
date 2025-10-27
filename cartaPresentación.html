@@ -220,6 +220,14 @@
       margin: 0;
     }
 
+
+    #chatbase-bubble-wrapper {
+        bottom: 40px !important;
+        right: 40px !important; 
+        position: fixed !important;
+        z-index: 10000 !important; 
+    }
+
     @media (max-width: 768px) {
       nav {
         flex-direction: column;
@@ -245,6 +253,12 @@
 
       p {
         text-align: left;
+      }
+
+      
+      #chatbase-bubble-wrapper {
+          bottom: 20px !important; 
+          right: 20px !important;
       }
     }
   </style>
@@ -282,7 +296,7 @@
 
       <p>Durante mis prácticas en <span class="highlight">Hyundai Motor España</span>, he tenido la oportunidad de trabajar en proyectos web reales, desarrollando componentes con HTML, CSS y JavaScript, optimizando accesibilidad y rendimiento. Esta experiencia y lo he estudiado tanto en las clases como por mi cuenta me ha permitido consolidar mis conocimientos en <span class="highlight">Java, Python, desarrollo web y cloud computing</span>, reforzados además por certificaciones en AWS y Google Cloud.</p>
 
-      <p>Me caracteriza un enfoque orientado a <span class="highlight">soluciones eficientes e innovadoras</span>. Busco contribuir al impacto tecnológico mediante la automatización de procesos, mejora continua y pensamiento analítico. Mi disponibilidad total y capacidad para trabajar bajo presión me permiten adaptarme rápidamente a nuevos desafíos y equipos.</p>
+      <p>Me caracteriza un enfoque orientado a <span class="highlight">soluciones eficientes e innovadoras</span>. Busco contribuir al impacto tecnológico mediante la automatización de procesos, mejora continua y pensamiento analítico. Mi disponibilidad total y capacidad para trabajar bajo presión me permiten adaptarse rápidamente a nuevos desafíos y equipos.</p>
 
       <p>Considero que mi perfil técnico, mi actitud proactiva y mi pasión por la tecnología me convierten en un candidato valioso para vuestro equipo. Estaría encantado de discutir cómo puedo aportar valor a vuestro proyecto y objetivos.</p>
 
@@ -310,5 +324,8 @@
     });
     document.getElementById('today').textContent = formatter.format(today);
   </script>
+  <script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="uVmZm_Ul-oWWqe-pX7uAz";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+</script>
 </body>
 </html>
