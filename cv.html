@@ -281,14 +281,6 @@
       color: #8a8aaa;
     }
 
-
-    #chatbase-bubble-wrapper {
-        bottom: 40px !important;
-        right: 40px !important;
-        position: fixed !important;
-        z-index: 10000 !important; 
-    }
-
     @media (max-width: 768px) {
       nav {
         flex-direction: column;
@@ -320,12 +312,6 @@
       .cv-header h1 {
         font-size: 1.8rem;
       }
-
-
-      #chatbase-bubble-wrapper {
-          bottom: 20px !important;
-          right: 20px !important;
-      }
     }
   </style>
 </head>
@@ -333,7 +319,7 @@
   <nav class="nav">
     <div class="nav-links">
       <a href="cv.html">CV</a>
-      <a href="index.html">Inicio</a> 
+      <a href="index.html#proyectos-destacados">Proyectos</a> 
       <a href="cartaPresentación.html">Carta de presentación</a>
     </div>
   </nav>
@@ -342,27 +328,38 @@
     <header class="cv-header">
       <div>
         <h1>Pablo Caballero Laserna</h1>
-        <p class="muted">Estudiante de DAM — Desarrollo de Aplicaciones Multiplataforma</p>
+        <p class="muted">Full Stack Developer — Desarrollo de Aplicaciones Multiplataforma</p>
       </div>
       <div class="contact">
         <p>Leganés, Madrid</p>
         <p>628 580 671</p>
         <p><a href="mailto:pcaballero155@gmail.com">pcaballero155@gmail.com</a></p>
-        <p><a href="https://www.linkedin.com/in/pablo-caballero-laserna-254a8a29b" target="_blank">LinkedIn</a></p>
+        <p><a href="https://pablocaballero13.github.io/Portfolio/" target="_blank">pablocaballero13.github.io/Portfolio</a></p>
       </div>
     </header>
 
     <section>
       <h2>Sobre mí</h2>
-      <p>Estudiante apasionado de Desarrollo de Aplicaciones Multiplataforma (DAM), con una sólida base y experiencia práctica en lenguajes como Java y Python, además de familiaridad con diversas tecnologías del stack de desarrollo moderno. Mi enfoque principal se centra en la creación de soluciones eficientes, escalables e innovadoras, siempre buscando optimizar procesos y mejorar la experiencia del usuario. Estoy firmemente comprometido con la excelencia técnica y ansío aplicar mis conocimientos y mi entusiasmo para contribuir significativamente al impacto tecnológico en el ámbito de la consultoría, enfrentando nuevos desafíos y creciendo profesionalmente en un entorno dinámico.</p>
+      <p>Estudiante de DAM con experiencia en desarrollo fullstack (Java, Python, Django), bases de datos relacionales y NoSQL, cloud (AWS, SAP BTP, Google Cloud) y programación empresarial con SAP ABAP, enfocado en soluciones tecnológicas eficientes, escalables e innovadoras. Comprometido con la excelencia técnica y con ganas de crecer profesionalmente en un entorno dinámico.</p>
     </section>
 
     <section class="two-col">
       <div>
         <h3>Experiencia</h3>
 
+        <h4>Teide Formación S.L.</h4>
+        <p class="muted">Febrero — Mayo 2026 · Prácticas</p>
+        <p><strong>Desarrollador Full Stack</strong></p>
+        <ul>
+          <li>Desarrollo de aplicación web fullstack para gestión de alumnado con Django (Python)</li>
+          <li>Diseño e implementación de base de datos relacional con PostgreSQL</li>
+          <li>Sistema de autenticación y control de roles</li>
+          <li>Despliegue en servidor en entorno de producción</li>
+          <li>Optimización, accesibilidad y pruebas</li>
+        </ul>
+
         <h4>Hyundai Motor España, S.L.</h4>
-        <p class="muted">Mayo 2025 — Prácticas</p>
+        <p class="muted">Mayo 2025 · Prácticas</p>
         <p><strong>Desarrollador Web</strong></p>
         <ul>
           <li>Desarrollo web con HTML, CSS y JavaScript</li>
@@ -379,17 +376,32 @@
         <h3>Certificaciones</h3>
 
         <div class="certification">
-          <p><strong>AWS Academy Cloud Foundations</strong></p>
-          <p class="muted">Septiembre 2025</p>
+          <p><strong>Learning Basic ABAP Programming</strong> — SAP</p>
+          <p class="muted">Abril 2026</p>
         </div>
 
         <div class="certification">
-          <p><strong>Google Cloud Fundamentals for AWS Professionals</strong></p>
+          <p><strong>Deepening Your ABAP Programming Knowledge</strong> — SAP</p>
+          <p class="muted">Abril 2026</p>
+        </div>
+
+        <div class="certification">
+          <p><strong>AWS Academy Cloud Developing</strong></p>
+          <p class="muted">Diciembre 2025</p>
+        </div>
+
+        <div class="certification">
+          <p><strong>AWS Academy Cloud Foundations</strong></p>
           <p class="muted">Octubre 2025</p>
         </div>
 
         <div class="certification">
-          <p><strong>Data Fundamentals for IBM Skills Boots</strong></p>
+          <p><strong>Data Fundamentals</strong> — IBM</p>
+          <p class="muted">Octubre 2025</p>
+        </div>
+
+        <div class="certification">
+          <p><strong>Google Cloud Fundamentals for AWS Professionals</strong></p>
           <p class="muted">Octubre 2025</p>
         </div>
       </div>
@@ -397,16 +409,38 @@
 
       <div>
         <h3>Tecnologías</h3>
-        <div class="skills-list">
+        <p class="muted" style="margin-bottom:0.4rem; font-size:0.8rem;">Lenguajes</p>
+        <div class="skills-list" style="margin-bottom:1rem;">
           <span class="skill-tag">Java</span>
           <span class="skill-tag">Python</span>
+          <span class="skill-tag">Kotlin</span>
+          <span class="skill-tag">SAP ABAP</span>
           <span class="skill-tag">JavaScript</span>
           <span class="skill-tag">HTML/CSS</span>
           <span class="skill-tag">SQL</span>
+        </div>
+        <p class="muted" style="margin-bottom:0.4rem; font-size:0.8rem;">Frameworks</p>
+        <div class="skills-list" style="margin-bottom:1rem;">
+          <span class="skill-tag">Spring Boot</span>
+          <span class="skill-tag">Django</span>
+          <span class="skill-tag">JPA/Hibernate</span>
+          <span class="skill-tag">Java Swing</span>
+          <span class="skill-tag">Angular</span>
+        </div>
+        <p class="muted" style="margin-bottom:0.4rem; font-size:0.8rem;">Bases de datos</p>
+        <div class="skills-list" style="margin-bottom:1rem;">
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">NoSQL</span>
+        </div>
+        <p class="muted" style="margin-bottom:0.4rem; font-size:0.8rem;">Cloud & Herramientas</p>
+        <div class="skills-list">
+          <span class="skill-tag">AWS</span>
+          <span class="skill-tag">SAP BTP</span>
+          <span class="skill-tag">Google Cloud</span>
           <span class="skill-tag">Git</span>
           <span class="skill-tag">Docker</span>
-          <span class="skill-tag">AWS</span>
-          <span class="skill-tag">Google Cloud</span>
+          <span class="skill-tag">Figma</span>
         </div>
 
         <h3>Competencias</h3>
@@ -433,10 +467,7 @@
       </div>
     </section>
 
-    <footer>CV de Pablo Caballero — Última actualización: Octubre 2025</footer>
+    <footer>CV de Pablo Caballero — Última actualización: Mayo 2026</footer>
   </div>
-  <script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="uVmZm_Ul-oWWqe-pX7uAz";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
 </body>
 </html>
