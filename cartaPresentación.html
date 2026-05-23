@@ -220,14 +220,6 @@
       margin: 0;
     }
 
-
-    #chatbase-bubble-wrapper {
-        bottom: 40px !important;
-        right: 40px !important; 
-        position: fixed !important;
-        z-index: 10000 !important; 
-    }
-
     @media (max-width: 768px) {
       nav {
         flex-direction: column;
@@ -254,12 +246,6 @@
       p {
         text-align: left;
       }
-
-      
-      #chatbase-bubble-wrapper {
-          bottom: 20px !important; 
-          right: 20px !important;
-      }
     }
   </style>
 </head>
@@ -267,7 +253,8 @@
   <nav class="nav">
     <div class="nav-links">
       <a href="cv.html">CV</a>
-      <a href="index.html">Inicio</a>
+      <a href="index.html#stack">Stack</a>
+      <a href="index.html#proyectos-destacados">Proyectos</a>
       <a href="cartaPresentación.html">Carta de presentación</a>
     </div>
   </nav>
@@ -276,7 +263,7 @@
     <header class="letter-header">
       <div class="sender-info">
         <h1>Pablo Caballero</h1>
-        <p>Desarrollador — Estudiante de DAM</p>
+        <p>Full Stack Developer — Estudiante de DAM</p>
         <p>Leganés, Madrid</p>
       </div>
       <div class="date">
@@ -292,22 +279,22 @@
 
       <p>Estimado/a departamento de Recursos Humanos,</p>
 
-      <p>Me dirijo a usted para expresar mi interés en incorporarme a esta empresa como desarrollador. Soy estudiante de <span class="highlight">Desarrollo de Aplicaciones Multiplataforma (DAM)</span> en CDM Escuela de Profesionales Digitales, y cuento con experiencia práctica en tecnologías clave para el desarrollo moderno.</p>
+      <p>Me dirijo a usted para expresar mi interés en incorporarme a su empresa como desarrollador. Soy estudiante de <span class="highlight">Desarrollo de Aplicaciones Multiplataforma (DAM)</span> en CDM Escuela de Profesionales Digitales, con experiencia práctica demostrada en entornos reales y un stack tecnológico amplio y actualizado.</p>
 
-      <p>Durante mis prácticas en <span class="highlight">Hyundai Motor España</span>, he tenido la oportunidad de trabajar en proyectos web reales, desarrollando componentes con HTML, CSS y JavaScript, optimizando accesibilidad y rendimiento. Esta experiencia y lo he estudiado tanto en las clases como por mi cuenta me ha permitido consolidar mis conocimientos en <span class="highlight">Java, Python, desarrollo web y cloud computing</span>, reforzados además por certificaciones en AWS y Google Cloud.</p>
+      <p>He completado dos etapas de prácticas con resultados concretos: en <span class="highlight">Hyundai Motor España</span> trabajé en desarrollo web con HTML, CSS y JavaScript, optimizando accesibilidad, rendimiento y componentes UI. Más recientemente, en <span class="highlight">Teide Formación S.L.</span>, desarrollé de forma íntegra una aplicación web fullstack para gestión de alumnado utilizando <span class="highlight">Django (Python) y PostgreSQL</span>, implementando autenticación, control de roles y desplegando la aplicación en un entorno real de producción.</p>
 
-      <p>Me caracteriza un enfoque orientado a <span class="highlight">soluciones eficientes e innovadoras</span>. Busco contribuir al impacto tecnológico mediante la automatización de procesos, mejora continua y pensamiento analítico. Mi disponibilidad total y capacidad para trabajar bajo presión me permiten adaptarse rápidamente a nuevos desafíos y equipos.</p>
+      <p>Mi stack cubre todo el ciclo de desarrollo: lenguajes como <span class="highlight">Java, Python, Kotlin y SAP ABAP</span>; frameworks como <span class="highlight">Spring Boot, Django, JPA/Hibernate y Angular</span>; bases de datos relacionales y NoSQL; y plataformas cloud como <span class="highlight">AWS, SAP BTP y Google Cloud</span>, respaldadas por certificaciones oficiales. Complemento esto con herramientas como Docker, Git y Figma.</p>
 
-      <p>Considero que mi perfil técnico, mi actitud proactiva y mi pasión por la tecnología me convierten en un candidato valioso para vuestro equipo. Estaría encantado de discutir cómo puedo aportar valor a vuestro proyecto y objetivos.</p>
+      <p>Me caracteriza un enfoque orientado a <span class="highlight">soluciones eficientes e innovadoras</span>, con capacidad de adaptación rápida, pensamiento analítico y gusto por el código limpio y bien estructurado. Mi disponibilidad total me permite asumir nuevos retos con compromiso desde el primer día.</p>
 
-
-      <p>Quedo atento a cualquier oportunidad y disponible para una entrevista en el momento que considere oportuno.</p>
+      <p>Considero que mi perfil técnico, mi experiencia real en proyectos de producción y mi actitud proactiva me convierten en un candidato valioso para su equipo. Quedo a su disposición para una entrevista cuando lo considere oportuno.</p>
 
       <div class="signature">
         <p>Atentamente,</p>
         <p class="signature-name">Pablo Caballero Laserna</p>
         <p>628 580 671</p>
         <p><a href="mailto:pcaballero155@gmail.com">pcaballero155@gmail.com</a></p>
+        <p><a href="https://pablocaballero13.github.io/Portfolio/" target="_blank">pablocaballero13.github.io/Portfolio</a></p>
       </div>
     </div>
 
@@ -324,8 +311,5 @@
     });
     document.getElementById('today').textContent = formatter.format(today);
   </script>
-  <script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="uVmZm_Ul-oWWqe-pX7uAz";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
 </body>
 </html>

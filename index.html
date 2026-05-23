@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="google-site-verification" content="googleccb1f33346b4d06c.html" />
   <title>Portfolio — Pablo Caballero</title>
   <link rel="icon" type="image/png" href="../Portfolio/favii.png"> 
   <style>
@@ -25,6 +24,7 @@
       overflow-x: hidden;
     }
 
+    /* Navbar */
     nav {
       display: flex;
       justify-content: center; 
@@ -62,6 +62,7 @@
       font-weight: 500;
       position: relative;
       transition: color 0.3s;
+  
     }
 
     .nav-links a::after {
@@ -73,16 +74,19 @@
       height: 2px;
       background: linear-gradient(90deg, #64c8ff, #00d9ff);
       transition: width 0.3s;
+  
     }
 
     .nav-links a:hover {
       color: #64c8ff;
+      
     }
 
     .nav-links a:hover::after {
       width: 100%;
     }
 
+    /* Hero */
     .hero {
       min-height: 90vh;
       display: flex;
@@ -154,23 +158,11 @@
 
     .cta-buttons {
       display: flex;
-      flex-direction: column; 
-      gap: 1rem; 
+      gap: 1.5rem;
       justify-content: center;
-      align-items: center; 
       position: relative;
       z-index: 1;
-      width: 100%; 
-      max-width: 600px; 
-      margin-top: 1rem; 
-    }
-
-    .cta-row {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap; 
-      width: 100%;
+      flex-wrap: wrap;
     }
 
     .btn {
@@ -183,11 +175,6 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      flex-grow: 1; 
-      max-width: 300px; 
     }
 
     .btn-primary {
@@ -214,24 +201,14 @@
       box-shadow: 0 0 20px rgba(100, 200, 255, 0.2);
     }
 
-    .btn-scroll .arrow-down {
-      margin-left: 0.8rem;
-      transition: transform 0.3s ease-in-out;
-      display: inline-block;
-      font-size: 2rem;
-      line-height: 1; 
-    }
-
-    .btn-scroll:hover .arrow-down {
-      transform: translateY(5px); 
-    }
-
+    /* Container */
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem;
     }
 
+    /* Section */
     section {
       margin-bottom: 6rem;
     }
@@ -259,61 +236,25 @@
       background: linear-gradient(90deg, transparent, #64c8ff, transparent);
     }
 
-    .tech-stack-section {
-      margin-bottom: 6rem;
-    }
-
-    .tech-stack-title {
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-      text-align: center;
-      background: linear-gradient(135deg, #64c8ff, #00d9ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative;
-      padding-bottom: 1rem;
-    }
-
-    .tech-stack-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #64c8ff, transparent);
-    }
-
-    .tech-columns {
+    /* Grid */
+    .grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
     }
 
-    .tech-column h3 {
-      font-size: 1.8rem;
-      margin-bottom: 2rem;
-      text-align: center;
-      color: #e0e0e0;
-    }
-
-    .tech-item {
+    /* Card */
+    .card {
       background: linear-gradient(135deg, rgba(100, 200, 255, 0.05) 0%, rgba(0, 217, 255, 0.05) 100%);
       border: 1px solid rgba(100, 200, 255, 0.2);
       border-radius: 12px;
-      padding: 1rem 1.5rem;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+      padding: 2rem;
       transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
       position: relative;
       overflow: hidden;
     }
 
-    .tech-item::before {
+    .card::before {
       content: '';
       position: absolute;
       top: 0;
@@ -324,43 +265,53 @@
       transition: left 0.5s;
     }
 
-    .tech-item:hover {
-      transform: translateX(5px);
+    .card:hover {
+      transform: translateY(-10px);
       border-color: rgba(100, 200, 255, 0.5);
       background: linear-gradient(135deg, rgba(100, 200, 255, 0.1) 0%, rgba(0, 217, 255, 0.1) 100%);
-      box-shadow: 0 5px 15px rgba(100, 200, 255, 0.2);
+      box-shadow: 0 20px 40px rgba(100, 200, 255, 0.2);
     }
 
-    .tech-item:hover::before {
+    .card:hover::before {
       left: 100%;
     }
 
-    .tech-icon {
+    .card h3 {
       font-size: 1.5rem;
-      min-width: 30px;
-      text-align: center;
-    }
-
-    .tech-name {
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: #b0b0d0;
-      position: relative;
-      z-index: 1;
-    }
-
-    .tech-item:hover .tech-name {
+      margin-bottom: 1rem;
       color: #64c8ff;
     }
 
+    .card p {
+      color: #b0b0d0;
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+
+    .card a {
+      display: inline-block;
+      color: #00d9ff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      border: 1px solid #00d9ff;
+      transition: all 0.3s;
+    }
+
+    .card a:hover {
+      background: rgba(0, 217, 255, 0.1);
+      transform: translateX(5px);
+    }
+
+    /* Footer */
     .footer {
       background: rgba(15, 15, 35, 0.8);
       border-top: 1px solid rgba(100, 200, 255, 0.2);
-      padding: 0.8rem; 
+      padding: 2rem;
       text-align: center;
       color: #b0b0d0;
-      margin-top: 4rem; 
-      font-size: 0.9rem; 
+      margin-top: 4rem;
     }
 
     .footer a {
@@ -373,21 +324,62 @@
       color: #00d9ff;
     }
 
-   
-    #chatbase-bubble-wrapper {
-        bottom: 40px !important; 
-        right: 40px !important; 
-        position: fixed !important;
-        z-index: 10000 !important; 
+    /* Stack tecnológico */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1.2rem;
     }
 
-    @media (min-width: 769px) {
-      .cta-buttons {
-        flex-direction: column; 
-      }
-      .cta-row {
-        flex-direction: row; 
-      }
+    .stack-item {
+      background: linear-gradient(135deg, rgba(100, 200, 255, 0.05) 0%, rgba(0, 217, 255, 0.05) 100%);
+      border: 1px solid rgba(100, 200, 255, 0.2);
+      border-radius: 12px;
+      padding: 1.4rem 1rem;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+      cursor: default;
+    }
+
+    .stack-item:hover {
+      transform: translateY(-6px);
+      border-color: rgba(100, 200, 255, 0.5);
+      background: linear-gradient(135deg, rgba(100, 200, 255, 0.12) 0%, rgba(0, 217, 255, 0.12) 100%);
+      box-shadow: 0 12px 30px rgba(100, 200, 255, 0.2);
+    }
+
+    .stack-item .icon {
+      font-size: 2rem;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .stack-item .name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #64c8ff;
+      display: block;
+    }
+
+    .stack-item .type {
+      font-size: 0.75rem;
+      color: #8a8aaa;
+      display: block;
+      margin-top: 0.2rem;
+    }
+
+    .stack-category {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #8a8aaa;
+      margin-bottom: 1rem;
+      margin-top: 2rem;
+    }
+
+    .stack-category:first-child {
+      margin-top: 0;
     }
 
     @media (max-width: 768px) {
@@ -405,50 +397,20 @@
       }
 
       .cta-buttons {
-        flex-direction: column; 
-      }
-
-      .cta-row {
-        flex-direction: column; 
+        flex-direction: column;
         width: 100%;
-        align-items: center; 
       }
 
-      .btn { 
-        width: 100%; 
-        max-width: 300px; 
+      .btn {
+        width: 100%;
       }
-      
+
       h2 {
         font-size: 1.8rem;
       }
 
-      .tech-stack-title {
-        font-size: 1.8rem;
-      }
-
-      .tech-column h3 {
-        font-size: 1.5rem;
-      }
-
-      .footer {
-        padding: 0.5rem; 
-        font-size: 0.8rem; 
-      }
-
-      .tech-columns {
-        grid-template-columns: 1fr; 
-        gap: 2rem;
-      }
-      
-      .tech-column {
-        width: 100%;
-      }
-
-      
-      #chatbase-bubble-wrapper {
-          bottom: 20px !important; 
-          right: 20px !important;
+      .grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -457,107 +419,92 @@
   <nav class="nav">
     <div class="nav-links">
       <a href="cv.html">CV</a>
-      <a href="Proyectos.html">Proyectos</a>
+      <a href="#stack">Stack</a>
+      <a href="#proyectos-destacados">Proyectos</a>
       <a href="cartaPresentación.html">Carta de presentación</a>
     </div>
   </nav>
 
   <header class="hero">
     <h1>Pablo Caballero</h1>
-    <p class="lead">Estudiante de DAM · Java · Python · Business Intelligence · Power BI</p>
+    <p class="lead">Full Stack Developer · Java · Python · Django · Cloud</p>
     <div class="cta-buttons">
-      <div class="cta-row">
-        <a href="cv.html" class="btn btn-primary">Ver CV</a>
-        <a href="Proyectos.html" class="btn btn-ghost">Ver Proyectos</a>
-      </div>
-      <a href="#stack-tecnologico" class="btn btn-ghost btn-scroll">Stack Tecnológico <span class="arrow-down">↓</span></a>
+      <a href="cv.html" class="btn btn-primary">Ver CV</a>
+      <a href="#proyectos-destacados" class="btn btn-ghost">Ver Proyectos</a>
     </div>
   </header>
 
   <main class="container">
-    <section id="stack-tecnologico" class="tech-stack-section">
-      <h2 class="tech-stack-title">Stack Tecnológico</h2>
-      <div class="tech-columns">
-        <div class="tech-column">
-          <h3>Front-End</h3>
-          <div class="tech-item">
-            <span class="tech-icon">⚛️</span>
-            <span class="tech-name">React</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🤖</span>
-            <span class="tech-name">Kotlin</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🎨</span>
-            <span class="tech-name">Figma</span>
-          </div>
-        </div>
-                <div class="tech-column">
-          <h3>Back-End</h3>
-          <div class="tech-item">
-            <span class="tech-icon">🐍</span>
-            <span class="tech-name">Python</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">☕</span>
-            <span class="tech-name">Java</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🐘</span>
-            <span class="tech-name">PostgreSQL</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🍃</span>
-            <span class="tech-name">MongoDB</span>
-          </div>
-        </div>
+    <section id="stack">
+      <h2>Stack Tecnológico</h2>
 
-        <div class="tech-column">
-          <h3>Data & BI <span style="font-size: 0.8rem; color: #64c8ff; font-weight: 400;">(En formación)</span></h3>
-          <div class="tech-item">
-            <span class="tech-icon">📊</span>
-            <span class="tech-name">Power BI</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">📈</span>
-            <span class="tech-name">DAX</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🔄</span>
-            <span class="tech-name">Power Query</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">📉</span>
-            <span class="tech-name">Data Visualization</span>
-          </div>
-        </div>
+      <p class="stack-category">Lenguajes</p>
+      <div class="stack-grid">
+        <div class="stack-item"><span class="icon">☕</span><span class="name">Java</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon">🐍</span><span class="name">Python</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon">🤖</span><span class="name">Kotlin</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon">🟨</span><span class="name">JavaScript</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon">🔷</span><span class="name">SAP ABAP</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon">🌐</span><span class="name">HTML/CSS</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon">🗄️</span><span class="name">SQL</span><span class="type">Lenguaje</span></div>
+      </div>
 
-        <div class="tech-column">
-          <h3>DevOps</h3>
-          <div class="tech-item">
-            <span class="tech-icon">☁️</span>
-            <span class="tech-name">AWS</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🐳</span>
-            <span class="tech-name">Docker</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-icon">🔧</span>
-            <span class="tech-name">Jenkins</span>
-          </div>
-        
-        </div>
+      <p class="stack-category">Frameworks & Librerías</p>
+      <div class="stack-grid">
+        <div class="stack-item"><span class="icon">🍃</span><span class="name">Spring Boot</span><span class="type">Backend</span></div>
+        <div class="stack-item"><span class="icon">🦄</span><span class="name">Django</span><span class="type">Backend</span></div>
+        <div class="stack-item"><span class="icon">🔗</span><span class="name">JPA/Hibernate</span><span class="type">ORM</span></div>
+        <div class="stack-item"><span class="icon">🅰️</span><span class="name">Angular</span><span class="type">Frontend</span></div>
+        <div class="stack-item"><span class="icon">🖼️</span><span class="name">Java Swing</span><span class="type">Desktop</span></div>
+      </div>
+
+      <p class="stack-category">Bases de Datos</p>
+      <div class="stack-grid">
+        <div class="stack-item"><span class="icon">🐘</span><span class="name">PostgreSQL</span><span class="type">Relacional</span></div>
+        <div class="stack-item"><span class="icon">🐬</span><span class="name">MySQL</span><span class="type">Relacional</span></div>
+        <div class="stack-item"><span class="icon">🍃</span><span class="name">NoSQL</span><span class="type">No relacional</span></div>
+      </div>
+
+      <p class="stack-category">Cloud & DevOps</p>
+      <div class="stack-grid">
+        <div class="stack-item"><span class="icon">☁️</span><span class="name">AWS</span><span class="type">Cloud</span></div>
+        <div class="stack-item"><span class="icon">🔵</span><span class="name">SAP BTP</span><span class="type">Cloud</span></div>
+        <div class="stack-item"><span class="icon">🌩️</span><span class="name">Google Cloud</span><span class="type">Cloud</span></div>
+        <div class="stack-item"><span class="icon">🐳</span><span class="name">Docker</span><span class="type">DevOps</span></div>
+        <div class="stack-item"><span class="icon">🔀</span><span class="name">Git</span><span class="type">Control versiones</span></div>
+      </div>
+
+      <p class="stack-category">Herramientas</p>
+      <div class="stack-grid">
+        <div class="stack-item"><span class="icon">🎨</span><span class="name">Figma</span><span class="type">Diseño</span></div>
+        <div class="stack-item"><span class="icon">📊</span><span class="name">Microsoft Office</span><span class="type">Productividad</span></div>
+      </div>
+    </section>
+
+    <section id="proyectos-destacados">
+      <h2>Proyectos Destacados</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>🎓 Gestión de Alumnado</h3>
+          <p>Aplicación web fullstack para gestión de alumnado desarrollada con Django (Python) y PostgreSQL. Incluye autenticación, control de roles y despliegue en entorno de producción.</p>
+          <a href="python.html">Ver Demo →</a>
+        </article>
+        <article class="card">
+          <h3>🎨 Web Frontend</h3>
+          <p>SPA accesible y responsive con buenas prácticas, componentes modernos y pruebas básicas. Enfoque en UX y rendimiento.</p>
+          <a href="web.html">Ver Demo →</a>
+        </article>
+        <article class="card">
+          <h3>⚙️ Java Backend</h3>
+          <p>Microservicio robusto con endpoints escalables, pruebas unitarias y arquitectura limpia. API RESTful lista para producción.</p>
+          <a href="java.html">Ver Demo →</a>
+        </article>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>pcaballero155@gmail.com · Leganés, Madrid · <a href="https://github.com/Pablocaballero13">GitHub</a></p>
+    <p> pcaballero155@gmail.com · Leganés, Madrid · <a href="https://github.com/Pablocaballero13">GitHub</a></p>
   </footer>
-  <script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="uVmZm_Ul-oWWqe-pX7uAz";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
 </body>
 </html>
