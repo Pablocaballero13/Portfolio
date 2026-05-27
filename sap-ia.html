@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABAP AI Reviewer (Ollama Local)</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0d0f14;
+    --surface:  #13161e;
+    --surface2: #1a1e28;
+    --border:   #252a38;
+    --accent:   #00e5b0;
+    --accent2:  #4f7cff;
+    --warn:     #ff6b6b;
+    --text:     #e2e5ef;
+    --muted:    #5a607a;
+    --green:    #00e5b0;
+    --amber:    #f5a623;
+  }
+
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
+
+  /* ─── API Key Modal ───────────────────────────────── */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(13,15,20,0.92);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000; backdrop-filter: blur(6px);
+    transition: opacity 0.3s;
+  }
+  .modal-backdrop.hidden { opacity: 0; pointer-events: none; }
+
+  .modal {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 36px; width: 460px; max-width: 90vw;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+    transform: translateY(0); transition: transform 0.3s;
+  }
+  .modal-backdrop.hidden .modal { transform: translateY(12px); }
+
+  .modal-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+  .modal-logo-icon {
+    width: 36px; height: 36px; background: var(--accent); border-radius: 10px;
+    display: grid; place-items: center; font-family: 'JetBrains Mono', monospace;
+    font-size: 14px; font-weight: 600; color: #0d0f14; flex-shrink: 0;
+  }
+  .modal-logo-text { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; }
+  .modal-logo-text span { color: var(--accent); }
+
+  .modal h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
+  .modal p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+
+  .modal-input-wrap { position: relative; margin-bottom: 16px; }
+  .modal-input-wrap input {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); padding: 13px 46px 13px 14px;
+    border-radius: 10px; font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; outline: none; transition: border-color 0.2s;
+  }
+  .modal-input-wrap input:focus  { border-color: var(--accent); }
+  .modal-input-wrap input.error  { border-color: var(--warn); }
+  .modal-input-wrap input.valid  { border-color: var(--green); }
+
+  .toggle-vis {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 16px; line-height: 1; padding: 2px; transition: color 0.2s;
+  }
+  .toggle-vis:hover { color: var(--text); }
+
+  .modal-error {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--warn); margin-bottom: 14px; display: none;
+  }
+  .modal-error.show { display: block; }
+
+  .modal-hint {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--muted); margin-bottom: 20px; line-height: 1.5;
+  }
+
+  .btn-save-key {
+    width: 100%; background: var(--accent); color: #0d0f14;
+    border: none; padding: 13px; border-radius: 10px;
+    font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: opacity 0.2s, transform 0.1s;
+  }
+  .btn-save-key:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-save-key:active { transform: translateY(0); }
+
+  /* ─── Header ─────────────────────────────────────── */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 28px; border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-icon {
+    width: 32px; height: 32px; background: var(--accent); border-radius: 8px;
+    display: grid; place-items: center; font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; font-weight: 600; color: #0d0f14;
+  }
+  .logo-text { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; }
+  .logo-text span { color: var(--accent); }
+
+  .key-status { display: flex; align-items: center; gap: 8px; }
+  .key-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--muted);
+    flex-shrink: 0; transition: background 0.3s;
+  }
+  .key-dot.active { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .key-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--muted);
+  }
+  .key-change {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--accent2); cursor: pointer; padding: 3px 8px;
+    border: 1px solid var(--border); border-radius: 4px;
+    transition: border-color 0.2s;
+  }
+  .key-change:hover { border-color: var(--accent2); }
+
+  .badge {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 4px 10px;
+    border: 1px solid var(--accent); color: var(--accent); border-radius: 20px;
+    opacity: 0.7;
+  }
+
+  /* ─── Layout ──────────────────────────────────────── */
+  .main { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 57px); }
+
+  /* ─── Editor panel ────────────────────────────────── */
+  .panel-left { display: flex; flex-direction: column; border-right: 1px solid var(--border); }
+  .panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px; border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .panel-title {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
+  }
+  .lang-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    background: #1f2535; color: var(--accent2); padding: 3px 8px; border-radius: 4px;
+  }
+
+  #editor-container { flex: 1; overflow: hidden; }
+
+  .editor-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 20px; border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .line-info { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+
+  .btn-analyze {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #0d0f14; border: none;
+    padding: 10px 22px; border-radius: 8px; font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+  .btn-analyze:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-analyze:active { transform: translateY(0); }
+  .btn-analyze:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .btn-analyze .spinner {
+    width: 14px; height: 14px; border: 2px solid #0d0f1460;
+    border-top-color: #0d0f14; border-radius: 50%;
+    animation: spin 0.7s linear infinite; display: none;
+  }
+  .btn-analyze.loading .spinner { display: block; }
+  .btn-analyze.loading .btn-text { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ─── Results panel ───────────────────────────────── */
+  .panel-right { display: flex; flex-direction: column; overflow: hidden; }
+  .results-area { flex: 1; overflow-y: auto; padding: 20px; }
+  .results-area::-webkit-scrollbar { width: 6px; }
+  .results-area::-webkit-scrollbar-track { background: transparent; }
+  .results-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .score-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px; margin-bottom: 16px;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .score-card.visible { opacity: 1; transform: translateY(0); }
+  .score-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .score-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .score-number { font-size: 36px; font-weight: 800; line-height: 1; }
+  .score-number.good { color: var(--green); }
+  .score-number.mid  { color: var(--amber); }
+  .score-number.bad  { color: var(--warn); }
+  .score-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .bars { display: flex; flex-direction: column; gap: 10px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; }
+  .bar-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); width: 130px; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; transition: width 0.8s cubic-bezier(.4,0,.2,1); }
+  .bar-val { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); width: 28px; text-align: right; }
+
+  .section-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--muted); margin: 20px 0 10px;
+  }
+  .issue-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; margin-bottom: 10px;
+    border-left: 3px solid transparent;
+    opacity: 0; transform: translateX(6px);
+    transition: opacity 0.35s, transform 0.35s;
+  }
+  .issue-card.visible { opacity: 1; transform: translateX(0); }
+  .issue-card.sev-high   { border-left-color: var(--warn); }
+  .issue-card.sev-medium { border-left-color: var(--amber); }
+  .issue-card.sev-low    { border-left-color: var(--accent2); }
+  .issue-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .sev-pill {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    padding: 2px 7px; border-radius: 20px; font-weight: 600;
+  }
+  .sev-pill.high   { background: #ff6b6b22; color: var(--warn); }
+  .sev-pill.medium { background: #f5a62322; color: var(--amber); }
+  .sev-pill.low    { background: #4f7cff22; color: var(--accent2); }
+  .issue-line { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+  .issue-title { font-size: 13px; font-weight: 700; }
+  .issue-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 4px; }
+  .issue-fix {
+    margin-top: 8px; padding: 8px 10px; background: var(--surface2);
+    border-radius: 6px; font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--accent); line-height: 1.6;
+  }
+
+  .empty-state {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; gap: 12px; color: var(--muted); text-align: center; padding: 40px;
+  }
+  .empty-icon { font-size: 48px; opacity: 0.3; }
+  .empty-text { font-size: 14px; line-height: 1.6; }
+  .empty-hint { font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.5; }
+
+  .thinking {
+    display: none; align-items: center; gap: 10px; padding: 16px;
+    color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  }
+  .thinking.active { display: flex; }
+  .dots span { animation: blink 1.2s infinite; }
+  .dots span:nth-child(2) { animation-delay: 0.2s; }
+  .dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%,80%,100%{opacity:0} 40%{opacity:1} }
+
+  #monaco-loading {
+    display: flex; align-items: center; justify-content: center;
+    height: 100%; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  }
+
+  .demo-notice {
+    background: #f5a62322;
+    border: 1px solid #f5a62355;
+    color: #ffd18a;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="modal-backdrop hidden" id="modal-backdrop">
+  <div class="modal">
+    <div class="modal-logo">
+      <div class="modal-logo-icon">AI</div>
+      <div class="modal-logo-text">ABAP <span>Reviewer</span></div>
+    </div>
+    <h2>Inicialización de Servidor Local</h2>
+    <p>
+      Esta aplicación está configurada para conectar con tu instancia local de <strong style="color:var(--text)">Ollama</strong>.
+      <br><br>
+      Por favor, escribe cualquier palabra clave a continuación (ej. <code>local</code>) para inicializar la sesión del panel. Tu código nunca saldrá de tu máquina corporativa o entorno local.
+    </p>
+    <div class="modal-input-wrap">
+      <input type="text" id="modal-key-input"
+        placeholder="Escribe 'local' o cualquier identificador…"
+        autocomplete="off" spellcheck="false">
+    </div>
+    <div class="modal-error" id="modal-error">⚠ Por favor, ingresa al menos un caracter identificador.</div>
+    <div class="modal-hint">Asegúrate de haber ejecutado <code>ollama run llama3.2</code> antes de iniciar.</div>
+    <button class="btn-save-key" id="btn-save-key">Conectar localmente →</button>
+  </div>
+</div>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">AI</div>
+    <div class="logo-text">ABAP <span>Reviewer</span></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px">
+    <div class="key-status">
+      <div class="key-dot" id="key-dot"></div>
+      <span class="key-label" id="key-label">Desconectado</span>
+      <span class="key-change" onclick="openModal()">Estatus</span>
+    </div>
+    <div class="badge">Ollama Llama3.2</div>
+  </div>
+</header>
+
+<div class="main">
+
+  <div class="panel-left">
+    <div class="panel-header">
+      <span class="panel-title">Editor de código</span>
+      <span class="lang-tag">ABAP</span>
+    </div>
+    <div id="editor-container">
+      <div id="monaco-loading">Cargando editor…</div>
+    </div>
+    <div class="editor-footer">
+      <span class="line-info" id="cursor-info">Ln 1, Col 1</span>
+      <button class="btn-analyze" id="btn-analyze" onclick="analyzeCode()">
+        <div class="spinner"></div>
+        <span class="btn-text">▶ Analizar con IA</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="panel-right">
+    <div class="panel-header">
+      <span class="panel-title">Análisis IA</span>
+      <span class="lang-tag" id="status-tag">Listo</span>
+    </div>
+    <div class="thinking" id="thinking">
+      <span>Ollama procesando código ABAP</span>
+      <span class="dots"><span>.</span><span>.</span><span>.</span></span>
+    </div>
+    <div class="results-area" id="results-area">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">⌥</div>
+        <div class="empty-text">Pega tu código ABAP en el editor<br>y pulsa <strong>Analizar con IA</strong></div>
+        <div class="empty-hint">Se detectarán malas prácticas, performance issues y código legacy de manera privada.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+<script>
+// ── API Key management ────────────────────────────────
+const STORAGE_KEY = 'abap_reviewer_gemini_key';
+const PUBLIC_DEMO_RESULT = {
+  score: 78,
+  scoreLabel: "Bueno",
+  categories: {
+    performance: 72,
+    mantenibilidad: 81,
+    seguridad: 76,
+    modernidad: 74,
+    nomenclatura: 84
+  },
+  issues: [
+    {
+      severity: "high",
+      line: 11,
+      title: "SELECT * sin campos acotados",
+      description: "La consulta trae todas las columnas y puede degradar rendimiento en tablas grandes.",
+      fix: "SELECT vbeln erdat auart FROM vbak INTO TABLE lt_table WHERE auart = 'OR'."
+    },
+    {
+      severity: "medium",
+      line: 20,
+      title: "Concatenacion legacy",
+      description: "Se recomienda usar string templates para mejorar legibilidad en ABAP moderno.",
+      fix: "lv_result = |Pedido: { ls_vbak-vbeln }|."
+    },
+    {
+      severity: "low",
+      line: 25,
+      title: "Mensajes de salida poco descriptivos",
+      description: "Los mensajes son correctos, pero podrian ser mas detallados para soporte funcional.",
+      fix: "WRITE: / |Total de pedidos encontrados: { lv_count }|."
+    }
+  ],
+  summary: "Demo publica: resultado de ejemplo para visualizar el comportamiento sin Ollama local."
+};
+
+function loadKey()       { try { return localStorage.getItem(STORAGE_KEY) || ''; } catch { return ''; } }
+function saveKey(k)      { try { localStorage.setItem(STORAGE_KEY, k); } catch {} }
+
+function updateKeyStatus(key) {
+  const dot   = document.getElementById('key-dot');
+  const label = document.getElementById('key-label');
+  if (key) {
+    dot.classList.add('active');
+    label.textContent = "Ollama Activo";
+  } else {
+    dot.classList.remove('active');
+    label.textContent = 'Sin Inicializar';
+  }
+}
+
+function openModal() {
+  const backdrop = document.getElementById('modal-backdrop');
+  backdrop.classList.remove('hidden');
+  document.getElementById('modal-key-input').value = loadKey();
+  document.getElementById('modal-error').classList.remove('show');
+  document.getElementById('modal-key-input').classList.remove('error', 'valid');
+  setTimeout(() => document.getElementById('modal-key-input').focus(), 50);
+}
+function closeModal() { document.getElementById('modal-backdrop').classList.add('hidden'); }
+
+document.getElementById('btn-save-key').addEventListener('click', () => {
+  const val   = document.getElementById('modal-key-input').value.trim();
+  const errEl = document.getElementById('modal-error');
+  if (!val) {
+    errEl.classList.add('show');
+    document.getElementById('modal-key-input').classList.add('error');
+    return;
+  }
+  errEl.classList.remove('show');
+  document.getElementById('modal-key-input').classList.remove('error');
+  document.getElementById('modal-key-input').classList.add('valid');
+  saveKey(val);
+  updateKeyStatus(val);
+  setTimeout(closeModal, 300);
+});
+
+document.getElementById('modal-key-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('btn-save-key').click();
+  else {
+    document.getElementById('modal-error').classList.remove('show');
+    e.target.classList.remove('error');
+  }
+});
+
+// Init: keep modal closed in public demo mode
+(function () {
+  const key = loadKey();
+  updateKeyStatus(key);
+  closeModal();
+})();
+
+// ── Monaco ────────────────────────────────────────────
+let editor;
+require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' } });
+require(['vs/editor/editor.main'], function () {
+  document.getElementById('monaco-loading').style.display = 'none';
+
+  monaco.languages.register({ id: 'abap' });
+  monaco.languages.setMonarchTokensProvider('abap', {
+    tokenizer: {
+      root: [
+        [/\*.*$/, 'comment'],
+        [/".*$/, 'comment'],
+        [/\b(DATA|TYPES|CONSTANTS|CLASS|METHOD|ENDMETHOD|ENDCLASS|IF|ELSE|ENDIF|LOOP|ENDLOOP|SELECT|FROM|WHERE|INTO|FORM|ENDFORM|FUNCTION|ENDFUNCTION|REPORT|PROGRAM|CALL|PERFORM|WRITE|NEW|CREATE|OBJECT|INTERFACE|DO|ENDDO|WHILE|ENDWHILE|TRY|CATCH|ENDTRY|RAISE|EXCEPTION|IMPORTING|EXPORTING|CHANGING|RETURNING|TABLES|USING|TYPE|REF|TO|OF|FOR|ALL|OCCURRENCES|REPLACE|CONCATENATE|SPLIT|MOVE|CLEAR|FREE|APPEND|READ|TABLE|WITH|KEY|SORT|DELETE|COLLECT|MODIFY|INSERT|UPDATE|COMMIT|ROLLBACK)\b/i, 'keyword'],
+        [/\b(sy-subrc|sy-tabix|sy-index|sy-uname|sy-datum|sy-uzeit|sy-langu|sy-mandt|sy-msgid|sy-msgno)\b/i, 'variable.predefined'],
+        [/'[^']*'/, 'string'],
+        [/`[^`]*`/, 'string'],
+        [/\d+/, 'number'],
+        [/[a-zA-Z_]\w*/, 'identifier'],
+      ]
+    }
+  });
+
+  monaco.editor.defineTheme('abap-dark', {
+    base: 'vs-dark', inherit: true,
+    rules: [
+      { token: 'keyword',             foreground: '4f7cff', fontStyle: 'bold' },
+      { token: 'comment',             foreground: '5a607a', fontStyle: 'italic' },
+      { token: 'string',              foreground: '00e5b0' },
+      { token: 'number',              foreground: 'f5a623' },
+      { token: 'variable.predefined', foreground: 'ff6b6b' },
+      { token: 'identifier',          foreground: 'e2e5ef' },
+    ],
+    colors: {
+      'editor.background':              '#13161e',
+      'editor.foreground':              '#e2e5ef',
+      'editor.lineHighlightBackground': '#1a1e2880',
+      'editorLineNumber.foreground':    '#3a3f52',
+      'editorCursor.foreground':        '#00e5b0',
+      'editor.selectionBackground':     '#4f7cff33',
+    }
+  });
+
+  editor = monaco.editor.create(document.getElementById('editor-container'), {
+    value: SAMPLE_CODE,
+    language: 'abap',
+    theme: 'abap-dark',
+    fontSize: 13,
+    fontFamily: "'JetBrains Mono', monospace",
+    lineNumbers: 'on',
+    minimap: { enabled: false },
+    scrollBeyondLastLine: false,
+    padding: { top: 16, bottom: 16 },
+    renderLineHighlight: 'line',
+    cursorBlinking: 'smooth',
+    smoothScrolling: true,
+    folding: true,
+  });
+
+  editor.onDidChangeCursorPosition(e => {
+    document.getElementById('cursor-info').textContent =
+      `Ln ${e.position.lineNumber}, Col ${e.position.column}`;
+  });
+});
+
+// ── Sample code ───────────────────────────────────────
+const SAMPLE_CODE = `*&---------------------------------------------------------------------*
+*& Reporte de ventas - versión legacy
+*& Autor: Pablo Caballero
+*&---------------------------------------------------------------------*
+REPORT z_sales_report.
+
+DATA: lv_result TYPE string,
+      lt_table  TYPE TABLE OF vbak,
+      lv_count  TYPE i VALUE 0.
+
+* Selección sin límite de filas (problema de performance)
+SELECT * FROM vbak
+  INTO TABLE lt_table
+  WHERE auart = 'OR'.
+
+* Loop sin verificación de sy-subrc
+LOOP AT lt_table INTO DATA(ls_vbak).
+  lv_count = lv_count + 1.
+  
+  * String concatenation legacy (debería usar string templates)
+  CONCATENATE 'Pedido: ' ls_vbak-vbeln INTO lv_result.
+  WRITE: / lv_result.
+ENDLOOP.
+
+* Comparación débil de sy-subrc
+IF lv_count > 0.
+  WRITE: / 'Total pedidos:', lv_count.
+ELSE.
+  WRITE: / 'No hay datos'.
+ENDIF.`;
+
+// ── Analyze (Ollama Endpoint Engine) ───────────────────
+async function analyzeCode() {
+  const code = editor?.getValue() || '';
+  if (!code.trim()) return;
+
+  const btn         = document.getElementById('btn-analyze');
+  const thinking    = document.getElementById('thinking');
+  const resultsArea = document.getElementById('results-area');
+  const statusTag   = document.getElementById('status-tag');
+
+  btn.disabled = true;
+  btn.classList.add('loading');
+  thinking.classList.add('active');
+  statusTag.textContent = 'Analizando…';
+  document.getElementById('empty-state')?.remove();
+  resultsArea.innerHTML = '';
+  resultsArea.appendChild(thinking);
+
+  const systemInstruction = `Eres un experto senior en ABAP y Clean Code para sistemas SAP.
+Analiza el código ABAP provisto y devuelve UNICAMENTE un esquema JSON estructurado detallando score, categorías e issues. Tu respuesta debe ser estrictamente el objeto JSON plano sin envoltorios markdown, sin explicaciones ni texto externos.
+
+Formato requerido:
+{
+  "score": <número del 0 al 100>,
+  "scoreLabel": "<Excelente|Bueno|Mejorable|Crítico>",
+  "categories": {
+    "performance": <0-100>,
+    "mantenibilidad": <0-100>,
+    "seguridad": <0-100>,
+    "modernidad": <0-100>,
+    "nomenclatura": <0-100>
+  },
+  "issues": [
+    {
+      "severity": "<high|medium|low>",
+      "line": <número o null>,
+      "title": "<título corto>",
+      "description": "<explicación en español>",
+      "fix": "<código ABAP concreto corregido>"
+    }
+  ],
+  "summary": "<resumen de la calidad en 2 líneas>"
+}`;
+
+  const prompt = `Código ABAP a analizar:\n${code}`;
+
+  try {
+    const res = await fetch(`http://localhost:11434/api/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: "qwen2.5-coder:3b",
+        messages: [
+          { role: "system", content: systemInstruction },
+          { role: "user", content: prompt }
+        ],
+        options: {
+          temperature: 0.1
+        },
+        stream: false,
+        format: "json" // Obliga nativamente a Ollama a retornar JSON libre de strings planos
+      })
+    });
+
+    if (!res.ok) {
+      throw new Error(`Servidor local de Ollama arrojó HTTP status ${res.status}.`);
+    }
+
+    const data = await res.json();
+    const raw  = data.message?.content || '';
+    const result = JSON.parse(raw.trim());
+
+    renderResults(result, resultsArea);
+    statusTag.textContent = `Score: ${result.score}/100`;
+
+  } catch (err) {
+    renderResults(PUBLIC_DEMO_RESULT, resultsArea);
+    renderDemoNotice(resultsArea);
+    statusTag.textContent = 'Demo publica (sin Ollama)';
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    thinking.classList.remove('active');
+  }
+}
+
+// ── Render results ────────────────────────────────────
+function renderResults(data, container) {
+  container.innerHTML = '';
+
+  const scoreClass = data.score >= 75 ? 'good' : data.score >= 50 ? 'mid' : 'bad';
+  const catColors = {
+    performance:    '#00e5b0',
+    mantenibilidad: '#4f7cff',
+    seguridad:      '#ff6b6b',
+    modernidad:     '#f5a623',
+    nomenclatura:   '#c084fc',
+  };
+
+  const barsHTML = Object.entries(data.categories || {}).map(([k, v]) => `
+    <div class="bar-row">
+      <span class="bar-label">${k}</span>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:0%;background:${catColors[k]||'#4f7cff'}" data-target="${v}"></div>
+      </div>
+      <span class="bar-val">${v}</span>
+    </div>`).join('');
+
+  const scoreCard = document.createElement('div');
+  scoreCard.className = 'score-card';
+  scoreCard.innerHTML = `
+    <div class="score-header">
+      <div>
+        <div class="score-title">Puntuación de calidad (Ollama Local)</div>
+        <div class="score-sub">${data.summary || ''}</div>
+      </div>
+      <div>
+        <div class="score-number ${scoreClass}">${data.score}</div>
+        <div class="score-sub" style="text-align:right">${data.scoreLabel}</div>
+      </div>
+    </div>
+    <div class="bars">${barsHTML}</div>`;
+
+  container.appendChild(scoreCard);
+  requestAnimationFrame(() => {
+    scoreCard.classList.add('visible');
+    scoreCard.querySelectorAll('.bar-fill').forEach(bar => {
+      setTimeout(() => { bar.style.width = bar.dataset.target + '%'; }, 100);
+    });
+  });
+
+  if (data.issues?.length) {
+    const label = document.createElement('div');
+    label.className = 'section-label';
+    label.textContent = `${data.issues.length} issue${data.issues.length > 1 ? 's' : ''} detectados`;
+    container.appendChild(label);
+
+    data.issues.forEach((issue, i) => {
+      const card = document.createElement('div');
+      card.className = `issue-card sev-${issue.severity}`;
+      card.innerHTML = `
+        <div class="issue-top">
+          <span class="sev-pill ${issue.severity}">${issue.severity.toUpperCase()}</span>
+          ${issue.line ? `<span class="issue-line">Línea ${issue.line}</span>` : ''}
+        </div>
+        <div class="issue-title">${issue.title}</div>
+        <div class="issue-desc">${issue.description}</div>
+        ${issue.fix ? `<div class="issue-fix">💡 ${issue.fix}</div>` : ''}`;
+      container.appendChild(card);
+      setTimeout(() => card.classList.add('visible'), 80 * i);
+    });
+  }
+}
+
+function renderDemoNotice(container) {
+  const notice = document.createElement('div');
+  notice.className = 'demo-notice';
+  notice.innerHTML = `Aviso: este proyecto funciona completo en entorno local con Ollama (<code>localhost:11434</code>).<br>Ahora estas viendo una <strong>demo publica simulada</strong> para mostrar la interfaz y el tipo de resultado.`;
+  container.prepend(notice);
+}
+</script>
+</body>
+</html>

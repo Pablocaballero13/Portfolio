@@ -263,6 +263,7 @@
       height: 100%;
       background: linear-gradient(90deg, transparent, rgba(100, 200, 255, 0.1), transparent);
       transition: left 0.5s;
+      pointer-events: none;
     }
 
     .card:hover {
@@ -290,6 +291,8 @@
 
     .card a {
       display: inline-block;
+      position: relative;
+      z-index: 1;
       color: #00d9ff;
       text-decoration: none;
       font-weight: 600;
@@ -297,6 +300,8 @@
       border-radius: 25px;
       border: 1px solid #00d9ff;
       transition: all 0.3s;
+      margin-top: 0.4rem;
+      margin-right: 0.5rem;
     }
 
     .card a:hover {
@@ -485,6 +490,11 @@
       <h2>Proyectos Destacados</h2>
       <div class="grid">
         <article class="card">
+          <h3>🤖 ABAP AI Reviewer</h3>
+          <p>Herramienta de análisis de código ABAP con IA local (Ollama + Monaco Editor). Evalúa calidad, detecta issues por severidad y propone mejoras concretas.</p>
+          <a href="sap-ia.html">Ver Demo →</a>
+        </article>
+        <article class="card">
           <h3>🎓 Gestión de Alumnado</h3>
           <p>Aplicación web fullstack para gestión de alumnado desarrollada con Django (Python) y PostgreSQL. Incluye autenticación, control de roles y despliegue en entorno de producción.</p>
           <a href="python.html">Ver Demo →</a>
@@ -498,6 +508,23 @@
           <h3>⚙️ Java Backend</h3>
           <p>Microservicio robusto con endpoints escalables, pruebas unitarias y arquitectura limpia. API RESTful lista para producción.</p>
           <a href="java.html">Ver Demo →</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="portfolios">
+      <h2>Creo Portfolios Profesionales</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>🚀 Servicio de Portfolio Personal</h3>
+          <p>Diseño y desarrollo portfolios modernos, rápidos y responsive para mejorar tu marca personal y ayudarte a destacar en procesos de selección.</p>
+          <a href="mailto:pcaballero155@gmail.com?subject=Solicitud%20de%20Portfolio&body=Hola%20Pablo%2C%20me%20gustar%C3%ADa%20solicitar%20un%20portfolio.%0A%0ANombre%3A%20%0AProfesi%C3%B3n%3A%20">Solicitar Portfolio →</a>
+        </article>
+        <article class="card">
+          <h3>🧩 Ejemplos reales</h3>
+          <p>Referencias de estilo y estructura de portfolios que tomo como base para crear versiones personalizadas según perfil profesional y objetivos.</p>
+          <a href="https://hectorgibaja.netlify.app/" target="_blank" rel="noopener noreferrer">Ver ejemplo 1 →</a>
+          <a href="https://gemmaherranz.pages.dev/" target="_blank" rel="noopener noreferrer">Ver ejemplo 2 →</a>
         </article>
       </div>
     </section>
