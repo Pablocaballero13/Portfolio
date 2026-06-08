@@ -280,46 +280,42 @@
 
     .service-card {
       position: relative;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(100, 200, 255, 0.14);
-      border-radius: 20px;
+      background: rgba(8, 20, 36, 0.92);
+      border: 1px solid rgba(100, 200, 255, 0.18);
+      border-radius: 22px;
       padding: 2rem;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.16);
+      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
       min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
 
-    .service-card::before {
-      content: '';
-      position: absolute;
-      top: 1.4rem;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 56px;
-      height: 4px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #64c8ff, #00d9ff);
-      opacity: 0.75;
+    .service-card::before,
+    .service-card::after {
+      display: none;
     }
 
     .service-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(100, 200, 255, 0.32);
-      background: rgba(16, 38, 65, 0.78);
+      transform: translateY(-4px);
+      border-color: rgba(100, 200, 255, 0.28);
+      background: rgba(15, 28, 48, 0.98);
+      box-shadow: 0 26px 55px rgba(0, 0, 0, 0.18);
     }
 
     .service-card h3 {
-      font-size: 1.3rem;
-      margin-top: 1.1rem;
-      margin-bottom: 0.9rem;
-      color: #e9f8ff;
+      font-size: 1.45rem;
+      margin: 0 0 1rem;
+      color: #c5e8ff;
+      line-height: 1.2;
     }
 
     .service-card p {
-      color: #c1d5e9;
-      line-height: 1.8;
+      color: #b3c8db;
+      line-height: 1.85;
       margin: 0;
+      flex: 1 0 auto;
     }
 
     /* Container */
@@ -411,14 +407,49 @@
       line-height: 1.7;
     }
 
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin: 1rem 0 0.75rem;
+    }
+
+    .project-tech-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(100, 200, 255, 0.08);
+      border: 1px solid rgba(100, 200, 255, 0.14);
+      color: #e8f5ff;
+      font-size: 0.85rem;
+      transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+    }
+
+    .project-tech-item img {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      filter: brightness(1.2) saturate(1.3);
+    }
+
+    .project-tech-item:hover {
+      transform: translateY(-2px);
+      background: rgba(100, 200, 255, 0.18);
+      border-color: rgba(100, 200, 255, 0.32);
+    }
+
     .card a {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
       z-index: 1;
       color: #00d9ff;
       text-decoration: none;
       font-weight: 600;
-      padding: 0.5rem 1rem;
+      padding: 0.65rem 1.1rem;
       border-radius: 25px;
       border: 1px solid #00d9ff;
       transition: all 0.3s;
@@ -429,6 +460,30 @@
     .card a:hover {
       background: rgba(0, 217, 255, 0.1);
       transform: translateX(5px);
+    }
+
+    .project-links {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .project-links a {
+      flex: 1 1 48%;
+      margin-right: 0;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .project-links {
+        flex-direction: column;
+      }
+
+      .project-links a {
+        flex: 1 1 100%;
+      }
     }
 
     /* Footer */
@@ -531,10 +586,19 @@
 
       .stack-grid {
         gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+
+      .service-grid {
+        grid-template-columns: repeat(2, minmax(240px, 1fr));
       }
 
       .card {
         padding: 1.8rem;
+      }
+
+      .project-links a {
+        min-width: calc(50% - 0.5rem);
       }
     }
 
@@ -576,8 +640,23 @@
       }
 
       .grid,
-      .stack-grid {
+      .stack-grid,
+      .service-grid {
         grid-template-columns: 1fr;
+      }
+
+      .service-card,
+      .card {
+        min-height: auto;
+      }
+
+      .project-links {
+        flex-direction: column;
+      }
+
+      .project-links a {
+        flex: 1 1 100%;
+        width: 100%;
       }
 
       .stack-item {
@@ -683,39 +762,58 @@
       <h2>Proyectos Destacados</h2>
       <div class="grid">
         <article class="card">
-          <h3>🤖 ABAP AI Reviewer</h3>
+          <h3>ABAP AI Reviewer</h3>
           <p>Herramienta de análisis de código ABAP con IA local (Ollama + Monaco Editor). Evalúa calidad, detecta issues por severidad y propone mejoras concretas.</p>
+          <div class="project-tech">
+            <span class="project-tech-item"><img src="https://cdn.simpleicons.org/sap" alt="SAP"> SAP ABAP</span>
+            <span class="project-tech-item"><img src="https://cdn.simpleicons.org/python" alt="Python"> Python</span>
+            <span class="project-tech-item">Desarrollo</span>
+            <span class="project-tech-item">IA</span>
+          </div>
           <a href="sap-ia.html">Ver Demo →</a>
         </article>
         <article class="card">
-          <h3>🎓 Gestión de Alumnado</h3>
+          <h3>Gestión de Alumnado</h3>
           <p>Aplicación web fullstack para gestión de alumnado desarrollada con Django (Python) y PostgreSQL. Incluye autenticación, control de roles y despliegue en entorno de producción.</p>
+          <div class="project-tech">
+            <span class="project-tech-item"><img src="https://cdn.simpleicons.org/django" alt="Django"> Django</span>
+            <span class="project-tech-item"><img src="https://cdn.simpleicons.org/python" alt="Python"> Python</span>
+            <span class="project-tech-item"><img src="https://cdn.simpleicons.org/postgresql" alt="PostgreSQL"> PostgreSQL</span>
+          </div>
           <a href="FCT_Final (3).html">Ver Demo →</a>
         </article>
         <article class="card">
-          <h3>⚽ Futly</h3>
-          <p>Plataforma de gestión de fútbol base con backend FastAPI, roles diferenciados, partidos, convocatorias y estadísticas para entrenadores y familias.</p>
-          <a href="Futly.html">Ver Demo →</a>
+          <h3>Futly</h3>
+          <p>Web informativa del proyecto Futly, con detalles sobre su arquitectura, roles de usuario, partidos, convocatorias y estadísticas para fútbol base.</p>
+          <div class="project-tech">
+            <span class="project-tech-item"><img src="https://cdn.simpleicons.org/fastapi" alt="FastAPI"> FastAPI</span>
+            <span class="project-tech-item"><img src="https://cdn.simpleicons.org/python" alt="Python"> Python</span>
+            <span class="project-tech-item"><img src="https://cdn.simpleicons.org/docker" alt="Docker"> Docker</span>
+          </div>
+          <a href="Futly.html">Ver Sitio →</a>
         </article>
       </div>
     </section>
 
-    <section id="portfolios">
-      <h2>Creo Portfolios Profesionales</h2>
+    <section id="portfolio">
+      <h2>Portfolio Profesional</h2>
       <div class="grid">
         <article class="card">
-          <h3>🚀 Servicio de Portfolio Personal</h3>
-          <p>Diseño y desarrollo portfolios modernos, rápidos y responsive para mejorar tu marca personal y ayudarte a destacar en procesos de selección.</p>
+          <h3>Servicio de Portfolio</h3>
+          <p>Creación de portfolios personalizados, modernos y responsive para profesionales IT que desean destacar su experiencia y proyectos con estilo técnico y claro.</p>
           <a href="mailto:pcaballero155@gmail.com?subject=Solicitud%20de%20Portfolio&body=Hola%20Pablo%2C%20me%20gustar%C3%ADa%20solicitar%20un%20portfolio.%0A%0ANombre%3A%20%0AProfesi%C3%B3n%3A%20">Solicitar Portfolio →</a>
         </article>
         <article class="card">
-          <h3>🧩 Ejemplos reales</h3>
-          <p>Referencias de estilo y estructura de portfolios que tomo como base para crear versiones personalizadas según perfil profesional y objetivos.</p>
-          <a href="https://hectorgibaja.netlify.app/" target="_blank" rel="noopener noreferrer">Ver ejemplo 1 →</a>
-          <a href="https://gemmaherranz.pages.dev/" target="_blank" rel="noopener noreferrer">Ver ejemplo 2 →</a>
+          <h3>Referencias de Portfolio</h3>
+          <p>Ejemplos de diseños pensados para candidaturas IT y proyectos profesionales, con estructura clara, navegación ágil y contenido visual enfocado a la experiencia.</p>
+          <div class="project-links">
+            <a href="https://hectorgibaja.netlify.app/" target="_blank" rel="noopener noreferrer">Ver ejemplo 1 →</a>
+            <a href="https://gemmaherranz.pages.dev/" target="_blank" rel="noopener noreferrer">Ver ejemplo 2 →</a>
+          </div>
         </article>
       </div>
     </section>
+
   </main>
 
   <footer class="footer">
