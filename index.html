@@ -505,8 +505,14 @@
 
     /* Footer */
     .footer {
-      background: rgba(6,6,14,0.85); border-top: 1px solid rgba(80,150,190,0.06);
-      padding: 2rem; text-align: center; color: #bfcfe0; margin-top: 4rem;
+      background: rgba(6,6,14,0.85);
+      padding: 0.75rem 1rem; text-align: center; color: #bfcfe0; margin-top: 2rem;
+      position: relative;
+    }
+    .footer::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 120px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(80,150,190,0.35), transparent);
     }
     .footer a { color: #64c8ff; text-decoration: none; transition: color 0.3s; }
     .footer a:hover { color: #00d9ff; }
