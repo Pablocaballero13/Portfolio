@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0b1a2e"/>
+      <stop offset="100%" stop-color="#05050a"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Fondo -->
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+
+  <!-- Anillo exterior giratorio -->
+  <circle cx="16" cy="16" r="13" fill="none" stroke="#64c8ff" stroke-width="1" stroke-dasharray="6 4" opacity="0.5">
+    <animateTransform attributeName="transform" type="rotate" from="0 16 16" to="360 16 16" dur="6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Anillo interior giratorio inverso -->
+  <circle cx="16" cy="16" r="9" fill="none" stroke="#00d9ff" stroke-width="0.8" stroke-dasharray="3 5" opacity="0.4">
+    <animateTransform attributeName="transform" type="rotate" from="360 16 16" to="0 16 16" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Letra P -->
+  <text x="16" y="21" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#64c8ff">P
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="2.5s" repeatCount="indefinite"/>
+  </text>
+
+  <!-- Punto de brillo orbitando -->
+  <circle r="1.5" fill="#00d9ff" opacity="0.9">
+    <animateMotion dur="3s" repeatCount="indefinite">
+      <mpath href="#orbit"/>
+    </animateMotion>
+    <animate attributeName="opacity" values="0.9;0.3;0.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <path id="orbit" d="M 16,3 A 13,13 0 1 1 15.99,3" fill="none"/>
+
+</svg>
