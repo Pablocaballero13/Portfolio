@@ -408,8 +408,8 @@
       height: auto;
       min-height: 220px;
       border-radius: 18px;
-      border: 2px solid rgba(100, 200, 255, 0.18);
-      background: rgba(8, 20, 36, 0.85);
+      border: 2px solid rgba(100, 200, 255, 0.28);
+      background: linear-gradient(145deg, rgba(12, 28, 52, 0.94), rgba(8, 20, 44, 0.92));
       backdrop-filter: blur(12px);
       padding: 1.8rem 2rem;
       display: flex;
@@ -433,7 +433,7 @@
       position: absolute;
       right: -4px; top: -5%;
       width: 52%; height: 110%;
-      background: linear-gradient(to left, #060610 35%, transparent);
+      background: linear-gradient(to left, rgba(6, 14, 32, 0.95) 35%, transparent);
       pointer-events: none;
       border-radius: 0 14px 14px 0;
       transition: opacity 0.4s;
@@ -449,41 +449,45 @@
       z-index: 2;
     }
 
-    /* ── default stacking ── */
+    /* ── default stacking (depth via blue tint, not grayscale) ── */
     .display-card:nth-child(1) {
-      translate: -80px -30px; z-index: 1; filter: grayscale(0.85);
+      translate: 160px 200px; z-index: 4;
     }
-    .display-card:nth-child(1)::before { background: rgba(4,8,18,0.58); }
+    .display-card:nth-child(1)::before { background: rgba(6, 16, 36, 0); }
 
     .display-card:nth-child(2) {
-      translate: 0px 22px; z-index: 2; filter: grayscale(0.75);
+      translate: -80px -30px; z-index: 1;
     }
-    .display-card:nth-child(2)::before { background: rgba(4,8,18,0.38); }
+    .display-card:nth-child(2)::before { background: rgba(6, 16, 36, 0.22); }
 
     .display-card:nth-child(3) {
-      translate: 80px 80px; z-index: 3;
-      border-color: rgba(100,200,255,0.38);
-      background: rgba(10,26,50,0.95);
+      translate: 0px 22px; z-index: 2;
     }
-    .display-card:nth-child(3)::before { background: rgba(4,8,18,0); }
+    .display-card:nth-child(3)::before { background: rgba(6, 16, 36, 0.14); }
+
+    .display-card:nth-child(4) {
+      translate: 80px 80px; z-index: 3;
+    }
+    .display-card:nth-child(4)::before { background: rgba(6, 16, 36, 0.08); }
 
     /* ── HOVER: card expands and floats up in big ── */
     .display-card:hover {
       transform: skewY(0deg) scale(1.18);
       z-index: 20 !important;
       filter: grayscale(0) !important;
-      border-color: rgba(100,200,255,0.75) !important;
-      background: rgba(6,18,38,0.98) !important;
+      border-color: rgba(100, 200, 255, 0.55) !important;
+      background: rgba(8, 20, 40, 0.98) !important;
       box-shadow:
-        0 0 0 1px rgba(100,200,255,0.25),
-        0 30px 70px rgba(0,0,0,0.5),
-        0 0 60px rgba(100,200,255,0.18);
+        0 0 0 1px rgba(100, 200, 255, 0.2),
+        0 30px 70px rgba(0, 0, 0, 0.5),
+        0 0 50px rgba(100, 200, 255, 0.12);
     }
-    .display-card:nth-child(1):hover { translate: -80px -130px; }
-    .display-card:nth-child(2):hover { translate:   0px  -75px; }
-    .display-card:nth-child(3):hover { translate:  80px   15px; }
+    .display-card:nth-child(1):hover { translate: 160px  60px; }
+    .display-card:nth-child(2):hover { translate: -80px -130px; }
+    .display-card:nth-child(3):hover { translate:   0px  -75px; }
+    .display-card:nth-child(4):hover { translate:  80px   15px; }
 
-    .display-card:hover::before { background: rgba(4,8,18,0) !important; }
+    .display-card:hover::before { background: rgba(6, 16, 36, 0) !important; }
     .display-card:hover::after  { opacity: 0; }
 
     /* inner layout — all z-index above overlays */
@@ -494,29 +498,29 @@
     .dc-icon {
       display: flex; align-items: center; justify-content: center;
       width: 44px; height: 44px; border-radius: 50%;
-      background: rgba(0,120,180,0.4);
+      background: rgba(100, 200, 255, 0.12);
       flex-shrink: 0;
       transition: transform 0.4s;
     }
     .display-card:hover .dc-icon { transform: scale(1.15); }
     .dc-title {
-      font-size: 1.3rem; font-weight: 700; color: #64c8ff;
+      font-size: 1.3rem; font-weight: 700; color: #7ecfff;
       transition: font-size 0.3s;
     }
     .display-card:hover .dc-title { color: #9adefd; }
     .dc-desc {
-      font-size: 0.95rem; color: #b3c8db; line-height: 1.65;
+      font-size: 0.95rem; color: #a8c4dc; line-height: 1.65;
       position: relative; z-index: 3;
       transition: color 0.3s;
     }
-    .display-card:hover .dc-desc { color: #d0e8f8; }
+    .display-card:hover .dc-desc { color: #c8dff0; }
     .dc-date {
-      font-size: 0.85rem; color: #5a7a96;
+      font-size: 0.85rem; color: #6a8faa;
       display: flex; align-items: center; gap: 0.4rem;
       position: relative; z-index: 3;
       transition: color 0.3s;
     }
-    .display-card:hover .dc-date { color: #7aa4c0; }
+    .display-card:hover .dc-date { color: #8ab4cc; }
     .dc-btn {
       display: inline-flex;
       align-items: center;
@@ -524,9 +528,9 @@
       margin-top: 0.6rem;
       padding: 0.5rem 1.1rem;
       border-radius: 999px;
-      border: 1px solid rgba(100,200,255,0.45);
-      background: rgba(100,200,255,0.08);
-      color: #64c8ff;
+      border: 1px solid rgba(100, 200, 255, 0.35);
+      background: rgba(100, 200, 255, 0.08);
+      color: #7ecfff;
       font-size: 0.8rem;
       font-weight: 600;
       text-decoration: none;
@@ -536,8 +540,8 @@
       pointer-events: auto;
     }
     .dc-btn:hover {
-      background: rgba(100,200,255,0.2);
-      border-color: rgba(100,200,255,0.75);
+      background: rgba(100, 200, 255, 0.18);
+      border-color: rgba(100, 200, 255, 0.6);
       color: #fff;
       transform: translateX(3px);
     }
@@ -545,11 +549,12 @@
     @media (max-width: 560px) {
       .display-stack { width: 360px; height: 380px; }
       .display-card  { width: 320px; }
-      .display-card:nth-child(1) { translate: -40px -22px; }
+      .display-card:nth-child(1) { translate: 80px 110px; }
       .display-card:nth-child(3) { translate:  40px  55px; }
-      .display-card:nth-child(1):hover { translate: -40px -110px; }
-      .display-card:nth-child(2):hover { translate:   0px  -60px; }
-      .display-card:nth-child(3):hover { translate:  40px   10px; }
+      .display-card:nth-child(1):hover { translate:  80px   35px; }
+      .display-card:nth-child(2):hover { translate: -40px -110px; }
+      .display-card:nth-child(3):hover { translate:   0px  -60px; }
+      .display-card:nth-child(4):hover { translate:  40px   10px; }
     }
 
     /* ── Scroll Animations ── */
@@ -862,7 +867,8 @@
       }
       .display-card:nth-child(1),
       .display-card:nth-child(2),
-      .display-card:nth-child(3) {
+      .display-card:nth-child(3),
+      .display-card:nth-child(4) {
         translate: 0 0 !important;
         filter: none !important;
         z-index: 1 !important;
@@ -1106,7 +1112,7 @@
           <!-- Carta 1: ABAP AI Reviewer -->
           <div class="display-card">
             <div class="dc-top">
-              <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64c8ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
+              <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ecfff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
               <span class="dc-title">ABAP AI Reviewer</span>
             </div>
             <p class="dc-desc">Herramienta de análisis de código ABAP con IA local (Ollama + Monaco Editor). Evalúa calidad, detecta issues por severidad y propone mejoras concretas.</p>
@@ -1117,7 +1123,7 @@
           <!-- Carta 2: Gestión de Alumnado -->
           <div class="display-card">
             <div class="dc-top">
-              <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64c8ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
+              <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ecfff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
               <span class="dc-title">Gestión de Alumnado</span>
             </div>
             <p class="dc-desc">Aplicación web fullstack para gestión de alumnado con Django y PostgreSQL. Autenticación, control de roles y despliegue en producción.</p>
@@ -1128,12 +1134,23 @@
           <!-- Carta 3: Futly -->
           <div class="display-card">
             <div class="dc-top">
-              <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64c8ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></div>
+              <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ecfff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></div>
               <span class="dc-title">Futly</span>
             </div>
             <p class="dc-desc">Web informativa del proyecto Futly, con detalles sobre arquitectura, roles, partidos, convocatorias y estadísticas para fútbol base.</p>
             <span class="dc-date">FastAPI · Python · Docker</span>
             <a href="Futly.html" class="dc-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Ver Sitio</a>
+          </div>
+
+          <!-- Carta 4: WebHyundai -->
+          <div class="display-card">
+            <div class="dc-top">
+              <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ecfff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="17" x2="22" y2="17"/><polyline points="15 17 15 21 9 21 9 17"/></svg></div>
+              <span class="dc-title">WebHyundai</span>
+            </div>
+            <p class="dc-desc">Sitio web responsive para Hyundai con galería de modelos, especificaciones técnicas y funcionalidades interactivas de alto impacto visual.</p>
+            <span class="dc-date">HTML · CSS · JavaScript</span>
+            <a href="https://pablocaballero13.github.io/WebHyundai/" target="_blank" rel="noopener noreferrer" class="dc-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Ver Sitio</a>
           </div>
 
         </div>
@@ -1181,6 +1198,12 @@
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
+            
+            // Si se revela el h2 de Servicios, también revela las tarjetas de Proyectos
+            if (entry.target.textContent.includes('Servicios')) {
+              const displayCards = document.querySelector('.display-cards-section');
+              if (displayCards) displayCards.classList.add('visible');
+            }
           } else {
             entry.target.classList.remove('visible');
           }
