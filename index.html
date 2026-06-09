@@ -128,9 +128,12 @@
     }
 
     .hero h1 {
-      font-size: clamp(3.5rem, 10vw, 7.3rem);
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #2c5f8c, #007bbf, #5cc8ff);
+      font-size: clamp(4.2rem, 10vw, 8.5rem);
+      margin-bottom: 0.35rem;
+      white-space: nowrap;
+      overflow-wrap: normal;
+      word-break: keep-all;
+      background: linear-gradient(135deg, #4eaed4, #00b4d9);
       background-size: 300% 300%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -162,7 +165,7 @@
     }
 
     .lead {
-      font-size: 1.7rem; color: #64c8ff; margin-bottom: 2rem;
+      font-size: 1.7rem; color: #ffffff; margin-bottom: 1.2rem;
       position: relative; z-index: 1; font-weight: 300; letter-spacing: 0.5px;
       max-width: none; white-space: nowrap; overflow-x: hidden; overflow-y: visible;
     }
@@ -182,7 +185,7 @@
     }
 
     .cta-buttons {
-      display: flex; gap: 1.5rem; justify-content: center;
+      display: flex; gap: 0.75rem; justify-content: center;
       position: relative; z-index: 1; flex-wrap: wrap;
     }
 
@@ -224,31 +227,140 @@
 
     .service-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
       margin-top: 2rem;
     }
+
     .service-card {
       position: relative;
-      background: rgba(8, 20, 36, 0.92);
-      border: 1px solid rgba(100, 200, 255, 0.18);
+      background: rgba(8, 20, 36, 0.85);
+      border: 1px solid rgba(100, 200, 255, 0.14);
       border-radius: 22px;
-      padding: 2rem;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.16);
-      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-      min-height: 240px;
+      padding: 2.2rem 2rem 2rem;
+      overflow: hidden;
+      min-height: 260px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      gap: 0.9rem;
+      transition:
+        border-color 0.45s ease,
+        background   0.45s ease,
+        box-shadow   0.45s ease,
+        transform    0.45s cubic-bezier(0.23,1,0.32,1);
     }
+
+    /* index number — top right */
+    .service-card .sc-index {
+      position: absolute;
+      top: 1.4rem; right: 1.8rem;
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1;
+      color: rgba(100,200,255,0.06);
+      transition: color 0.45s ease;
+      user-select: none;
+      pointer-events: none;
+      font-variant-numeric: tabular-nums;
+    }
+    .service-card:hover .sc-index {
+      color: rgba(100,200,255,0.12);
+    }
+
+    /* SVG icon with animated stroke */
+    .service-card .sc-icon {
+      width: 48px; height: 48px;
+      flex-shrink: 0;
+      position: relative; z-index: 1;
+    }
+    .service-card .sc-icon svg {
+      width: 48px; height: 48px;
+      overflow: visible;
+    }
+    .service-card .sc-icon svg path,
+    .service-card .sc-icon svg circle,
+    .service-card .sc-icon svg rect,
+    .service-card .sc-icon svg polyline,
+    .service-card .sc-icon svg line,
+    .service-card .sc-icon svg polygon {
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      transition: stroke-dashoffset 0.7s cubic-bezier(0.23,1,0.32,1);
+    }
+    .service-card:hover .sc-icon svg path,
+    .service-card:hover .sc-icon svg circle,
+    .service-card:hover .sc-icon svg rect,
+    .service-card:hover .sc-icon svg polyline,
+    .service-card:hover .sc-icon svg line,
+    .service-card:hover .sc-icon svg polygon {
+      stroke-dashoffset: 0;
+    }
+
+    /* Beam — vertical light ray from top */
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: -40px; left: 50%; transform: translateX(-50%);
+      width: 1px;
+      height: 0;
+      background: linear-gradient(to bottom, transparent, rgba(100,200,255,0.55), transparent);
+      transition: height 0.55s cubic-bezier(0.23,1,0.32,1), opacity 0.45s;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .service-card:hover::before {
+      height: 180px;
+      opacity: 1;
+    }
+
+    /* Bottom glow line */
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 20%; right: 20%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(100,200,255,0.35), transparent);
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.23,1,0.32,1);
+    }
+    .service-card:hover::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
     .service-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(100, 200, 255, 0.28);
-      background: rgba(15, 28, 48, 0.98);
-      box-shadow: 0 26px 55px rgba(0, 0, 0, 0.18);
+      transform: translateY(-6px);
+      border-color: rgba(100, 200, 255, 0.32);
+      background: rgba(10, 26, 50, 0.97);
+      box-shadow:
+        0 0 0 1px rgba(100,200,255,0.12),
+        0 24px 52px rgba(0,0,0,0.32),
+        0 0 40px rgba(100,200,255,0.08);
     }
-    .service-card h3 { font-size: 1.45rem; margin: 0 0 1rem; color: #c5e8ff; line-height: 1.2; }
-    .service-card p  { color: #b3c8db; line-height: 1.85; margin: 0; flex: 1 0 auto; }
+
+    .service-card h3 {
+      font-size: 1.3rem;
+      margin: 0;
+      color: #c5e8ff;
+      line-height: 1.25;
+      position: relative; z-index: 1;
+      transition: color 0.3s;
+    }
+    .service-card:hover h3 { color: #e8f8ff; }
+
+    .service-card p {
+      color: #8faec8;
+      line-height: 1.85;
+      margin: 0;
+      flex: 1 0 auto;
+      font-size: 0.95rem;
+      position: relative; z-index: 1;
+      transition: color 0.35s;
+    }
+    .service-card:hover p { color: #b3cfe4; }
 
     /* ── Container / sections ── */
     .container { max-width: 1200px; margin: 0 auto; padding: 2rem; position: relative; z-index: 1; overflow: visible; }
@@ -443,21 +555,21 @@
     /* ── Scroll Animations ── */
     .reveal {
       opacity: 0;
-      transform: translateY(80px) scale(0.92);
+      transform: translateY(420px) scale(0.8);
       will-change: opacity, transform;
-      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1),
-                  transform 0.8s cubic-bezier(0.22,1,0.36,1);
+      transition: opacity 0.95s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.95s cubic-bezier(0.22,1,0.36,1);
     }
     .hero h1.reveal {
       transition-delay: 0.12s;
     }
-    .reveal.reveal--left  { transform: translateX(-50px) scale(0.92); }
-    .reveal.reveal--right { transform: translateX(50px) scale(0.92); }
+    .reveal.reveal--left  { transform: translateX(-280px) scale(0.8); }
+    .reveal.reveal--right { transform: translateX(280px) scale(0.8); }
     .reveal.reveal--scale {
       opacity: 0;
-      transform: translateY(50px) scale(0.88);
-      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1),
-                  transform 0.8s cubic-bezier(0.22,1,0.36,1);
+      transform: translateY(340px) scale(0.74);
+      transition: opacity 0.95s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.95s cubic-bezier(0.22,1,0.36,1);
     }
     .reveal.visible {
       opacity: 1;
@@ -565,22 +677,98 @@
 
     /* Stack tecnológico */
     .stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 1.2rem; }
+
     .stack-item {
       background: linear-gradient(135deg, rgba(100,200,255,0.05) 0%, rgba(0,217,255,0.05) 100%);
       border: 1px solid rgba(100,200,255,0.2); border-radius: 12px;
       padding: 1.4rem 1rem; text-align: center;
-      transition: all 0.3s cubic-bezier(0.23,1,0.32,1); cursor: default;
+      cursor: default; position: relative; overflow: hidden;
+      transform-style: preserve-3d;
+      transition:
+        border-color 0.4s ease,
+        background   0.4s ease,
+        box-shadow   0.4s ease;
+      will-change: transform;
     }
+
+    /* Aurora glow layer — follows cursor via JS inline vars */
+    .stack-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        60px circle at var(--cx, 50%) var(--cy, 50%),
+        rgba(100, 200, 255, 0.22),
+        transparent 70%
+      );
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Shimmer sweep */
+    .stack-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(100,200,255,0.10) 50%,
+        transparent 70%
+      );
+      transform: translateX(-100%);
+      transition: transform 0s;
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .stack-item:hover {
-      transform: translateY(-6px); border-color: rgba(100,200,255,0.5);
-      background: linear-gradient(135deg, rgba(100,200,255,0.12) 0%, rgba(0,217,255,0.12) 100%);
-      box-shadow: 0 12px 30px rgba(100,200,255,0.2);
+      border-color: rgba(100,200,255,0.55);
+      background: linear-gradient(135deg, rgba(100,200,255,0.10) 0%, rgba(0,217,255,0.10) 100%);
+      box-shadow:
+        0 0 0 1px rgba(100,200,255,0.18),
+        0 16px 36px rgba(0,0,0,0.35),
+        0 0 28px rgba(100,200,255,0.14);
     }
-    .stack-item .icon { font-size: 2rem; margin-bottom: 0.6rem; display: block; }
-    .stack-item .icon img { width: 2rem; height: 2rem; object-fit: contain; transition: transform 0.3s; }
-    .stack-item:hover .icon img { transform: scale(1.15); }
-    .stack-item .name { font-size: 0.9rem; font-weight: 600; color: #64c8ff; display: block; }
-    .stack-item .type { font-size: 0.75rem; color: #8a8aaa; display: block; margin-top: 0.2rem; }
+
+    .stack-item:hover::before { opacity: 1; }
+
+    .stack-item:hover::after {
+      transform: translateX(100%);
+      transition: transform 0.55s ease;
+    }
+
+    .stack-item .icon {
+      font-size: 2rem; margin-bottom: 0.6rem; display: block;
+      position: relative; z-index: 1;
+    }
+    .stack-item .icon img {
+      width: 2rem; height: 2rem; object-fit: contain;
+      transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), filter 0.35s ease;
+      display: inline-block;
+    }
+    .stack-item:hover .icon img {
+      transform: scale(1.28) translateY(-3px);
+      filter: drop-shadow(0 0 8px rgba(100,200,255,0.6)) brightness(1.2);
+    }
+
+    .stack-item .name {
+      font-size: 0.9rem; font-weight: 600; color: #64c8ff; display: block;
+      position: relative; z-index: 1;
+      transition: color 0.3s;
+    }
+    .stack-item:hover .name { color: #a8dcff; }
+
+    .stack-item .type {
+      font-size: 0.75rem; color: #8a8aaa; display: block; margin-top: 0.2rem;
+      position: relative; z-index: 1;
+      transition: color 0.3s;
+    }
+    .stack-item:hover .type { color: #6a9ab8; }
 
     .stack-category {
       font-size: 0.8rem; font-weight: 700; letter-spacing: 2px;
@@ -623,7 +811,7 @@
       .hero-spline { display: none; }
       #heroCanvas  { display: none; }
 
-      .hero h1 { font-size: clamp(2.6rem, 13vw, 4rem); margin-bottom: 0.75rem; }
+      .hero h1 { font-size: clamp(3.2rem, 13vw, 5.5rem); margin-bottom: 0.75rem; white-space: nowrap; overflow-wrap: normal; word-break: keep-all; }
       .lead {
         font-size: 1.05rem;
         white-space: normal;
@@ -700,7 +888,7 @@
     /* Mobile pequeño */
     @media (max-width: 400px) {
       .nav-links a { font-size: 0.8rem; padding: 0.4rem 0.5rem; }
-      .hero h1 { font-size: 2.4rem; }
+      .hero h1 { font-size: 2.8rem; white-space: nowrap; overflow-wrap: normal; word-break: keep-all; }
       .lead { font-size: 0.95rem; }
       .stack-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
       .stack-item { padding: 0.8rem 0.5rem; }
@@ -774,7 +962,7 @@
       const knotGeo = new THREE.TorusKnotGeometry(1.1, 0.32, 180, 32);
       const knot = new THREE.Mesh(knotGeo, new THREE.MeshStandardMaterial({ color: 0x0a1a2e, roughness: 0.2, metalness: 0.9 }));
       const wire = new THREE.Mesh(knotGeo, new THREE.MeshBasicMaterial({ color: 0x64c8ff, wireframe: true, transparent: true, opacity: 0.07 }));
-      knot.position.x = wire.position.x = 3.5;
+      knot.position.x = wire.position.x = 5.3;
       scene.add(knot); scene.add(wire);
 
       scene.add(new THREE.AmbientLight(0x1a2a3a, 2));
@@ -800,7 +988,7 @@
         requestAnimationFrame(animate); t += 0.006;
         knot.rotation.x += 0.004; knot.rotation.y += 0.006;
         wire.rotation.copy(knot.rotation); wire.position.copy(knot.position);
-        knot.position.x += (3.5 + mx - knot.position.x) * 0.05;
+        knot.position.x += (5.3 + mx - knot.position.x) * 0.05;
         knot.position.y += (-my - knot.position.y) * 0.05;
         const pos = geo.attributes.position.array;
         for (let i = 0; i < COUNT; i++) { pos[i*3+1] += speeds[i]; if (pos[i*3+1] > 25) pos[i*3+1] = -25; }
@@ -820,18 +1008,52 @@
     <section id="servicios">
       <h2 class="reveal">Servicios</h2>
       <div class="service-grid reveal-stagger">
+
         <article class="service-card">
+          <span class="sc-index">01</span>
+          <div class="sc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#64c8ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="4" width="16" height="16" rx="2"/>
+              <rect x="9" y="9" width="6" height="6"/>
+              <line x1="9" y1="1" x2="9" y2="4"/>
+              <line x1="15" y1="1" x2="15" y2="4"/>
+              <line x1="9" y1="20" x2="9" y2="23"/>
+              <line x1="15" y1="20" x2="15" y2="23"/>
+              <line x1="20" y1="9" x2="23" y2="9"/>
+              <line x1="20" y1="14" x2="23" y2="14"/>
+              <line x1="1" y1="9" x2="4" y2="9"/>
+              <line x1="1" y1="14" x2="4" y2="14"/>
+            </svg>
+          </div>
           <h3>Soluciones SAP ABAP</h3>
           <p>Implementación y optimización de procesos SAP con ABAP, enfocada en automatización, calidad de código y conexión con SAP BTP.</p>
         </article>
+
         <article class="service-card">
+          <span class="sc-index">02</span>
+          <div class="sc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#64c8ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
           <h3>Desarrollo FullStack</h3>
           <p>Diseño y construcción de aplicaciones web modernas usando Java, Python y Angular, con un enfoque en rendimiento y UX profesional.</p>
         </article>
+
         <article class="service-card">
+          <span class="sc-index">03</span>
+          <div class="sc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#64c8ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
           <h3>Cloud &amp; DevOps</h3>
           <p>Arquitectura de soluciones en SAP BTP y AWS, sumada a prácticas DevOps para despliegues ágiles, seguros y escalables.</p>
         </article>
+
       </div>
     </section>
 
@@ -973,6 +1195,50 @@
       revealElements.forEach(el => el.classList.add('visible'));
     }
   </script>
+  <script id="stack-magnetic">
+    /* ── Stack items: magnetic 3D tilt + cursor glow ── */
+    (function() {
+      const TILT = 14;   // max degrees
+      const LIFT = -8;   // px rise
+
+      function attachMagnetic(card) {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const cx = e.clientX - rect.left;
+          const cy = e.clientY - rect.top;
+          const nx = (cx / rect.width  - 0.5) * 2;   // -1 to 1
+          const ny = (cy / rect.height - 0.5) * 2;
+
+          const rotX = -ny * TILT;
+          const rotY =  nx * TILT;
+
+          card.style.transform =
+            `perspective(480px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(${LIFT}px) scale(1.04)`;
+
+          // Update aurora glow position
+          card.style.setProperty('--cx', (cx / rect.width  * 100).toFixed(1) + '%');
+          card.style.setProperty('--cy', (cy / rect.height * 100).toFixed(1) + '%');
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = '';
+          card.style.setProperty('--cx', '50%');
+          card.style.setProperty('--cy', '50%');
+        });
+      }
+
+      function init() {
+        document.querySelectorAll('.stack-item').forEach(attachMagnetic);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+
   <script id="animated-favicon">
     (function() {
       var c = document.createElement("canvas");
