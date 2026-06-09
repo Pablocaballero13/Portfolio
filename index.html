@@ -136,10 +136,24 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-shadow: none;
-      animation: gradientShift 3s ease infinite;
       position: relative;
       z-index: 1;
       transition: filter 0.45s ease, text-shadow 0.45s ease;
+    }
+
+    .hero h1.reveal {
+      opacity: 0;
+      transform: translateY(80px) scale(0.92);
+      animation: heroReveal 1.3s cubic-bezier(0.22,1,0.36,1) 0.1s forwards;
+      will-change: opacity, transform;
+    }
+
+    .hero .lead.reveal,
+    .hero .cta-buttons.reveal {
+      opacity: 0;
+      transform: translateY(60px) scale(0.96);
+      animation: heroReveal 1.4s cubic-bezier(0.22,1,0.36,1) 0.3s forwards;
+      will-change: opacity, transform;
     }
 
     .hero h1:hover {
@@ -429,43 +443,54 @@
     /* ── Scroll Animations ── */
     .reveal {
       opacity: 0;
-      translate: 0 40px;
-      will-change: opacity, translate;
-      transition: opacity 0.65s cubic-bezier(0.23,1,0.32,1),
-                  translate 0.65s cubic-bezier(0.23,1,0.32,1);
+      transform: translateY(80px) scale(0.92);
+      will-change: opacity, transform;
+      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.8s cubic-bezier(0.22,1,0.36,1);
     }
-    .reveal.reveal--left  { translate: -50px 0; }
-    .reveal.reveal--right { translate:  50px 0; }
+    .hero h1.reveal {
+      transition-delay: 0.12s;
+    }
+    .reveal.reveal--left  { transform: translateX(-50px) scale(0.92); }
+    .reveal.reveal--right { transform: translateX(50px) scale(0.92); }
     .reveal.reveal--scale {
       opacity: 0;
-      translate: 0 24px;
-      scale: 0.94;
-      transition: opacity 0.65s cubic-bezier(0.23,1,0.32,1),
-                  translate 0.65s cubic-bezier(0.23,1,0.32,1),
-                  scale 0.65s cubic-bezier(0.23,1,0.32,1);
+      transform: translateY(50px) scale(0.88);
+      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.8s cubic-bezier(0.22,1,0.36,1);
     }
     .reveal.visible {
       opacity: 1;
-      translate: 0 0;
-      scale: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    @keyframes heroReveal {
+      from {
+        opacity: 0;
+        transform: translateY(80px) scale(0.92);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     .reveal-stagger > * {
       opacity: 0;
-      translate: 0 32px;
-      will-change: opacity, translate;
+      transform: translateY(32px);
+      will-change: opacity, transform;
       transition: opacity 0.55s cubic-bezier(0.23,1,0.32,1),
-                  translate 0.55s cubic-bezier(0.23,1,0.32,1);
+                  transform 0.55s cubic-bezier(0.23,1,0.32,1);
     }
-    .reveal-stagger.visible > *:nth-child(1)  { opacity:1; translate:0 0; transition-delay:0s;   }
-    .reveal-stagger.visible > *:nth-child(2)  { opacity:1; translate:0 0; transition-delay:0.1s; }
-    .reveal-stagger.visible > *:nth-child(3)  { opacity:1; translate:0 0; transition-delay:0.2s; }
-    .reveal-stagger.visible > *:nth-child(4)  { opacity:1; translate:0 0; transition-delay:0.3s; }
-    .reveal-stagger.visible > *:nth-child(5)  { opacity:1; translate:0 0; transition-delay:0.4s; }
-    .reveal-stagger.visible > *:nth-child(6)  { opacity:1; translate:0 0; transition-delay:0.5s; }
-    .reveal-stagger.visible > *:nth-child(7)  { opacity:1; translate:0 0; transition-delay:0.6s; }
-    .reveal-stagger.visible > *:nth-child(8)  { opacity:1; translate:0 0; transition-delay:0.7s; }
-    .reveal-stagger.visible > *:nth-child(n+9){ opacity:1; translate:0 0; transition-delay:0.8s; }
+    .reveal-stagger.visible > *:nth-child(1)  { opacity:1; transform:translateY(0); transition-delay:0s;   }
+    .reveal-stagger.visible > *:nth-child(2)  { opacity:1; transform:translateY(0); transition-delay:0.1s; }
+    .reveal-stagger.visible > *:nth-child(3)  { opacity:1; transform:translateY(0); transition-delay:0.2s; }
+    .reveal-stagger.visible > *:nth-child(4)  { opacity:1; transform:translateY(0); transition-delay:0.3s; }
+    .reveal-stagger.visible > *:nth-child(5)  { opacity:1; transform:translateY(0); transition-delay:0.4s; }
+    .reveal-stagger.visible > *:nth-child(6)  { opacity:1; transform:translateY(0); transition-delay:0.5s; }
+    .reveal-stagger.visible > *:nth-child(7)  { opacity:1; transform:translateY(0); transition-delay:0.6s; }
+    .reveal-stagger.visible > *:nth-child(8)  { opacity:1; transform:translateY(0); transition-delay:0.7s; }
+    .reveal-stagger.visible > *:nth-child(n+9){ opacity:1; transform:translateY(0); transition-delay:0.8s; }
 
     /* Underline reveal for h2 */
     h2.reveal::after         { height: 0; opacity: 0; }
@@ -696,9 +721,9 @@
   <header class="hero" id="hero">
     <div class="hero-spotlight" id="heroSpotlight"></div>
     <div class="hero-content">
-      <h1>Pablo Caballero</h1>
-      <p class="lead">SAP ABAP &amp; BTP Developer | FullStack developer (Java · Python · Django...)</p>
-      <div class="cta-buttons">
+      <h1 class="reveal">Pablo Caballero</h1>
+      <p class="lead reveal">SAP ABAP &amp; BTP Developer | FullStack developer (Java · Python · Django...)</p>
+      <div class="cta-buttons reveal">
         <a href="cv.html" class="btn btn-primary">Ver CV</a>
         <a href="#proyectos-destacados" class="btn btn-ghost">Ver Proyectos</a>
       </div>
@@ -918,8 +943,18 @@
   </footer>
   <script>
     /* ── Scroll Reveal (bidireccional) ── */
-    /* Scroll reveal solo en desktop */
-    if (window.innerWidth > 768) {
+    const revealElements = Array.from(document.querySelectorAll('.reveal, .reveal-stagger'));
+
+    function revealInView() {
+      revealElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          el.classList.add('visible');
+        }
+      });
+    }
+
+    if ('IntersectionObserver' in window && window.innerWidth > 768) {
       const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -930,15 +965,55 @@
         });
       }, { threshold: 0.08 });
 
-      document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
-        revealObserver.observe(el);
-      });
+      revealElements.forEach(el => revealObserver.observe(el));
+      window.requestAnimationFrame(revealInView);
+      setTimeout(revealInView, 80);
     } else {
-      /* En móvil: todo visible desde el principio */
-      document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
-        el.classList.add('visible');
-      });
+      /* En móvil o navegador sin IntersectionObserver: todo visible desde el principio */
+      revealElements.forEach(el => el.classList.add('visible'));
     }
+  </script>
+  <script id="animated-favicon">
+    (function() {
+      var c = document.createElement("canvas");
+      c.width = c.height = 32;
+      var ctx = c.getContext("2d");
+      var link = document.querySelector('link[rel~="icon"]');
+      if (!link) { link = document.createElement("link"); link.rel = "icon"; document.head.appendChild(link); }
+      var angle = 0, pulse = 0, last = 0;
+      var FPS = 15, interval = 1000 / FPS;
+      function draw(ts) {
+        requestAnimationFrame(draw);
+        if (ts - last < interval) return;
+        last = ts;
+        ctx.clearRect(0, 0, 32, 32);
+        ctx.fillStyle = "#0b1a2e";
+        ctx.beginPath();
+        ctx.roundRect(0, 0, 32, 32, 7);
+        ctx.fill();
+        ctx.save(); ctx.translate(16, 16);
+        ctx.save(); ctx.rotate(angle);
+        ctx.setLineDash([6, 4]); ctx.strokeStyle = "rgba(100,200,255,0.5)"; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(0, 0, 13, 0, Math.PI*2); ctx.stroke();
+        ctx.restore();
+        ctx.save(); ctx.rotate(-angle * 1.5);
+        ctx.setLineDash([3, 5]); ctx.strokeStyle = "rgba(0,217,255,0.4)"; ctx.lineWidth = 0.8;
+        ctx.beginPath(); ctx.arc(0, 0, 9, 0, Math.PI*2); ctx.stroke();
+        ctx.restore();
+        var op = 0.7 + Math.sin(pulse) * 0.3;
+        ctx.font = "bold 14px Segoe UI,sans-serif"; ctx.fillStyle = "rgba(100,200,255,"+op+")";
+        ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillText("P", 0, 1);
+        var dx = Math.cos(angle*2)*13, dy = Math.sin(angle*2)*13;
+        var dop = 0.5 + Math.sin(pulse*1.5)*0.4;
+        ctx.beginPath(); ctx.arc(dx, dy, 1.5, 0, Math.PI*2);
+        ctx.fillStyle = "rgba(0,217,255,"+dop+")"; ctx.fill();
+        ctx.restore();
+        angle += 0.05; pulse += 0.15;
+        link.href = c.toDataURL("image/png");
+      }
+      requestAnimationFrame(draw);
+    })();
   </script>
 </body>
 </html>
