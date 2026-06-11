@@ -86,13 +86,11 @@
     .hero {
       min-height: 90vh;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
       align-items: flex-start;
       padding: 4rem 0 0 0;
       position: relative;
     }
-
-
 
     .hero-spotlight {
       position: absolute; inset: 0; z-index: 0; pointer-events: none;
@@ -103,28 +101,30 @@
     .hero-content {
       display: flex; flex-direction: column; justify-content: center;
       align-items: flex-start; text-align: left;
-      position: relative; z-index: 1;
+      position: relative; z-index: 3;
       padding: 4rem 4rem 3rem 7.5rem; gap: 0;
     }
-
     .hero-spline {
       position: relative; height: 100%; min-height: 90vh;
-      width: 100%; overflow: hidden; z-index: 1;
+      width: 100%; overflow: visible; z-index: 1; isolation: isolate; pointer-events: none;
+      margin-left: -18%;
     }
-
-    #heroCanvas {
-      position: fixed !important; top: 0; left: 0;
-      width: 100vw !important; height: 100vh !important;
-      pointer-events: none; z-index: 0;
+    spline-viewer {
+      display: block;
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: none; pointer-events: auto;
+      z-index: 2;
+      transform: translateX(24%) translateY(-8%) scale(1.05);
+      transform-origin: center;
+      filter: drop-shadow(0 0 28px rgba(78,174,212,0.34)) brightness(1.12);
     }
-
-    @keyframes spin  { to { transform: rotate(360deg); } }
-    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(30px); } }
 
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; }
       .hero-content { align-items: center; text-align: center; padding: 3rem 1.5rem 2rem; }
-      .hero-spline  { min-height: 360px; height: 360px; }
+      /* Robot oculto en tablets horizontales / pantallas medianas */
+      .hero-spline  { display: none !important; }
     }
 
     .hero h1 {
@@ -224,7 +224,6 @@
     }
     .btn-ghost:active { transform: translateY(0); background: rgba(100,200,255,0.12); }
 
-
     .service-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -292,9 +291,37 @@
     .service-card:hover .sc-icon svg rect,
     .service-card:hover .sc-icon svg polyline,
     .service-card:hover .sc-icon svg line,
-    .service-card:hover .sc-icon svg polygon {
+    .service-card:hover .sc-icon svg polygon,
+    .service-card.animate-in .sc-icon svg path,
+    .service-card.animate-in .sc-icon svg circle,
+    .service-card.animate-in .sc-icon svg rect,
+    .service-card.animate-in .sc-icon svg polyline,
+    .service-card.animate-in .sc-icon svg line,
+    .service-card.animate-in .sc-icon svg polygon {
       stroke-dashoffset: 0;
     }
+
+    /* animate-in: replicates all hover effects on scroll reveal */
+    .service-card.animate-in {
+      transform: translateY(-6px);
+      border-color: rgba(100, 200, 255, 0.32);
+      background: rgba(10, 26, 50, 0.97);
+      box-shadow:
+        0 0 0 1px rgba(100,200,255,0.12),
+        0 24px 52px rgba(0,0,0,0.32),
+        0 0 40px rgba(100,200,255,0.08);
+    }
+    .service-card.animate-in::before {
+      height: 180px;
+      opacity: 1;
+    }
+    .service-card.animate-in::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+    .service-card.animate-in h3 { color: #e8f8ff; }
+    .service-card.animate-in p  { color: #b3cfe4; }
+    .service-card.animate-in .sc-index { color: rgba(100,200,255,0.12); }
 
     /* Beam — vertical light ray from top */
     .service-card::before {
@@ -388,7 +415,6 @@
       align-items: center;
       padding: 2rem 0 10rem;
       overflow: visible;
-
     }
 
     .display-stack {
@@ -594,20 +620,20 @@
 
     .reveal-stagger > * {
       opacity: 0;
-      transform: translateY(32px);
+      transform: translateX(-60px) translateY(16px);
       will-change: opacity, transform;
-      transition: opacity 0.55s cubic-bezier(0.23,1,0.32,1),
-                  transform 0.55s cubic-bezier(0.23,1,0.32,1);
+      transition: opacity 0.6s cubic-bezier(0.23,1,0.32,1),
+                  transform 0.6s cubic-bezier(0.23,1,0.32,1);
     }
-    .reveal-stagger.visible > *:nth-child(1)  { opacity:1; transform:translateY(0); transition-delay:0s;   }
-    .reveal-stagger.visible > *:nth-child(2)  { opacity:1; transform:translateY(0); transition-delay:0.1s; }
-    .reveal-stagger.visible > *:nth-child(3)  { opacity:1; transform:translateY(0); transition-delay:0.2s; }
-    .reveal-stagger.visible > *:nth-child(4)  { opacity:1; transform:translateY(0); transition-delay:0.3s; }
-    .reveal-stagger.visible > *:nth-child(5)  { opacity:1; transform:translateY(0); transition-delay:0.4s; }
-    .reveal-stagger.visible > *:nth-child(6)  { opacity:1; transform:translateY(0); transition-delay:0.5s; }
-    .reveal-stagger.visible > *:nth-child(7)  { opacity:1; transform:translateY(0); transition-delay:0.6s; }
-    .reveal-stagger.visible > *:nth-child(8)  { opacity:1; transform:translateY(0); transition-delay:0.7s; }
-    .reveal-stagger.visible > *:nth-child(n+9){ opacity:1; transform:translateY(0); transition-delay:0.8s; }
+    .reveal-stagger.visible > *:nth-child(1)  { opacity:1; transform:translate(0,0); transition-delay:0s;    }
+    .reveal-stagger.visible > *:nth-child(2)  { opacity:1; transform:translate(0,0); transition-delay:0.10s; }
+    .reveal-stagger.visible > *:nth-child(3)  { opacity:1; transform:translate(0,0); transition-delay:0.20s; }
+    .reveal-stagger.visible > *:nth-child(4)  { opacity:1; transform:translate(0,0); transition-delay:0.30s; }
+    .reveal-stagger.visible > *:nth-child(5)  { opacity:1; transform:translate(0,0); transition-delay:0.38s; }
+    .reveal-stagger.visible > *:nth-child(6)  { opacity:1; transform:translate(0,0); transition-delay:0.46s; }
+    .reveal-stagger.visible > *:nth-child(7)  { opacity:1; transform:translate(0,0); transition-delay:0.54s; }
+    .reveal-stagger.visible > *:nth-child(8)  { opacity:1; transform:translate(0,0); transition-delay:0.62s; }
+    .reveal-stagger.visible > *:nth-child(n+9){ opacity:1; transform:translate(0,0); transition-delay:0.70s; }
 
     /* Underline reveal for h2 */
     h2.reveal::after         { height: 0; opacity: 0; }
@@ -622,7 +648,6 @@
 
     .card {
       background: linear-gradient(135deg, rgba(80,140,170,0.03) 0%, rgba(0,140,170,0.03) 100%);
-
       border-radius: 12px; padding: 2rem;
       transition: all 0.3s cubic-bezier(0.23,1,0.320,1);
       position: relative; overflow: hidden; min-height: 260px;
@@ -801,7 +826,7 @@
       .nav-links { gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
       .nav-links a { font-size: 0.9rem; padding: 0.5rem 0.6rem; }
 
-      /* Hero: columna única, 3D canvas oculto */
+      /* Hero: columna unica, robot COMPLETAMENTE OCULTO */
       .hero {
         grid-template-columns: 1fr;
         min-height: auto;
@@ -813,10 +838,10 @@
         padding: 5rem 1.5rem 3rem;
         gap: 0;
       }
-      .hero-spline { display: none; }
-      #heroCanvas  { display: none; }
+      /* Se quita la visualización del robot en pantallas móviles */
+      .hero-spline { display: none !important; }
 
-      .hero h1 { font-size: clamp(3.2rem, 13vw, 5.5rem); margin-bottom: 0.75rem; white-space: nowrap; overflow-wrap: normal; word-break: keep-all; }
+      .hero h1 { font-size: clamp(2.4rem, 11vw, 5.5rem); margin-bottom: 0.75rem; white-space: normal; overflow-wrap: break-word; word-break: break-word; }
       .lead {
         font-size: 1.05rem;
         white-space: normal;
@@ -894,7 +919,7 @@
     /* Mobile pequeño */
     @media (max-width: 400px) {
       .nav-links a { font-size: 0.8rem; padding: 0.4rem 0.5rem; }
-      .hero h1 { font-size: 2.8rem; white-space: nowrap; overflow-wrap: normal; word-break: keep-all; }
+      .hero h1 { font-size: clamp(2rem, 10vw, 3rem); white-space: normal; overflow-wrap: break-word; word-break: break-word; }
       .lead { font-size: 0.95rem; }
       .stack-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
       .stack-item { padding: 0.8rem 0.5rem; }
@@ -922,12 +947,12 @@
         <a href="#proyectos-destacados" class="btn btn-ghost">Ver Proyectos</a>
       </div>
     </div>
-    <div class="hero-spline">
-      <canvas id="heroCanvas"></canvas>
+    <div class="hero-spline" id="heroSpline">
+      <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" background="transparent" loading-anim-type="spinner-small-light"></spline-viewer>
     </div>
   </header>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
   <script>
     /* ── Spotlight ── */
     const hero = document.getElementById('hero');
@@ -938,79 +963,10 @@
       const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1) + '%';
       spotlight.style.background = `radial-gradient(600px circle at ${x} ${y}, rgba(100,200,255,0.13), transparent 60%)`;
     });
-
-    /* ── Three.js particles (solo desktop) ── */
-    const isMobile = window.innerWidth <= 768;
-    const canvas = document.getElementById('heroCanvas');
-
-    if (!isMobile) {
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-      const scene  = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 200);
-      camera.position.z = 8;
-
-      const COUNT = 2800;
-      const positions = new Float32Array(COUNT * 3);
-      const speeds    = new Float32Array(COUNT);
-      for (let i = 0; i < COUNT; i++) {
-        positions[i*3]   = (Math.random() - 0.5) * 28;
-        positions[i*3+1] = (Math.random() - 0.5) * 50;
-        positions[i*3+2] = (Math.random() - 0.5) * 10;
-        speeds[i] = 0.002 + Math.random() * 0.004;
-      }
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      const mat = new THREE.PointsMaterial({ color: 0x64c8ff, size: 0.022, transparent: true, opacity: 0.18, sizeAttenuation: true });
-      scene.add(new THREE.Points(geo, mat));
-
-      const knotGeo = new THREE.TorusKnotGeometry(1.1, 0.32, 180, 32);
-      const knot = new THREE.Mesh(knotGeo, new THREE.MeshStandardMaterial({ color: 0x0a1a2e, roughness: 0.2, metalness: 0.9 }));
-      const wire = new THREE.Mesh(knotGeo, new THREE.MeshBasicMaterial({ color: 0x64c8ff, wireframe: true, transparent: true, opacity: 0.07 }));
-      knot.position.x = wire.position.x = 5.3;
-      scene.add(knot); scene.add(wire);
-
-      scene.add(new THREE.AmbientLight(0x1a2a3a, 2));
-      const dl = new THREE.DirectionalLight(0x64c8ff, 3); dl.position.set(3,4,5); scene.add(dl);
-      const rl = new THREE.DirectionalLight(0x00d9ff, 1.5); rl.position.set(-4,-2,-3); scene.add(rl);
-
-      let mx = 0, my = 0;
-      document.addEventListener('mousemove', e => {
-        mx = (e.clientX / window.innerWidth  - 0.5) * 0.6;
-        my = (e.clientY / window.innerHeight - 0.5) * 0.4;
-      });
-
-      function resize() {
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-      }
-      resize(); window.addEventListener('resize', resize);
-      window.addEventListener('scroll', () => { camera.position.y = -window.scrollY / window.innerHeight * 12; });
-
-      let t = 0;
-      (function animate() {
-        requestAnimationFrame(animate); t += 0.006;
-        knot.rotation.x += 0.004; knot.rotation.y += 0.006;
-        wire.rotation.copy(knot.rotation); wire.position.copy(knot.position);
-        knot.position.x += (5.3 + mx - knot.position.x) * 0.05;
-        knot.position.y += (-my - knot.position.y) * 0.05;
-        const pos = geo.attributes.position.array;
-        for (let i = 0; i < COUNT; i++) { pos[i*3+1] += speeds[i]; if (pos[i*3+1] > 25) pos[i*3+1] = -25; }
-        geo.attributes.position.needsUpdate = true;
-        mat.opacity = 0.13 + Math.sin(t) * 0.05;
-        renderer.render(scene, camera);
-      })();
-    } else {
-      /* En móvil: quitar el canvas del DOM para liberar memoria y scroll */
-      canvas.remove();
-    }
   </script>
 
   <main class="container">
 
-    <!-- SERVICIOS -->
     <section id="servicios">
       <h2 class="reveal">Servicios</h2>
       <div class="service-grid reveal-stagger">
@@ -1063,7 +1019,7 @@
       </div>
     </section>
 
-        <section id="stack">
+    <section id="stack">
       <h2 class="reveal">Stack Tecnológico</h2>
       <p class="stack-category reveal">Lenguajes</p>
       <div class="stack-grid reveal-stagger">
@@ -1109,7 +1065,6 @@
       <div class="display-cards-section reveal reveal--scale">
         <div class="display-stack">
 
-          <!-- Carta 1: ABAP AI Reviewer -->
           <div class="display-card">
             <div class="dc-top">
               <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ecfff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
@@ -1120,7 +1075,6 @@
             <a href="sap-ia.html" class="dc-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Ver Demo</a>
           </div>
 
-          <!-- Carta 2: Gestión de Alumnado -->
           <div class="display-card">
             <div class="dc-top">
               <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ecfff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
@@ -1131,7 +1085,6 @@
             <a href="FCT_Final (3).html" class="dc-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Ver Demo</a>
           </div>
 
-          <!-- Carta 3: Futly -->
           <div class="display-card">
             <div class="dc-top">
               <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ecfff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></div>
@@ -1142,7 +1095,6 @@
             <a href="Futly.html" class="dc-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Ver Sitio</a>
           </div>
 
-          <!-- Carta 4: WebHyundai -->
           <div class="display-card">
             <div class="dc-top">
               <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ecfff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="17" x2="22" y2="17"/><polyline points="15 17 15 21 9 21 9 17"/></svg></div>
@@ -1157,12 +1109,12 @@
       </div>
     </section>
 
-        <section id="portfolio">
+    <section id="portfolio">
       <h2 class="reveal">Portfolio Profesional</h2>
       <div class="grid reveal-stagger">
         <article class="card">
           <h3>Servicio de Portfolio</h3>
-          <p>Creación de portfolios personalizados, modernos y responsive para profesionales IT que desean destacar su experiencia y proyectos con estilo técnico y claro.</p>
+          <p>Creación de portfolios personalizados, modernos y responsive para profesionales IT que desean destacar su experience y proyectos con estilo técnico y claro.</p>
           <a href="mailto:pcaballero155@gmail.com?subject=Solicitud%20de%20Portfolio&body=Hola%20Pablo%2C%20me%20gustar%C3%ADa%20solicitar%20un%20portfolio.%0A%0ANombre%3A%20%0AProfesi%C3%B3n%3A%20">Solicitar Portfolio →</a>
         </article>
         <article class="card">
@@ -1180,6 +1132,7 @@
   <footer class="footer">
     <p>pcaballero155@gmail.com · Leganés, Madrid · <a href="https://github.com/Pablocaballero13">GitHub</a></p>
   </footer>
+
   <script>
     /* ── Scroll Reveal (bidireccional) ── */
     const revealElements = Array.from(document.querySelectorAll('.reveal, .reveal-stagger'));
@@ -1218,6 +1171,49 @@
       revealElements.forEach(el => el.classList.add('visible'));
     }
   </script>
+
+  <script id="service-card-reveal">
+    /* ── Service cards: trigger animate-in on scroll reveal, then remove it ── */
+    (function() {
+      const BASE_DELAY   = 180;  // ms after the card's stagger translate finishes
+      const HOLD_TIME    = 900;  // ms to hold the animate-in state
+      const STAGGER_STEP = 120;  // ms between each card
+
+      function fireCard(card, index) {
+        const delay = BASE_DELAY + index * STAGGER_STEP;
+        setTimeout(() => {
+          card.classList.add('animate-in');
+          setTimeout(() => card.classList.remove('animate-in'), HOLD_TIME);
+        }, delay);
+      }
+
+      function init() {
+        const grids = document.querySelectorAll('.service-grid');
+        grids.forEach(grid => {
+          let fired = false;
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting && !fired) {
+                fired = true;
+                const cards = grid.querySelectorAll('.service-card');
+                cards.forEach((card, i) => fireCard(card, i));
+              }
+              // Reset so it fires again next time the section re-enters view
+              if (!entry.isIntersecting) fired = false;
+            });
+          }, { threshold: 0.25 });
+          observer.observe(grid);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+
   <script id="stack-magnetic">
     /* ── Stack items: magnetic 3D tilt + cursor glow ── */
     (function() {
@@ -1303,6 +1299,40 @@
       }
       requestAnimationFrame(draw);
     })();
+  </script>
+
+  <script>
+    // Esperar de forma segura a que el Shadow DOM de Spline esté listo
+    window.addEventListener('DOMContentLoaded', () => {
+      const splineViewer = document.querySelector('spline-viewer');
+      
+      if (splineViewer) {
+        const checkExist = setInterval(() => {
+          if (splineViewer.shadowRoot) {
+            // Intentar buscar el logo por ID o por etiqueta de enlace
+            const shadowRoot = splineViewer.shadowRoot;
+            const badge = shadowRoot.getElementById('logo') || shadowRoot.querySelector('#logo');
+            
+            if (badge) {
+              badge.remove();
+              clearInterval(checkExist); // Detener el bucle una vez eliminado
+            } else {
+              // Alternativa si cambian la estructura interna
+              const links = shadowRoot.querySelectorAll('a');
+              links.forEach(link => {
+                if (link.href && link.href.includes('spline.design')) {
+                  link.remove();
+                  clearInterval(checkExist);
+                }
+              });
+            }
+          }
+        }, 100); // Revisa cada 100ms hasta que cargue el componente
+
+        // Limpieza de seguridad por si tarda demasiado o no se encuentra
+        setTimeout(() => clearInterval(checkExist), 10000);
+      }
+    });
   </script>
 </body>
 </html>
