@@ -123,17 +123,18 @@
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; }
       .hero-content { align-items: center; text-align: center; padding: 3rem 1.5rem 2rem; }
-      /* Robot oculto en tablets horizontales / pantallas medianas */
-      .hero-spline  { display: none !important; }
+      .hero-spline  { min-height: 480px; height: min(62vh, 540px); }
+      spline-viewer { transform: translateX(0) scale(0.86); }
     }
 
-    .hero h1 {
+    /* Animaciones síncronas refinadas para Hero Content */
+    .hero h1.reveal {
       font-size: clamp(4.2rem, 10vw, 8.5rem);
       margin-bottom: 0.35rem;
       white-space: nowrap;
       overflow-wrap: normal;
       word-break: keep-all;
-      background: linear-gradient(135deg, #4eaed4, #00b4d9);
+      background: linear-gradient(135deg, #bcf5ff 0%, #aae2ff 100%);
       background-size: 300% 300%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -142,20 +143,23 @@
       position: relative;
       z-index: 1;
       transition: filter 0.45s ease, text-shadow 0.45s ease;
-    }
-
-    .hero h1.reveal {
       opacity: 0;
-      transform: translateY(80px) scale(0.92);
-      animation: heroReveal 1.3s cubic-bezier(0.22,1,0.36,1) 0.1s forwards;
+      transform: translateY(60px) scale(0.95);
+      animation: heroReveal 1.2s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.15s forwards;
       will-change: opacity, transform;
     }
 
-    .hero .lead.reveal,
+    .hero .lead.reveal {
+      opacity: 0;
+      transform: translateY(40px) scale(0.98);
+      animation: heroReveal 1.2s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.45s forwards;
+      will-change: opacity, transform;
+    }
+
     .hero .cta-buttons.reveal {
       opacity: 0;
-      transform: translateY(60px) scale(0.96);
-      animation: heroReveal 1.4s cubic-bezier(0.22,1,0.36,1) 0.3s forwards;
+      transform: translateY(30px) scale(0.98);
+      animation: heroReveal 1.2s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.7s forwards;
       will-change: opacity, transform;
     }
 
@@ -224,6 +228,7 @@
     }
     .btn-ghost:active { transform: translateY(0); background: rgba(100,200,255,0.12); }
 
+    /* Servicios */
     .service-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -243,10 +248,10 @@
       flex-direction: column;
       gap: 0.9rem;
       transition:
-        border-color 0.45s ease,
-        background   0.45s ease,
-        box-shadow   0.45s ease,
-        transform    0.45s cubic-bezier(0.23,1,0.32,1);
+        border-color 0.75s ease,
+        background   0.75s ease,
+        box-shadow   0.75s ease,
+        transform    0.85s cubic-bezier(0.16, 1, 0.3, 1); /* Transición de revelado más lenta */
     }
 
     /* index number — top right */
@@ -257,7 +262,7 @@
       font-weight: 800;
       line-height: 1;
       color: rgba(100,200,255,0.06);
-      transition: color 0.45s ease;
+      transition: color 0.5s ease;
       user-select: none;
       pointer-events: none;
       font-variant-numeric: tabular-nums;
@@ -284,7 +289,7 @@
     .service-card .sc-icon svg polygon {
       stroke-dasharray: 300;
       stroke-dashoffset: 300;
-      transition: stroke-dashoffset 0.7s cubic-bezier(0.23,1,0.32,1);
+      transition: stroke-dashoffset 1.1s cubic-bezier(0.16, 1, 0.3, 1); /* Stroke más suave y lento */
     }
     .service-card:hover .sc-icon svg path,
     .service-card:hover .sc-icon svg circle,
@@ -301,7 +306,7 @@
       stroke-dashoffset: 0;
     }
 
-    /* animate-in: replicates all hover effects on scroll reveal */
+    /* animate-in slower release */
     .service-card.animate-in {
       transform: translateY(-6px);
       border-color: rgba(100, 200, 255, 0.32);
@@ -331,7 +336,7 @@
       width: 1px;
       height: 0;
       background: linear-gradient(to bottom, transparent, rgba(100,200,255,0.55), transparent);
-      transition: height 0.55s cubic-bezier(0.23,1,0.32,1), opacity 0.45s;
+      transition: height 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s;
       opacity: 0;
       pointer-events: none;
       z-index: 0;
@@ -351,7 +356,7 @@
       opacity: 0;
       transform: scaleX(0);
       transform-origin: center;
-      transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.23,1,0.32,1);
+      transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .service-card:hover::after {
       opacity: 1;
@@ -389,7 +394,7 @@
     }
     .service-card:hover p { color: #b3cfe4; }
 
-    /* ── Container / sections ── */
+    /* Container / sections */
     .container { max-width: 1200px; margin: 0 auto; padding: 2rem; position: relative; z-index: 1; overflow: visible; }
     section { margin-bottom: 6rem; }
 
@@ -408,7 +413,7 @@
       transition: transform 0.6s cubic-bezier(0.23,1,0.32,1) 0.35s, opacity 0.6s cubic-bezier(0.23,1,0.32,1) 0.35s;
     }
 
-    /* ── DISPLAY CARDS (Servicios) ── */
+    /* DISPLAY CARDS (Servicios) */
     .display-cards-section {
       display: flex;
       justify-content: center;
@@ -441,7 +446,6 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      /* skew + scale together */
       transform: skewY(-8deg) scale(1);
       transition:
         transform   0.55s cubic-bezier(0.23,1,0.32,1),
@@ -453,7 +457,6 @@
       cursor: pointer;
     }
 
-    /* right-side fade overlay */
     .display-card::after {
       content: '';
       position: absolute;
@@ -465,7 +468,6 @@
       transition: opacity 0.4s;
     }
 
-    /* dim overlay */
     .display-card::before {
       content: '';
       position: absolute; inset: 0;
@@ -475,28 +477,18 @@
       z-index: 2;
     }
 
-    /* ── default stacking (depth via blue tint, not grayscale) ── */
-    .display-card:nth-child(1) {
-      translate: 160px 200px; z-index: 4;
-    }
+    .display-card:nth-child(1) { translate: 160px 200px; z-index: 4; }
     .display-card:nth-child(1)::before { background: rgba(6, 16, 36, 0); }
 
-    .display-card:nth-child(2) {
-      translate: -80px -30px; z-index: 1;
-    }
+    .display-card:nth-child(2) { translate: -80px -30px; z-index: 1; }
     .display-card:nth-child(2)::before { background: rgba(6, 16, 36, 0.22); }
 
-    .display-card:nth-child(3) {
-      translate: 0px 22px; z-index: 2;
-    }
+    .display-card:nth-child(3) { translate: 0px 22px; z-index: 2; }
     .display-card:nth-child(3)::before { background: rgba(6, 16, 36, 0.14); }
 
-    .display-card:nth-child(4) {
-      translate: 80px 80px; z-index: 3;
-    }
+    .display-card:nth-child(4) { translate: 80px 80px; z-index: 3; }
     .display-card:nth-child(4)::before { background: rgba(6, 16, 36, 0.08); }
 
-    /* ── HOVER: card expands and floats up in big ── */
     .display-card:hover {
       transform: skewY(0deg) scale(1.18);
       z-index: 20 !important;
@@ -516,7 +508,6 @@
     .display-card:hover::before { background: rgba(6, 16, 36, 0) !important; }
     .display-card:hover::after  { opacity: 0; }
 
-    /* inner layout — all z-index above overlays */
     .dc-top {
       display: flex; align-items: center; gap: 0.7rem;
       position: relative; z-index: 3;
@@ -583,22 +574,19 @@
       .display-card:nth-child(4):hover { translate:  40px   10px; }
     }
 
-    /* ── Scroll Animations ── */
+    /* Scroll Animations */
     .reveal {
       opacity: 0;
-      transform: translateY(420px) scale(0.8);
+      transform: translateY(140px) scale(0.92);
       will-change: opacity, transform;
       transition: opacity 0.95s cubic-bezier(0.22,1,0.36,1),
                   transform 0.95s cubic-bezier(0.22,1,0.36,1);
-    }
-    .hero h1.reveal {
-      transition-delay: 0.12s;
     }
     .reveal.reveal--left  { transform: translateX(-280px) scale(0.8); }
     .reveal.reveal--right { transform: translateX(280px) scale(0.8); }
     .reveal.reveal--scale {
       opacity: 0;
-      transform: translateY(340px) scale(0.74);
+      transform: translateY(140px) scale(0.9);
       transition: opacity 0.95s cubic-bezier(0.22,1,0.36,1),
                   transform 0.95s cubic-bezier(0.22,1,0.36,1);
     }
@@ -610,7 +598,7 @@
     @keyframes heroReveal {
       from {
         opacity: 0;
-        transform: translateY(80px) scale(0.92);
+        transform: translateY(50px) scale(0.96);
       }
       to {
         opacity: 1;
@@ -618,28 +606,28 @@
       }
     }
 
+    /* Estructura Stagger para cascada secuencial (Aplicado a Grid de Servicios y tarjetas de Stack) */
     .reveal-stagger > * {
       opacity: 0;
-      transform: translateX(-60px) translateY(16px);
+      transform: translateY(35px);
       will-change: opacity, transform;
-      transition: opacity 0.6s cubic-bezier(0.23,1,0.32,1),
-                  transform 0.6s cubic-bezier(0.23,1,0.32,1);
+      transition: opacity 0.75s cubic-bezier(0.215, 0.610, 0.355, 1.000),
+                  transform 0.75s cubic-bezier(0.215, 0.610, 0.355, 1.000);
     }
-    .reveal-stagger.visible > *:nth-child(1)  { opacity:1; transform:translate(0,0); transition-delay:0s;    }
-    .reveal-stagger.visible > *:nth-child(2)  { opacity:1; transform:translate(0,0); transition-delay:0.10s; }
-    .reveal-stagger.visible > *:nth-child(3)  { opacity:1; transform:translate(0,0); transition-delay:0.20s; }
-    .reveal-stagger.visible > *:nth-child(4)  { opacity:1; transform:translate(0,0); transition-delay:0.30s; }
-    .reveal-stagger.visible > *:nth-child(5)  { opacity:1; transform:translate(0,0); transition-delay:0.38s; }
-    .reveal-stagger.visible > *:nth-child(6)  { opacity:1; transform:translate(0,0); transition-delay:0.46s; }
-    .reveal-stagger.visible > *:nth-child(7)  { opacity:1; transform:translate(0,0); transition-delay:0.54s; }
-    .reveal-stagger.visible > *:nth-child(8)  { opacity:1; transform:translate(0,0); transition-delay:0.62s; }
-    .reveal-stagger.visible > *:nth-child(n+9){ opacity:1; transform:translate(0,0); transition-delay:0.70s; }
+    .reveal-stagger.visible > *:nth-child(1)  { opacity:1; transform:translate(0,0); transition-delay:0.05s; }
+    .reveal-stagger.visible > *:nth-child(2)  { opacity:1; transform:translate(0,0); transition-delay:0.12s; }
+    .reveal-stagger.visible > *:nth-child(3)  { opacity:1; transform:translate(0,0); transition-delay:0.19s; }
+    .reveal-stagger.visible > *:nth-child(4)  { opacity:1; transform:translate(0,0); transition-delay:0.26s; }
+    .reveal-stagger.visible > *:nth-child(5)  { opacity:1; transform:translate(0,0); transition-delay:0.33s; }
+    .reveal-stagger.visible > *:nth-child(6)  { opacity:1; transform:translate(0,0); transition-delay:0.40s; }
+    .reveal-stagger.visible > *:nth-child(7)  { opacity:1; transform:translate(0,0); transition-delay:0.47s; }
+    .reveal-stagger.visible > *:nth-child(8)  { opacity:1; transform:translate(0,0); transition-delay:0.54s; }
+    .reveal-stagger.visible > *:nth-child(n+9){ opacity:1; transform:translate(0,0); transition-delay:0.61s; }
 
-    /* Underline reveal for h2 */
     h2.reveal::after         { height: 0; opacity: 0; }
     h2.reveal.visible::after { height: 3px; opacity: 1; }
 
-    /* ── Grid cards ── */
+    /* Grid cards */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -648,6 +636,7 @@
 
     .card {
       background: linear-gradient(135deg, rgba(80,140,170,0.03) 0%, rgba(0,140,170,0.03) 100%);
+      border: 1px solid rgba(100, 200, 255, 0.14);
       border-radius: 12px; padding: 2rem;
       transition: all 0.3s cubic-bezier(0.23,1,0.320,1);
       position: relative; overflow: hidden; min-height: 260px;
@@ -717,11 +706,11 @@
       transition:
         border-color 0.4s ease,
         background   0.4s ease,
-        box-shadow   0.4s ease;
+        box-shadow   0.4s ease,
+        transform    0.4s ease;
       will-change: transform;
     }
 
-    /* Aurora glow layer — follows cursor via JS inline vars */
     .stack-item::before {
       content: '';
       position: absolute;
@@ -738,7 +727,6 @@
       z-index: 0;
     }
 
-    /* Shimmer sweep */
     .stack-item::after {
       content: '';
       position: absolute;
@@ -806,9 +794,7 @@
     }
     .stack-category:first-child { margin-top: 0; }
 
-    /* ── Responsive ── */
-
-    /* Tablet */
+    /* Responsive */
     @media (max-width: 1024px) {
       .hero { padding: 3rem 1.5rem 0; }
       .hero-content { padding: 3rem 2rem 2rem; }
@@ -819,14 +805,11 @@
       .display-stack { width: 520px; }
     }
 
-    /* Mobile grande */
     @media (max-width: 768px) {
-      /* Nav */
       nav { padding: 1rem 1.2rem; }
       .nav-links { gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
       .nav-links a { font-size: 0.9rem; padding: 0.5rem 0.6rem; }
 
-      /* Hero: columna unica, robot COMPLETAMENTE OCULTO */
       .hero {
         grid-template-columns: 1fr;
         min-height: auto;
@@ -838,10 +821,9 @@
         padding: 5rem 1.5rem 3rem;
         gap: 0;
       }
-      /* Se quita la visualización del robot en pantallas móviles */
-      .hero-spline { display: none !important; }
+      .hero-spline { display: block; min-height: 420px; height: min(58vh, 540px); }
 
-      .hero h1 { font-size: clamp(2.4rem, 11vw, 5.5rem); margin-bottom: 0.75rem; white-space: normal; overflow-wrap: break-word; word-break: break-word; }
+      .hero h1.reveal { font-size: clamp(2.4rem, 11vw, 5.5rem); margin-bottom: 0.75rem; white-space: normal; overflow-wrap: break-word; word-break: break-word; }
       .lead {
         font-size: 1.05rem;
         white-space: normal;
@@ -850,21 +832,17 @@
         line-height: 1.6;
       }
 
-      /* Buttons */
       .cta-buttons { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto; }
       .btn { width: 100%; justify-content: center; font-size: 1rem; padding: 1rem 1.5rem; }
 
-      /* Sections */
       .container { padding: 1.2rem; }
       section { margin-bottom: 4rem; }
       h2 { font-size: 1.75rem; margin-bottom: 2rem; }
 
-      /* Service cards: columna única */
       .service-grid { grid-template-columns: 1fr; gap: 1rem; }
       .service-card { min-height: auto; padding: 1.5rem; }
       .service-card h3 { font-size: 1.2rem; }
 
-      /* Stack grid: 2 columnas en móvil */
       .stack-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
       .stack-item { padding: 1rem 0.7rem; }
       .stack-item .icon img { width: 1.6rem; height: 1.6rem; }
@@ -872,7 +850,6 @@
       .stack-item .type { font-size: 0.7rem; }
       .stack-category { font-size: 0.75rem; margin-top: 1.5rem; }
 
-      /* Display cards: apiladas verticalmente */
       .display-cards-section { padding: 1rem 0 4rem; }
       .display-stack {
         display: flex;
@@ -905,21 +882,18 @@
         translate: 0 0 !important;
       }
 
-      /* Portfolio grid */
       .grid { grid-template-columns: 1fr; gap: 1rem; }
       .card { min-height: auto; padding: 1.5rem; }
       .card h3 { font-size: 1.2rem; }
       .project-links { flex-direction: column; }
       .project-links a { flex: 1 1 100%; width: 100%; text-align: center; }
 
-      /* Footer */
       .footer { padding: 1.5rem 1rem; font-size: 0.9rem; }
     }
 
-    /* Mobile pequeño */
     @media (max-width: 400px) {
       .nav-links a { font-size: 0.8rem; padding: 0.4rem 0.5rem; }
-      .hero h1 { font-size: clamp(2rem, 10vw, 3rem); white-space: normal; overflow-wrap: break-word; word-break: break-word; }
+      .hero h1.reveal { font-size: clamp(2rem, 10vw, 3rem); white-space: normal; overflow-wrap: break-word; word-break: break-word; }
       .lead { font-size: 0.95rem; }
       .stack-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
       .stack-item { padding: 0.8rem 0.5rem; }
@@ -951,10 +925,10 @@
       <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" background="transparent" loading-anim-type="spinner-small-light"></spline-viewer>
     </div>
   </header>
-
+  
   <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
   <script>
-    /* ── Spotlight ── */
+    /* Spotlight Hero */
     const hero = document.getElementById('hero');
     const spotlight = document.getElementById('heroSpotlight');
     hero.addEventListener('mousemove', (e) => {
@@ -966,11 +940,9 @@
   </script>
 
   <main class="container">
-
     <section id="servicios">
       <h2 class="reveal">Servicios</h2>
       <div class="service-grid reveal-stagger">
-
         <article class="service-card">
           <span class="sc-index">01</span>
           <div class="sc-icon">
@@ -1015,12 +987,12 @@
           <h3>Cloud &amp; DevOps</h3>
           <p>Arquitectura de soluciones en SAP BTP y AWS, sumada a prácticas DevOps para despliegues ágiles, seguros y escalables.</p>
         </article>
-
       </div>
     </section>
 
     <section id="stack">
       <h2 class="reveal">Stack Tecnológico</h2>
+      
       <p class="stack-category reveal">Lenguajes</p>
       <div class="stack-grid reveal-stagger">
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/openjdk" alt="Java"></span><span class="name">Java</span><span class="type">Lenguaje</span></div>
@@ -1031,7 +1003,8 @@
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/html5" alt="HTML/CSS"></span><span class="name">HTML/CSS</span><span class="type">Lenguaje</span></div>
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/postgresql" alt="SQL"></span><span class="name">SQL</span><span class="type">Lenguaje</span></div>
       </div>
-      <p class="stack-category reveal">Frameworks & Librerías</p>
+      
+      <p class="stack-category reveal">Frameworks &amp; Librerías</p>
       <div class="stack-grid reveal-stagger">
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/springboot" alt="Spring Boot"></span><span class="name">Spring Boot</span><span class="type">Backend</span></div>
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/django" alt="Django"></span><span class="name">Django</span><span class="type">Backend</span></div>
@@ -1039,20 +1012,23 @@
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/angular" alt="Angular"></span><span class="name">Angular</span><span class="type">Frontend</span></div>
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/openjdk" alt="Java Swing"></span><span class="name">Java Swing</span><span class="type">Desktop</span></div>
       </div>
+      
       <p class="stack-category reveal">Bases de Datos</p>
       <div class="stack-grid reveal-stagger">
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/postgresql" alt="PostgreSQL"></span><span class="name">PostgreSQL</span><span class="type">Relacional</span></div>
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/mysql" alt="MySQL"></span><span class="name">MySQL</span><span class="type">Relacional</span></div>
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/mongodb" alt="NoSQL"></span><span class="name">NoSQL</span><span class="type">No relacional</span></div>
       </div>
-      <p class="stack-category reveal">Cloud & DevOps</p>
+      
+      <p class="stack-category reveal">Cloud &amp; DevOps</p>
       <div class="stack-grid reveal-stagger">
         <div class="stack-item"><span class="icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/amazonwebservices.svg" alt="AWS"></span><span class="name">AWS</span><span class="type">Cloud</span></div>
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/sap" alt="SAP BTP"></span><span class="name">SAP BTP</span><span class="type">Cloud</span></div>
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/googlecloud" alt="Google Cloud"></span><span class="name">Google Cloud</span><span class="type">Cloud</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/docker" alt="Docker"></span><span class="name">Docker</span><span class="type">DevOps</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/docker" alt="Docker"></span><span class="name">DevOps</span></div>
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/git" alt="Git"></span><span class="name">Git</span><span class="type">Control versiones</span></div>
       </div>
+      
       <p class="stack-category reveal">Herramientas</p>
       <div class="stack-grid reveal-stagger">
         <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/figma" alt="Figma"></span><span class="name">Figma</span><span class="type">Diseño</span></div>
@@ -1064,7 +1040,6 @@
       <h2 class="reveal">Proyectos Destacados</h2>
       <div class="display-cards-section reveal reveal--scale">
         <div class="display-stack">
-
           <div class="display-card">
             <div class="dc-top">
               <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ecfff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
@@ -1104,7 +1079,6 @@
             <span class="dc-date">HTML · CSS · JavaScript</span>
             <a href="https://pablocaballero13.github.io/WebHyundai/" target="_blank" rel="noopener noreferrer" class="dc-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Ver Sitio</a>
           </div>
-
         </div>
       </div>
     </section>
@@ -1114,8 +1088,8 @@
       <div class="grid reveal-stagger">
         <article class="card">
           <h3>Servicio de Portfolio</h3>
-          <p>Creación de portfolios personalizados, modernos y responsive para profesionales IT que desean destacar su experience y proyectos con estilo técnico y claro.</p>
-          <a href="mailto:pcaballero155@gmail.com?subject=Solicitud%20de%20Portfolio&body=Hola%20Pablo%2C%20me%20gustar%C3%ADa%20solicitar%20un%20portfolio.%0A%0ANombre%3A%20%0AProfesi%C3%B3n%3A%20">Solicitar Portfolio →</a>
+          <p>Creación de portfolios personalizados, modernos y responsive para profesionales IT que desean destacar su experiencia y proyectos con estilo técnico y claro.</p>
+          <a href="mailto:pcaballero155@gmail.com?subject=Solicitud%20de%20Portfolio&amp;body=Hola%20Pablo%2C%20me%20gustar%C3%ADa%20solicitar%20un%20portfolio.%0A%0ANombre%3A%20%0AProfesi%C3%B3n%3A%20">Solicitar Portfolio →</a>
         </article>
         <article class="card">
           <h3>Referencias de Portfolio</h3>
@@ -1134,7 +1108,7 @@
   </footer>
 
   <script>
-    /* ── Scroll Reveal (bidireccional) ── */
+    /* Scroll Reveal (bidireccional para elementos comunes y contenedores stagger) */
     const revealElements = Array.from(document.querySelectorAll('.reveal, .reveal-stagger'));
 
     function revealInView() {
@@ -1152,7 +1126,6 @@
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
             
-            // Si se revela el h2 de Servicios, también revela las tarjetas de Proyectos
             if (entry.target.textContent.includes('Servicios')) {
               const displayCards = document.querySelector('.display-cards-section');
               if (displayCards) displayCards.classList.add('visible');
@@ -1167,17 +1140,16 @@
       window.requestAnimationFrame(revealInView);
       setTimeout(revealInView, 80);
     } else {
-      /* En móvil o navegador sin IntersectionObserver: todo visible desde el principio */
       revealElements.forEach(el => el.classList.add('visible'));
     }
   </script>
 
   <script id="service-card-reveal">
-    /* ── Service cards: trigger animate-in on scroll reveal, then remove it ── */
+    /* Service cards: Lanzado de animación de izquierda a derecha ralentizada */
     (function() {
-      const BASE_DELAY   = 180;  // ms after the card's stagger translate finishes
-      const HOLD_TIME    = 900;  // ms to hold the animate-in state
-      const STAGGER_STEP = 120;  // ms between each card
+      const BASE_DELAY   = 300;   // ms tras terminar el desplazamiento inicial
+      const HOLD_TIME    = 1500;  // ms que se sostiene la iluminación y destaque 'animate-in'
+      const STAGGER_STEP = 250;   // ms de separación secuencial entre tarjetas (más lento)
 
       function fireCard(card, index) {
         const delay = BASE_DELAY + index * STAGGER_STEP;
@@ -1198,7 +1170,6 @@
                 const cards = grid.querySelectorAll('.service-card');
                 cards.forEach((card, i) => fireCard(card, i));
               }
-              // Reset so it fires again next time the section re-enters view
               if (!entry.isIntersecting) fired = false;
             });
           }, { threshold: 0.25 });
@@ -1215,17 +1186,17 @@
   </script>
 
   <script id="stack-magnetic">
-    /* ── Stack items: magnetic 3D tilt + cursor glow ── */
+    /* Stack items: magnetic 3D tilt + cursor glow */
     (function() {
-      const TILT = 14;   // max degrees
-      const LIFT = -8;   // px rise
+      const TILT = 14;   
+      const LIFT = -8;   
 
       function attachMagnetic(card) {
         card.addEventListener('mousemove', (e) => {
           const rect = card.getBoundingClientRect();
           const cx = e.clientX - rect.left;
           const cy = e.clientY - rect.top;
-          const nx = (cx / rect.width  - 0.5) * 2;   // -1 to 1
+          const nx = (cx / rect.width  - 0.5) * 2;   
           const ny = (cy / rect.height - 0.5) * 2;
 
           const rotX = -ny * TILT;
@@ -1234,7 +1205,6 @@
           card.style.transform =
             `perspective(480px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(${LIFT}px) scale(1.04)`;
 
-          // Update aurora glow position
           card.style.setProperty('--cx', (cx / rect.width  * 100).toFixed(1) + '%');
           card.style.setProperty('--cy', (cy / rect.height * 100).toFixed(1) + '%');
         });
@@ -1302,22 +1272,18 @@
   </script>
 
   <script>
-    // Esperar de forma segura a que el Shadow DOM de Spline esté listo
+    /* Remoción segura de marca de agua Spline */
     window.addEventListener('DOMContentLoaded', () => {
       const splineViewer = document.querySelector('spline-viewer');
-      
       if (splineViewer) {
         const checkExist = setInterval(() => {
           if (splineViewer.shadowRoot) {
-            // Intentar buscar el logo por ID o por etiqueta de enlace
             const shadowRoot = splineViewer.shadowRoot;
             const badge = shadowRoot.getElementById('logo') || shadowRoot.querySelector('#logo');
-            
             if (badge) {
               badge.remove();
-              clearInterval(checkExist); // Detener el bucle una vez eliminado
+              clearInterval(checkExist);
             } else {
-              // Alternativa si cambian la estructura interna
               const links = shadowRoot.querySelectorAll('a');
               links.forEach(link => {
                 if (link.href && link.href.includes('spline.design')) {
@@ -1327,9 +1293,7 @@
               });
             }
           }
-        }, 100); // Revisa cada 100ms hasta que cargue el componente
-
-        // Limpieza de seguridad por si tarda demasiado o no se encuentra
+        }, 100);
         setTimeout(() => clearInterval(checkExist), 10000);
       }
     });
