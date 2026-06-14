@@ -19,13 +19,127 @@
       -webkit-tap-highlight-color: transparent;
       touch-action: pan-y;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #05050a 0%, #0b1220 50%, #071428 100%);
+      background: linear-gradient(135deg, #000000 0%, #020810 50%, #010912 100%);
       color: #e6eef6;
       line-height: 1.6;
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
       z-index: 1;
+    }
+
+    /* ── Pantalla de carga ── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.2rem;
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+    }
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-logo {
+      font-size: 4.5rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, #bcf5ff 0%, #64c8ff 50%, #00d9ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: loaderPulse 1.8s ease-in-out infinite;
+      user-select: none;
+    }
+
+    .loader-sub {
+      font-size: 0.95rem;
+      color: rgba(100, 200, 255, 0.55);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-weight: 400;
+      animation: loaderFade 1.8s ease-in-out infinite;
+    }
+
+    .loader-bar-wrap {
+      width: 200px;
+      height: 2px;
+      background: rgba(100, 200, 255, 0.1);
+      border-radius: 99px;
+      overflow: hidden;
+      position: relative;
+    }
+    .loader-bar {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #64c8ff, #00d9ff);
+      border-radius: 99px;
+      box-shadow: 0 0 12px rgba(0, 217, 255, 0.6);
+      transform: scaleX(0);
+      transform-origin: left center;
+      animation: loaderBarFill 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @keyframes loaderBarFill {
+      0%   { transform: scaleX(0); }
+      100% { transform: scaleX(1); }
+    }
+
+    .loader-dots {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: -0.5rem;
+    }
+    .loader-dots span {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(100, 200, 255, 0.4);
+      animation: dotBounce 1.2s ease-in-out infinite;
+    }
+    .loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    /* Órbitas decorativas */
+    .loader-orbit {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(100, 200, 255, 0.08);
+      animation: loaderSpin linear infinite;
+    }
+    .loader-orbit::after {
+      content: '';
+      position: absolute;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(0, 217, 255, 0.7);
+      box-shadow: 0 0 8px rgba(0, 217, 255, 0.8);
+      top: -2.5px; left: 50%; transform: translateX(-50%);
+    }
+    .loader-orbit:nth-child(1) { width: 120px; height: 120px; animation-duration: 3.5s; }
+    .loader-orbit:nth-child(2) { width: 180px; height: 180px; animation-duration: 6s; animation-direction: reverse; border-color: rgba(100,200,255,0.05); }
+    .loader-orbit:nth-child(3) { width: 250px; height: 250px; animation-duration: 9s; border-color: rgba(100,200,255,0.03); }
+
+    @keyframes loaderPulse {
+      0%, 100% { opacity: 1; filter: brightness(1); }
+      50%       { opacity: 0.8; filter: brightness(1.2) saturate(1.3); }
+    }
+    @keyframes loaderFade {
+      0%, 100% { opacity: 0.55; }
+      50%       { opacity: 1; }
+    }
+    @keyframes dotBounce {
+      0%, 80%, 100% { transform: scale(1);   opacity: 0.4; }
+      40%            { transform: scale(1.6); opacity: 1; background: rgba(0,217,255,0.9); }
+    }
+    @keyframes loaderSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
     }
 
     body::before {
@@ -49,7 +163,7 @@
       justify-content: center; 
       align-items: center;
       padding: 1.5rem 2rem;
-      background: rgba(6, 6, 14, 0.55);
+      background: rgba(6, 6, 14, 0.08);
       backdrop-filter: blur(12px);
       border-bottom: none;
       position: sticky;
@@ -92,11 +206,6 @@
       position: relative;
     }
 
-    .hero-spotlight {
-      position: absolute; inset: 0; z-index: 0; pointer-events: none;
-      background: radial-gradient(600px circle at var(--mx,60%) var(--my,40%), rgba(100,200,255,0.10), transparent 60%);
-      transition: background 0.1s;
-    }
 
     .hero-content {
       display: flex; flex-direction: column; justify-content: center;
@@ -902,6 +1011,22 @@
   </style>
 </head>
 <body>
+
+  <!-- Pantalla de carga -->
+  <div id="loader">
+    <div class="loader-orbit"></div>
+    <div class="loader-orbit"></div>
+    <div class="loader-orbit"></div>
+    <span class="loader-logo">PC</span>
+    <span class="loader-sub">Portfolio</span>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar" id="loaderBar"></div>
+    </div>
+    <div class="loader-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
   <nav class="nav">
     <div class="nav-links">
       <a href="cv.html">CV</a>
@@ -912,7 +1037,6 @@
   </nav>
 
   <header class="hero" id="hero">
-    <div class="hero-spotlight" id="heroSpotlight"></div>
     <div class="hero-content">
       <h1 class="reveal">Pablo Caballero</h1>
       <p class="lead reveal">SAP ABAP &amp; BTP Developer | FullStack developer (Java · Python · Django...)</p>
@@ -930,13 +1054,6 @@
   <script>
     /* Spotlight Hero */
     const hero = document.getElementById('hero');
-    const spotlight = document.getElementById('heroSpotlight');
-    hero.addEventListener('mousemove', (e) => {
-      const rect = hero.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%';
-      const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1) + '%';
-      spotlight.style.background = `radial-gradient(600px circle at ${x} ${y}, rgba(100,200,255,0.13), transparent 60%)`;
-    });
   </script>
 
   <main class="container">
@@ -1271,6 +1388,126 @@
     })();
   </script>
 
+<script id="starfield">
+    /* Fondo estrellado — warp perspective desde el centro */
+    (function () {
+      const canvas = document.createElement('canvas');
+      canvas.id = 'starfield';
+      Object.assign(canvas.style, {
+        position: 'fixed',
+        top: '0', left: '0',
+        width: '100%', height: '100%',
+        pointerEvents: 'none',
+        zIndex: '0',
+      });
+      document.body.prepend(canvas);
+
+      const ctx = canvas.getContext('2d');
+      const NUM_STARS   = 320;
+      const WARP_SPEED  = 2.8;   // velocidad base de alejamiento
+      const MAX_DEPTH   = 1000;
+
+      let W, H, CX, CY;
+      let stars = [];
+
+      function rand(a, b) { return a + Math.random() * (b - a); }
+
+      function makeStar() {
+        return {
+          x: rand(-W / 2, W / 2),
+          y: rand(-H / 2, H / 2),
+          z: rand(1, MAX_DEPTH),
+          pz: 0,          // z anterior (para dibujar trail)
+          cyan: Math.random() < 0.09,
+        };
+      }
+
+      function resize() {
+        W  = canvas.width  = window.innerWidth;
+        H  = canvas.height = window.innerHeight;
+        CX = W / 2;
+        CY = H / 2;
+        stars = Array.from({ length: NUM_STARS }, makeStar);
+        // inicializar pz
+        stars.forEach(s => { s.pz = s.z; });
+      }
+
+
+
+      let t = 0;
+      function draw() {
+        requestAnimationFrame(draw);
+        t++;
+
+        /* fondo limpio */
+        ctx.clearRect(0, 0, W, H);
+
+        /* ── Estrellas en perspectiva ── */
+        stars.forEach(s => {
+          s.pz = s.z;
+          s.z -= WARP_SPEED;
+
+          if (s.z <= 0) {
+            Object.assign(s, makeStar());
+            s.z  = MAX_DEPTH;
+            s.pz = MAX_DEPTH;
+          }
+
+          /* proyección perspectiva */
+          const sx  = (s.x  / s.z)  * W  + CX;
+          const sy  = (s.y  / s.z)  * H  + CY;
+          const spx = (s.x  / s.pz) * W  + CX;
+          const spy = (s.y  / s.pz) * H  + CY;
+
+          /* tamaño y brillo crecen al acercarse */
+          const t_depth = 1 - s.z / MAX_DEPTH;     // 0 lejos, 1 cerca
+          const r   = Math.max(0.3, t_depth * 2.8);
+          const a   = Math.min(1, 0.15 + t_depth * 0.95);
+
+          /* color */
+          const color = s.cyan
+            ? `rgba(100,217,255,${a})`
+            : `rgba(${Math.floor(200 + t_depth * 55)},${Math.floor(210 + t_depth * 45)},255,${a})`;
+
+          /* trail de movimiento */
+          if (t_depth > 0.05) {
+            ctx.beginPath();
+            ctx.moveTo(spx, spy);
+            ctx.lineTo(sx, sy);
+            ctx.strokeStyle = s.cyan
+              ? `rgba(100,217,255,${a * 0.55})`
+              : `rgba(200,220,255,${a * 0.45})`;
+            ctx.lineWidth = r * 0.7;
+            ctx.stroke();
+          }
+
+          /* punto principal */
+          ctx.beginPath();
+          ctx.arc(sx, sy, r, 0, Math.PI * 2);
+          ctx.fillStyle = color;
+          ctx.fill();
+
+          /* halo para las más cercanas */
+          if (t_depth > 0.75) {
+            const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 5);
+            g.addColorStop(0, `rgba(100,200,255,${a * 0.3})`);
+            g.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.beginPath();
+            ctx.arc(sx, sy, r * 5, 0, Math.PI * 2);
+            ctx.fillStyle = g;
+            ctx.fill();
+          }
+        });
+
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      draw();
+    })();
+  </script>
+
+
   <script>
     /* Remoción segura de marca de agua Spline */
     window.addEventListener('DOMContentLoaded', () => {
@@ -1297,6 +1534,26 @@
         setTimeout(() => clearInterval(checkExist), 10000);
       }
     });
+  </script>
+  <script id="loader-logic">
+    (function () {
+      const loader = document.getElementById('loader');
+      let alreadyVisited = false;
+      try { alreadyVisited = !!localStorage.getItem('pc_visited'); } catch(e) {}
+
+      if (alreadyVisited) {
+        loader.style.display = 'none';
+      } else {
+        try { localStorage.setItem('pc_visited', '1'); } catch(e) {}
+        function hide() { loader.classList.add('hidden'); }
+        if (document.readyState === 'complete') {
+          setTimeout(hide, 2600);
+        } else {
+          window.addEventListener('load', function() { setTimeout(hide, 2600); });
+          setTimeout(hide, 5000);
+        }
+      }
+    })();
   </script>
 </body>
 </html>
