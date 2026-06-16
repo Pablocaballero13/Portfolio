@@ -915,7 +915,7 @@
     }
 
     @media (max-width: 768px) {
-      nav { padding: 1rem 1.2rem; }
+      nav { padding: 2.6rem 1.2rem 1rem; }
       .nav-links { gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
       .nav-links a { font-size: 0.9rem; padding: 0.5rem 0.6rem; }
 
@@ -1403,9 +1403,11 @@
       document.body.prepend(canvas);
 
       const ctx = canvas.getContext('2d');
-      const NUM_STARS   = 320;
+      const isSmallMobile = window.innerWidth <= 560;
+      const NUM_STARS   = isSmallMobile ? 180 : 320;
       const WARP_SPEED  = 2.8;   // velocidad base de alejamiento
       const MAX_DEPTH   = 1000;
+      const STAR_SCALE  = isSmallMobile ? 0.55 : 1;
 
       let W, H, CX, CY;
       let stars = [];
@@ -1461,7 +1463,7 @@
 
           /* tamaño y brillo crecen al acercarse */
           const t_depth = 1 - s.z / MAX_DEPTH;     // 0 lejos, 1 cerca
-          const r   = Math.max(0.3, t_depth * 2.8);
+          const r   = Math.max(0.3, t_depth * 2.8) * STAR_SCALE;
           const a   = Math.min(1, 0.15 + t_depth * 0.95);
 
           /* color */
@@ -1587,6 +1589,16 @@
       transform: translateY(-2px);
     }
     #lang-btn:active { transform: translateY(0); }
+
+    @media (max-width: 560px) {
+      #lang-btn {
+        top: 0.6rem;
+        right: 0.7rem;
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+        padding: 0.3rem 0.7rem;
+      }
+    }
   </style>
 
   <button id="lang-btn" title="Translate page">
