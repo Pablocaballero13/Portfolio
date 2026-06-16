@@ -312,7 +312,7 @@
     }
 
     @media (max-width: 768px) {
-      nav { padding: 1rem 1.2rem; }
+      nav { padding: 2.6rem 1.2rem 1rem; }
       .nav-links { gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
       .nav-links a { font-size: 0.9rem; padding: 0.5rem 0.6rem; }
 
@@ -568,6 +568,16 @@
       transform: translateY(-2px);
     }
     #lang-btn:active { transform: translateY(0); }
+
+    @media (max-width: 560px) {
+      #lang-btn {
+        top: 0.6rem;
+        right: 0.7rem;
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+        padding: 0.3rem 0.7rem;
+      }
+    }
   </style>
 
   <button id="lang-btn" title="Translate page">
