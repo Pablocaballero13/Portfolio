@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox Explicativo: ABAP & Groq AI</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23030712'/><circle cx='50' cy='50' r='20' fill='none' stroke='%233b82f6' stroke-width='4' stroke-dasharray='10 5'/><circle cx='50' cy='50' r='8' fill='%23818cf8'/><path d='M50 10 L50 25 M50 75 L50 90 M10 50 L25 50 M75 50 L90 50' stroke='%233b82f6' stroke-width='4' stroke-linecap='round'/></svg>">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-main: #030712;
+            --bg-panel: #111827;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-indigo: #6366f1;
+            --accent-amber: #f59e0b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        /* Forzar a HTML y BODY a ocupar el 100% de la pantalla de manera estricta */
+        html, body {
+            height: 100%;
+            background-color: var(--bg-main);
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Orbes de fondo */
+        .orbe-1 {
+            position: absolute; top: -10%; left: -10%; width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .orbe-2 {
+            position: absolute; top: 60%; right: -10%; width: 45vw; height: 45vw;
+            background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        nav {
+            border-bottom: 1px solid rgba(30,41,59,0.4);
+            background-color: rgba(3,7,18,0.8);
+            backdrop-filter: blur(12px);
+            padding: 1rem 1.5rem;
+            position: sticky; top: 0; z-index: 50;
+        }
+
+        .nav-content {
+            max-width: 1000px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .brand { display: flex; align-items: center; gap: 0.75rem; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: bold; color: var(--text-primary); letter-spacing: 1px; }
+        .pulse { width: 8px; height: 8px; background-color: var(--accent-blue); border-radius: 50%; box-shadow: 0 0 8px var(--accent-blue); }
+        .tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); color: #60a5fa; padding: 0.25rem 0.75rem; border-radius: 9999px; }
+
+        /* El main ahora estira todo el hueco del centro usando flex-grow */
+        main { 
+            max-width: 1000px; 
+            width: 100%; 
+            margin: 0 auto; 
+            padding: 3rem 1.5rem; 
+            z-index: 10; 
+            flex: 1 0 auto; 
+        }
+
+        .header-section { border-bottom: 1px solid rgba(30,41,59,0.6); padding-bottom: 2rem; margin-bottom: 3rem; }
+        .sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: bold; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 2px; }
+        h1 { font-size: 2rem; color: var(--text-primary); margin-top: 0.5rem; letter-spacing: -0.025em; }
+        .desc { margin-top: 0.75rem; font-size: 14px; line-height: 1.6; max-width: 750px; }
+
+        h2 { font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: #475569; margin-bottom: 1.5rem; }
+
+        .grid-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .btn-case {
+            background-color: var(--bg-panel); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 1.25rem; text-align: left; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease;
+        }
+        .btn-case:hover { border-color: rgba(59,130,246,0.5); background-color: rgba(17,24,39,0.6); }
+        .btn-case h3 { color: var(--text-primary); font-size: 14px; font-weight: 600; }
+        .btn-case p { color: #64748b; font-size: 12px; margin-top: 0.25rem; }
+        .btn-case i { color: #334155; font-size: 12px; }
+
+        /* Consola interactiva */
+        .console-box { background-color: #0b0f19; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; margin-bottom: 4rem; display: none; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); }
+        .console-header { background-color: rgba(3,7,18,0.8); border-bottom: 1px solid rgba(30,41,59,0.6); padding: 0.75rem 1.25rem; display: flex; justify-content: space-between; align-items: center; }
+        .console-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary); }
+        .status-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); color: #34d399; padding: 0.125rem 0.5rem; border-radius: 4px; }
+        
+        .console-body { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .console-col { padding: 1.25rem; border-right: 1px solid rgba(30,41,59,0.4); }
+        .console-col:last-child { border-right: none; }
+        .col-label { font-size: 10px; font-weight: bold; text-transform: uppercase; color: #475569; display: block; margin-bottom: 0.75rem; letter-spacing: 0.5px; }
+        
+        .box-inner { background-color: rgba(3,7,18,0.4); border: 1px solid rgba(30,41,59,0.3); border-radius: 8px; padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 11px; min-height: 180px; }
+        #col-input { color: #cbd5e1; white-space: pre-line; line-height: 1.5; }
+        #col-json { color: var(--accent-amber); overflow-x: auto; }
+        #col-abap { display: flex; flex-direction: column; justify-content: center; gap: 1rem; }
+
+        .abap-var { display: flex; flex-direction: column; gap: 0.25rem; }
+        .abap-var label { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #475569; }
+        .badge-abap { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 11px; font-weight: 600; width: fit-content; }
+        .badge-blue { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); color: #60a5fa; }
+        .badge-amber { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); color: #fbbf24; }
+        .badge-rose { background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.2); color: #f43f5e; }
+        .abap-text { color: #e2e8f0; font-family: sans-serif; font-size: 12px; line-height: 1.4; }
+
+        /* Pasos Técnicos */
+        .step-card { background-color: rgba(17,24,39,0.3); border: 1px solid rgba(30,41,59,0.6); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; display: flex; gap: 1rem; }
+        .step-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: bold; background: rgba(59,130,246,0.1); color: var(--accent-blue); padding: 0.25rem 0.5rem; border-radius: 6px; height: fit-content; }
+        .step-content h4 { color: var(--text-primary); font-size: 14px; font-weight: 600; }
+        .step-content p { font-size: 13px; margin-top: 0.5rem; line-height: 1.6; }
+        .step-content code { font-family: 'JetBrains Mono', monospace; color: #cbd5e1; background: rgba(30,41,59,0.5); padding: 0.125rem 0.25rem; border-radius: 4px; font-size: 12px; }
+        .code-block { background-color: #030712; border: 1px solid var(--border-color); color: #cbd5e1; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 1rem; border-radius: 8px; margin-top: 0.75rem; overflow-x: auto; }
+
+        /* Footer Inmune a Huecos */
+        footer { 
+            width: 100%; 
+            border-top: 1px solid #0f172a; 
+            background-color: rgba(3,7,18,0.5); 
+            padding: 1.5rem 0; 
+            flex-shrink: 0; 
+        }
+        .footer-wrap { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; display: table; width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+        .footer-left { display: table-cell; text-align: left; color: #475569; }
+        .footer-right { display: table-cell; text-align: right; color: #334155; }
+
+        /* Responsive: pantallas pequeñas / móvil */
+        @media (max-width: 768px) {
+            .console-body {
+                grid-template-columns: 1fr;
+            }
+            .console-col {
+                border-right: none;
+                border-bottom: 1px solid rgba(30,41,59,0.4);
+            }
+            .console-col:last-child {
+                border-bottom: none;
+            }
+            .box-inner {
+                min-height: 0;
+            }
+            #col-json {
+                white-space: pre-wrap;
+                word-break: break-word;
+            }
+            #col-input {
+                word-break: break-word;
+            }
+            .console-header {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .console-title {
+                word-break: break-all;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="orbe-1"></div>
+    <div class="orbe-2"></div>
+
+    <nav>
+        <div class="nav-content">
+            <div class="brand">
+                <div class="pulse"></div>
+                DAM to ABAP // LAB (Ubuntu)
+            </div>
+            <span class="tag">Proyecto de Práctica</span>
+        </div>
+    </nav>
+
+    <main>
+        <div class="header-section">
+            <span class="sub">Bitácora de Aprendizaje</span>
+            <h1>Integración SAP ABAP con Groq AI</h1>
+            <p class="desc">
+                Llevo dos meses aprendiendo ABAP tras graduarme en DAM, programando mi entorno directamente sobre Eclipse ADT en Ubuntu. Para entender el manejo de conexiones externas en SAP, conecté el backend corporativo con un LLM usando la API de Groq, parseando las respuestas JSON a través de expresiones regulares nativas.
+            </p>
+        </div>
+
+        <div>
+            <h2><i class="fa-solid fa-play" style="color: var(--accent-blue); margin-right: 6px;"></i> 1. Simulación del flujo en tiempo real</h2>
+            <div class="grid-buttons">
+                <button onclick="ejecutarSimulacion('ventas')" class="btn-case">
+                    <div>
+                        <h3>Caso A: Análisis de Riesgo (Ventas SD)</h3>
+                        <p>Evalúa el riesgo cualitativo de un pedido comercial.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                <button onclick="ejecutarSimulacion('soporte')" class="btn-case">
+                    <div>
+                        <h3>Caso B: Triage de Tickets (Soporte CS)</h3>
+                        <p>Clasifica correos no estructurados en categorías SAP.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div id="console-wrapper" class="console-box">
+                <div class="console-header">
+                    <span id="console-title" class="console-title"></span>
+                    <span class="status-badge">HTTP_200</span>
+                </div>
+                <div class="console-body">
+                    <div class="console-col">
+                        <span class="col-label">1. Input del ERP</span>
+                        <div id="col-input" class="box-inner"></div>
+                    </div>
+                    <div class="console-col">
+                        <span class="col-label">2. JSON devuelto por el LLM</span>
+                        <pre id="col-json" class="box-inner"></pre>
+                    </div>
+                    <div class="console-col">
+                        <span class="col-label">3. Variables mapeadas en ABAP</span>
+                        <div id="col-abap" class="box-inner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem;">
+            <h2><i class="fa-solid fa-code" style="color: var(--accent-indigo); margin-right: 6px;"></i> 2. Explicación de la lógica técnica (ABAP)</h2>
+            
+            <div class="step-card">
+                <div class="step-num">01</div>
+                <div class="step-content">
+                    <h4>Conexión HTTP Externa (cl_http_client)</h4>
+                    <p>Para comunicar SAP con el exterior de manera segura, invoqué la clase estándar <code>cl_http_client=>create_by_url</code>. Se mapean las cabeceras REST, fijando el método en POST, el Content-Type en <code>application/json</code> e inyectando de forma asíncrona la API Key del modelo.</p>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-content">
+                    <h4>Estructuración del Prompt para forzar un JSON estricto</h4>
+                    <p>Para evitar las respuestas conversacionales por parte de la IA (como "Claro, aquí tienes tu respuesta:"), se diseña un *system prompt* restrictivo que obliga al LLM a devolver **únicamente** la estructura JSON cruda, permitiendo un procesamiento seguro en el servidor SAP.</p>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-content">
+                    <h4>Parseo optimizado con Expresiones Regulares (REGEX)</h4>
+                    <p>Al procesar la respuesta, en lugar de instanciar pesados parsers orientados a objetos que consumen memoria de diálogo, utilicé sentencias nativas de ABAP:</p>
+                    <div class="code-block">FIND REGEX '"content"\s*:\s*"(.*?)"' IN iv_raw_json SUBMATCHES lv_content.</div>
+                    <p style="margin-top: 0.5rem;">De esta manera, aislo la cadena del mensaje, limpio los caracteres de escape y vuelvo a utilizar bloques <code>SUBMATCHES</code> para asignar los valores directamente a los campos de la estructura interna del ERP.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const fecha = new Date();
+        const opciones = { month: 'long', year: 'numeric' };
+        const dynamicDateEl = document.getElementById('dynamic-date');
+        if (dynamicDateEl) {
+            dynamicDateEl.innerText = fecha.toLocaleDateString('es-ES', opciones).toUpperCase();
+        }
+
+        const simData = {
+            ventas: {
+                title: "PROGRAMA_ABAP // TRACE: PARSE_AI_RESPONSE // SD_RISK",
+                input: "DOCUMENTO: Pedido de Ventas SD\nIMPORTE: 15.000 EUR\nPERFIL: Cliente de nueva creación\nLOG: El sistema detecta que la cuenta solicita condiciones de pago diferido sin histórico crediticio en el módulo financiero (FI).",
+                json: {
+                    "riesgo": "MEDIO",
+                    "puntuacion": 65,
+                    "motivo": "Historial inexistente debido a ser cuenta nueva, pero el importe actual no excede los límites de riesgo generales."
+                },
+                render: function(j) {
+                    return `
+                        <div class="abap-var">
+                            <label>cs_response-riesgo</label>
+                            <span class="badge-abap badge-amber">MEDIO</span>
+                        </div>
+                        <div class="abap-var">
+                            <label>cs_response-puntuacion</label>
+                            <span style="color:#fff; font-weight:bold;">65 / 100</span>
+                        </div>
+                        <div class="abap-var">
+                            <label>cs_response-motivo</label>
+                            <p class="abap-text">${j.motivo}</p>
+                        </div>
+                    `;
+                }
+            },
+            soporte: {
+                title: "PROGRAMA_ABAP // TRACE: PARSE_AI_RESPONSE // CS_TICKET",
+                input: "TICKET: Módulo Atención al Cliente\nTEXTO: 'Buenas tardes, desde el cambio de servidor ningún usuario del departamento de compras puede entrar a la transacción VF01. Lanza error de falta de autorización en objeto S_TCODE. Urge solucionarlo hoy.'",
+                json: {
+                    "categoria": "Acceso y Permisos",
+                    "prioridad": "Alta",
+                    "departamento": "Soporte Técnico"
+                },
+                render: function(j) {
+                    return `
+                        <div class="abap-var">
+                            <label>cs_response-categoria</label>
+                            <span class="badge-abap badge-blue">${j.categoria}</span>
+                        </div>
+                        <div class="abap-var">
+                            <label>cs_response-prioridad</label>
+                            <span class="badge-abap badge-rose">${j.prioridad}</span>
+                        </div>
+                        <div class="abap-var">
+                            <label>cs_response-departamento</label>
+                            <p class="abap-text"><i class="fa-solid fa-headset" style="color:#475569; margin-right:4px;"></i> ${j.departamento}</p>
+                        </div>
+                    `;
+                }
+            }
+        };
+
+        function ejecutarSimulacion(tipo) {
+            const wrapper = document.getElementById('console-wrapper');
+            wrapper.style.display = 'block';
+            
+            const data = simData[tipo];
+            document.getElementById('console-title').innerText = data.title;
+            document.getElementById('col-input').innerText = data.input;
+            document.getElementById('col-json').innerText = JSON.stringify(data.json, null, 4);
+            document.getElementById('col-abap').innerHTML = data.render(data.json);
+            
+            wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>

@@ -535,8 +535,8 @@
       display: grid;
       grid-template-areas: 'stack';
       place-items: center;
-      width: 620px;
-      height: 520px;
+      width: 900px;
+      height: 460px;
       position: relative;
       overflow: visible;
     }
@@ -544,21 +544,21 @@
     .display-card {
       grid-area: stack;
       position: relative;
-      width: 520px;
+      width: 360px;
       height: auto;
-      min-height: 220px;
+      min-height: 230px;
       border-radius: 18px;
       border: 2px solid rgba(100, 200, 255, 0.28);
-      background: linear-gradient(145deg, rgba(12, 28, 52, 0.94), rgba(8, 20, 44, 0.92));
+      background: linear-gradient(145deg, rgba(12, 28, 52, 0.96), rgba(8, 20, 44, 0.95));
       backdrop-filter: blur(12px);
-      padding: 1.8rem 2rem;
+      padding: 1.8rem 1.9rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transform: skewY(-8deg) scale(1);
+      transform: scale(0.94);
       transition:
-        transform   0.55s cubic-bezier(0.23,1,0.32,1),
-        translate   0.55s cubic-bezier(0.23,1,0.32,1),
+        transform   0.4s cubic-bezier(0.23,1,0.32,1),
+        translate   0.4s cubic-bezier(0.23,1,0.32,1),
         border-color 0.4s,
         background   0.4s,
         filter       0.4s,
@@ -586,20 +586,23 @@
       z-index: 2;
     }
 
-    .display-card:nth-child(1) { translate: 160px 200px; z-index: 4; }
-    .display-card:nth-child(1)::before { background: rgba(6, 16, 36, 0); }
+    .display-card:nth-child(1) { translate: -340px 30px; z-index: 1; }
+    .display-card:nth-child(1)::before { background: rgba(6, 16, 36, 0.26); }
 
-    .display-card:nth-child(2) { translate: -80px -30px; z-index: 1; }
-    .display-card:nth-child(2)::before { background: rgba(6, 16, 36, 0.22); }
+    .display-card:nth-child(2) { translate: -170px 10px; z-index: 2; }
+    .display-card:nth-child(2)::before { background: rgba(6, 16, 36, 0.20); }
 
-    .display-card:nth-child(3) { translate: 0px 22px; z-index: 2; }
+    .display-card:nth-child(3) { translate: 0px 0px; z-index: 3; }
     .display-card:nth-child(3)::before { background: rgba(6, 16, 36, 0.14); }
 
-    .display-card:nth-child(4) { translate: 80px 80px; z-index: 3; }
+    .display-card:nth-child(4) { translate: 170px 10px; z-index: 4; }
     .display-card:nth-child(4)::before { background: rgba(6, 16, 36, 0.08); }
 
+    .display-card:nth-child(5) { translate: 340px 30px; z-index: 5; }
+    .display-card:nth-child(5)::before { background: rgba(6, 16, 36, 0); }
+
     .display-card:hover {
-      transform: skewY(0deg) scale(1.18);
+      transform: scale(1.1);
       z-index: 20 !important;
       filter: grayscale(0) !important;
       border-color: rgba(100, 200, 255, 0.55) !important;
@@ -609,10 +612,11 @@
         0 30px 70px rgba(0, 0, 0, 0.5),
         0 0 50px rgba(100, 200, 255, 0.12);
     }
-    .display-card:nth-child(1):hover { translate: 160px  60px; }
-    .display-card:nth-child(2):hover { translate: -80px -130px; }
-    .display-card:nth-child(3):hover { translate:   0px  -75px; }
-    .display-card:nth-child(4):hover { translate:  80px   15px; }
+    .display-card:nth-child(1):hover { translate: -340px -30px; }
+    .display-card:nth-child(2):hover { translate: -170px -45px; }
+    .display-card:nth-child(3):hover { translate:    0px -55px; }
+    .display-card:nth-child(4):hover { translate:  170px -45px; }
+    .display-card:nth-child(5):hover { translate:  340px -30px; }
 
     .display-card:hover::before { background: rgba(6, 16, 36, 0) !important; }
     .display-card:hover::after  { opacity: 0; }
@@ -681,6 +685,7 @@
       .display-card:nth-child(2):hover { translate: -40px -110px; }
       .display-card:nth-child(3):hover { translate:   0px  -60px; }
       .display-card:nth-child(4):hover { translate:  40px   10px; }
+      .display-card:nth-child(5):hover { translate: -60px   20px; }
     }
 
     /* Scroll Animations */
@@ -911,7 +916,18 @@
       .stack-grid { gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); }
       .card { padding: 1.8rem; }
       .project-links a { min-width: calc(50% - 0.5rem); }
-      .display-stack { width: 520px; }
+      .display-stack { width: 640px; height: 420px; }
+      .display-card { width: 300px; padding: 1.5rem 1.6rem; }
+      .display-card:nth-child(1) { translate: -240px 20px; }
+      .display-card:nth-child(2) { translate: -120px  8px; }
+      .display-card:nth-child(3) { translate:    0px  0px; }
+      .display-card:nth-child(4) { translate:  120px  8px; }
+      .display-card:nth-child(5) { translate:  240px 20px; }
+      .display-card:nth-child(1):hover { translate: -240px -20px; }
+      .display-card:nth-child(2):hover { translate: -120px -35px; }
+      .display-card:nth-child(3):hover { translate:    0px -45px; }
+      .display-card:nth-child(4):hover { translate:  120px -35px; }
+      .display-card:nth-child(5):hover { translate:  240px -20px; }
     }
 
     @media (max-width: 768px) {
@@ -1169,6 +1185,16 @@
 
           <div class="display-card">
             <div class="dc-top">
+              <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ecfff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6M4.22 4.22l4.24 4.24m7.08 7.08 4.24 4.24M1 12h6m10 0h6M4.22 19.78l4.24-4.24m7.08-7.08 4.24-4.24"/></svg></div>
+              <span class="dc-title">Sandbox ABAP &amp; Groq AI</span>
+            </div>
+            <p class="dc-desc">Entorno explicativo interactivo que conecta ABAP con IA (Groq) para analizar y comentar código paso a paso, pensado como herramienta de aprendizaje.</p>
+            <span class="dc-date">SAP ABAP · IA · Groq</span>
+            <a href="sappp.html" class="dc-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Ver Demo</a>
+          </div>
+
+          <div class="display-card">
+            <div class="dc-top">
               <div class="dc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ecfff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
               <span class="dc-title">Gestión de Alumnado</span>
             </div>
@@ -1221,7 +1247,7 @@
   </main>
 
   <footer class="footer">
-    <p>pcaballero155@gmail.com · Leganés, Madrid · <a href="https://github.com/Pablocaballero13">GitHub</a></p>
+    <p>pcaballero155@gmail.com · Leganés, Madrid · <a href="https://www.linkedin.com/in/pablocaballerolaserna/" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
   </footer>
 
   <script>
@@ -1605,6 +1631,7 @@
     <span class="lang-label">EN</span>
   </button>
 
+  <script src="page-transitions.js"></script>
   <script src="translations.js"></script>
   <script id="translation-engine">
   (function() {

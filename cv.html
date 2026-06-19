@@ -19,7 +19,7 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #05050a 0%, #0b1220 50%, #071428 100%);
+      background: linear-gradient(135deg, #000000 0%, #020810 50%, #010912 100%);
       color: #e6eef6;
       line-height: 1.6;
       min-height: 100vh;
@@ -344,8 +344,7 @@
     <nav class="nav">
     <div class="nav-links">
       <a href="cv.html">CV</a>
-      <a href="index.html#stack">Stack</a>
-      <a href="index.html#proyectos-destacados">Proyectos</a>
+      <a href="index.html">Principal</a>
       <a href="cartaPresentación.html">Carta de presentación</a>
     </div>
   </nav>
@@ -584,6 +583,7 @@
     <span class="lang-label">EN</span>
   </button>
 
+  <script src="page-transitions.js"></script>
   <script src="translations.js"></script>
   <script id="translation-engine">
   (function() {
@@ -665,6 +665,127 @@
       }
     } catch(e) {}
   })();
+  </script>
+
+<script id="starfield">
+    /* Fondo estrellado — warp perspective desde el centro */
+    (function () {
+      const canvas = document.createElement('canvas');
+      canvas.id = 'starfield';
+      Object.assign(canvas.style, {
+        position: 'fixed',
+        top: '0', left: '0',
+        width: '100%', height: '100%',
+        pointerEvents: 'none',
+        zIndex: '0',
+      });
+      document.body.prepend(canvas);
+
+      const ctx = canvas.getContext('2d');
+      const isSmallMobile = window.innerWidth <= 560;
+      const NUM_STARS   = isSmallMobile ? 180 : 320;
+      const WARP_SPEED  = 2.8;   // velocidad base de alejamiento
+      const MAX_DEPTH   = 1000;
+      const STAR_SCALE  = isSmallMobile ? 0.55 : 1;
+
+      let W, H, CX, CY;
+      let stars = [];
+
+      function rand(a, b) { return a + Math.random() * (b - a); }
+
+      function makeStar() {
+        return {
+          x: rand(-W / 2, W / 2),
+          y: rand(-H / 2, H / 2),
+          z: rand(1, MAX_DEPTH),
+          pz: 0,          // z anterior (para dibujar trail)
+          cyan: Math.random() < 0.09,
+        };
+      }
+
+      function resize() {
+        W  = canvas.width  = window.innerWidth;
+        H  = canvas.height = window.innerHeight;
+        CX = W / 2;
+        CY = H / 2;
+        stars = Array.from({ length: NUM_STARS }, makeStar);
+        // inicializar pz
+        stars.forEach(s => { s.pz = s.z; });
+      }
+
+
+
+      let t = 0;
+      function draw() {
+        requestAnimationFrame(draw);
+        t++;
+
+        /* fondo limpio */
+        ctx.clearRect(0, 0, W, H);
+
+        /* ── Estrellas en perspectiva ── */
+        stars.forEach(s => {
+          s.pz = s.z;
+          s.z -= WARP_SPEED;
+
+          if (s.z <= 0) {
+            Object.assign(s, makeStar());
+            s.z  = MAX_DEPTH;
+            s.pz = MAX_DEPTH;
+          }
+
+          /* proyección perspectiva */
+          const sx  = (s.x  / s.z)  * W  + CX;
+          const sy  = (s.y  / s.z)  * H  + CY;
+          const spx = (s.x  / s.pz) * W  + CX;
+          const spy = (s.y  / s.pz) * H  + CY;
+
+          /* tamaño y brillo crecen al acercarse */
+          const t_depth = 1 - s.z / MAX_DEPTH;     // 0 lejos, 1 cerca
+          const r   = Math.max(0.3, t_depth * 2.8) * STAR_SCALE;
+          const a   = Math.min(1, 0.15 + t_depth * 0.95);
+
+          /* color */
+          const color = s.cyan
+            ? `rgba(100,217,255,${a})`
+            : `rgba(${Math.floor(200 + t_depth * 55)},${Math.floor(210 + t_depth * 45)},255,${a})`;
+
+          /* trail de movimiento */
+          if (t_depth > 0.05) {
+            ctx.beginPath();
+            ctx.moveTo(spx, spy);
+            ctx.lineTo(sx, sy);
+            ctx.strokeStyle = s.cyan
+              ? `rgba(100,217,255,${a * 0.55})`
+              : `rgba(200,220,255,${a * 0.45})`;
+            ctx.lineWidth = r * 0.7;
+            ctx.stroke();
+          }
+
+          /* punto principal */
+          ctx.beginPath();
+          ctx.arc(sx, sy, r, 0, Math.PI * 2);
+          ctx.fillStyle = color;
+          ctx.fill();
+
+          /* halo para las más cercanas */
+          if (t_depth > 0.75) {
+            const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 5);
+            g.addColorStop(0, `rgba(100,200,255,${a * 0.3})`);
+            g.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.beginPath();
+            ctx.arc(sx, sy, r * 5, 0, Math.PI * 2);
+            ctx.fillStyle = g;
+            ctx.fill();
+          }
+        });
+
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      draw();
+    })();
   </script>
 
 </body>
