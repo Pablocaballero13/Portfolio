@@ -144,8 +144,8 @@
 
     body::before {
       content: '';
-      position: absolute;
-      inset: 0;
+      position: fixed;
+      inset: -20%;
       background-image:
         radial-gradient(circle at 20% 20%, rgba(100, 200, 255, 0.18), transparent 22%),
         radial-gradient(circle at 80% 15%, rgba(0, 217, 255, 0.14), transparent 20%),
@@ -153,7 +153,8 @@
       background-size: 250% 250%, 220% 220%, 210% 210%;
       opacity: 0.9;
       pointer-events: none;
-      animation: moveBg 12s linear infinite alternate;
+      animation: moveBg 12s ease-in-out infinite alternate;
+      will-change: transform;
       z-index: 0;
     }
 
@@ -178,9 +179,9 @@
     }
 
     @keyframes moveBg {
-      0%   { background-position: 0% 0%,   100% 10%, 50% 100%; }
-      50%  { background-position: 100% 30%, 0% 80%,  20% 0%;   }
-      100% { background-position: 0% 0%,   100% 10%, 50% 100%; }
+      0%   { transform: translate3d(0, 0, 0) scale(1); }
+      50%  { transform: translate3d(6%, 4%, 0) scale(1.08); }
+      100% { transform: translate3d(-4%, -3%, 0) scale(1.03); }
     }
 
     .nav-links { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; }
@@ -224,16 +225,16 @@
       width: 100%; height: 100%;
       border: none; pointer-events: auto;
       z-index: 2;
-      transform: translateX(24%) translateY(-8%) scale(1.05);
+      transform: translateX(24%) translateY(-8%) scale(1.16);
       transform-origin: center;
+      will-change: transform;
       filter: drop-shadow(0 0 28px rgba(78,174,212,0.34)) brightness(1.12);
     }
 
     @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
       .hero-content { align-items: center; text-align: center; padding: 3rem 1.5rem 2rem; }
-      .hero-spline  { min-height: 480px; height: min(62vh, 540px); }
-      spline-viewer { transform: translateX(0) scale(0.86); }
+      .hero-spline  { display: none; }
     }
 
     /* Animaciones síncronas refinadas para Hero Content */
@@ -527,104 +528,96 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 2rem 0 10rem;
+      padding: 2rem 0 4rem;
       overflow: visible;
     }
 
     .display-stack {
       display: grid;
-      grid-template-areas: 'stack';
-      place-items: center;
-      width: 1110px;
-      max-width: 100%;
-      height: 460px;
-      position: relative;
-      overflow: visible;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.6rem;
+      width: 100%;
+      max-width: 1140px;
+      perspective: 1400px;
     }
 
     .display-card {
-      grid-area: stack;
       position: relative;
-      width: 360px;
+      width: auto;
       height: auto;
       min-height: 230px;
       border-radius: 18px;
       border: 2px solid rgba(100, 200, 255, 0.28);
       background: linear-gradient(145deg, rgba(12, 28, 52, 0.96), rgba(8, 20, 44, 0.95));
-      backdrop-filter: blur(12px);
       padding: 1.8rem 1.9rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transform: scale(0.94);
+      gap: 0.4rem;
+      /* entrada en cascada (translate) + tilt 3D (transform), sin pisarse */
+      opacity: 0;
+      translate: 0 44px;
+      transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--s, 1));
+      transform-style: preserve-3d;
+      will-change: transform, translate, opacity;
       transition:
-        transform   0.4s cubic-bezier(0.23,1,0.32,1),
-        translate   0.4s cubic-bezier(0.23,1,0.32,1),
-        border-color 0.4s,
-        background   0.4s,
-        filter       0.4s,
-        box-shadow   0.4s;
+        opacity      0.75s cubic-bezier(0.215, 0.610, 0.355, 1.000),
+        translate    0.75s cubic-bezier(0.215, 0.610, 0.355, 1.000),
+        transform    0.28s ease-out,
+        border-color 0.35s,
+        box-shadow   0.35s;
       cursor: pointer;
     }
 
-    .display-card::after {
-      content: '';
-      position: absolute;
-      right: -4px; top: -5%;
-      width: 52%; height: 110%;
-      background: linear-gradient(to left, rgba(6, 14, 32, 0.95) 35%, transparent);
-      pointer-events: none;
-      border-radius: 0 14px 14px 0;
-      transition: opacity 0.4s;
-    }
+    /* cascada al entrar en pantalla (delay solo en opacidad y translate,
+       para no retrasar el tilt del ratón) */
+    .display-cards-section.visible .display-card { opacity: 1; translate: 0 0; }
+    .display-cards-section.visible .display-card:nth-child(1) { transition-delay: 0.05s, 0.05s, 0s, 0s, 0s; }
+    .display-cards-section.visible .display-card:nth-child(2) { transition-delay: 0.13s, 0.13s, 0s, 0s, 0s; }
+    .display-cards-section.visible .display-card:nth-child(3) { transition-delay: 0.21s, 0.21s, 0s, 0s, 0s; }
+    .display-cards-section.visible .display-card:nth-child(4) { transition-delay: 0.29s, 0.29s, 0s, 0s, 0s; }
+    .display-cards-section.visible .display-card:nth-child(5) { transition-delay: 0.37s, 0.37s, 0s, 0s, 0s; }
+    .display-cards-section.visible .display-card:nth-child(6) { transition-delay: 0.45s, 0.45s, 0s, 0s, 0s; }
 
+    /* foco de luz que sigue al cursor */
     .display-card::before {
       content: '';
       position: absolute; inset: 0;
       border-radius: 16px;
-      transition: background 0.4s;
+      background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 50%),
+                  rgba(100, 200, 255, 0.16), transparent 65%);
+      opacity: 0;
+      transition: opacity 0.35s;
       pointer-events: none;
       z-index: 2;
     }
+    .display-card:hover::before { opacity: 1; }
 
-    .display-card:nth-child(1) { translate: -375px 35px; z-index: 1; }
-    .display-card:nth-child(1)::before { background: rgba(6, 16, 36, 0.26); }
-
-    .display-card:nth-child(2) { translate: -225px 15px; z-index: 2; }
-    .display-card:nth-child(2)::before { background: rgba(6, 16, 36, 0.21); }
-
-    .display-card:nth-child(3) { translate: -75px 3px; z-index: 3; }
-    .display-card:nth-child(3)::before { background: rgba(6, 16, 36, 0.16); }
-
-    .display-card:nth-child(4) { translate: 75px 3px; z-index: 4; }
-    .display-card:nth-child(4)::before { background: rgba(6, 16, 36, 0.11); }
-
-    .display-card:nth-child(5) { translate: 225px 15px; z-index: 5; }
-    .display-card:nth-child(5)::before { background: rgba(6, 16, 36, 0.06); }
-
-    .display-card:nth-child(6) { translate: 375px 35px; z-index: 6; }
-    .display-card:nth-child(6)::before { background: rgba(6, 16, 36, 0); }
+    /* barrido de brillo diagonal al hacer hover */
+    .display-card::after {
+      content: '';
+      position: absolute; inset: -2px;
+      border-radius: 18px;
+      background: linear-gradient(120deg, transparent 30%, rgba(100, 200, 255, 0.22) 50%, transparent 70%);
+      background-size: 250% 250%;
+      background-position: 120% 120%;
+      opacity: 0;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      transition: opacity 0.4s, background-position 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .display-card:hover::after { opacity: 0.9; background-position: -20% -20%; }
 
     .display-card:hover {
-      transform: scale(1.1);
-      z-index: 20 !important;
-      filter: grayscale(0) !important;
-      border-color: rgba(100, 200, 255, 0.55) !important;
-      background: rgba(8, 20, 40, 0.98) !important;
+      --s: 1.04;
+      z-index: 5;
+      border-color: rgba(100, 200, 255, 0.6);
+      background: rgba(8, 20, 40, 0.98);
       box-shadow:
         0 0 0 1px rgba(100, 200, 255, 0.2),
-        0 30px 70px rgba(0, 0, 0, 0.5),
-        0 0 50px rgba(100, 200, 255, 0.12);
+        0 22px 55px rgba(0, 0, 0, 0.5),
+        0 0 45px rgba(100, 200, 255, 0.13);
     }
-    .display-card:nth-child(1):hover { translate: -375px -30px; }
-    .display-card:nth-child(2):hover { translate: -225px -45px; }
-    .display-card:nth-child(3):hover { translate:  -75px -55px; }
-    .display-card:nth-child(4):hover { translate:   75px -55px; }
-    .display-card:nth-child(5):hover { translate:  225px -45px; }
-    .display-card:nth-child(6):hover { translate:  375px -30px; }
-
-    .display-card:hover::before { background: rgba(6, 16, 36, 0) !important; }
-    .display-card:hover::after  { opacity: 0; }
 
     .dc-top {
       display: flex; align-items: center; gap: 0.7rem;
@@ -682,17 +675,8 @@
     }
 
     @media (max-width: 560px) {
-      .display-stack { width: 360px; height: 380px; }
-      .display-card  { width: 320px; }
-      .display-card:nth-child(1) { translate: 80px 110px; }
-      .display-card:nth-child(3) { translate:  40px  55px; }
-      .display-card:nth-child(6) { translate: -50px  90px; }
-      .display-card:nth-child(1):hover { translate:  80px   35px; }
-      .display-card:nth-child(2):hover { translate: -40px -110px; }
-      .display-card:nth-child(3):hover { translate:   0px  -60px; }
-      .display-card:nth-child(4):hover { translate:  40px   10px; }
-      .display-card:nth-child(5):hover { translate: -60px   20px; }
-      .display-card:nth-child(6):hover { translate: -50px   15px; }
+      .display-stack { grid-template-columns: 1fr; gap: 1.1rem; }
+      .display-card  { min-height: 0; }
     }
 
     /* Scroll Animations */
@@ -923,18 +907,7 @@
       .stack-grid { gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); }
       .card { padding: 1.8rem; }
       .project-links a { min-width: calc(50% - 0.5rem); }
-      .display-stack { width: 640px; height: 420px; }
-      .display-card { width: 300px; padding: 1.5rem 1.6rem; }
-      .display-card:nth-child(1) { translate: -240px 20px; }
-      .display-card:nth-child(2) { translate: -120px  8px; }
-      .display-card:nth-child(3) { translate:    0px  0px; }
-      .display-card:nth-child(4) { translate:  120px  8px; }
-      .display-card:nth-child(5) { translate:  240px 20px; }
-      .display-card:nth-child(1):hover { translate: -240px -20px; }
-      .display-card:nth-child(2):hover { translate: -120px -35px; }
-      .display-card:nth-child(3):hover { translate:    0px -45px; }
-      .display-card:nth-child(4):hover { translate:  120px -35px; }
-      .display-card:nth-child(5):hover { translate:  240px -20px; }
+      .display-card { padding: 1.5rem 1.6rem; }
     }
 
     @media (max-width: 768px) {
@@ -1068,12 +1041,25 @@
         <a href="#proyectos-destacados" class="btn btn-ghost">Ver Proyectos</a>
       </div>
     </div>
-    <div class="hero-spline" id="heroSpline">
-      <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" background="transparent" loading-anim-type="spinner-small-light"></spline-viewer>
-    </div>
+    <div class="hero-spline" id="heroSpline"></div>
   </header>
   
-  <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
+  <script id="spline-loader">
+    /* El robot 3D solo se carga en escritorio: en móvil ni siquiera
+       se descargan el visor ni la escena (lo más pesado de la página) */
+    (function () {
+      if (window.innerWidth <= 900) return;
+      var v = document.createElement('spline-viewer');
+      v.setAttribute('url', 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode');
+      v.setAttribute('background', 'transparent');
+      v.setAttribute('loading-anim-type', 'spinner-small-light');
+      document.getElementById('heroSpline').appendChild(v);
+      var s = document.createElement('script');
+      s.type = 'module';
+      s.src = 'https://unpkg.com/@splinetool/viewer/build/spline-viewer.js';
+      document.head.appendChild(s);
+    })();
+  </script>
   <script>
     /* Spotlight Hero */
     const hero = document.getElementById('hero');
@@ -1135,44 +1121,44 @@
       
       <p class="stack-category reveal">Lenguajes</p>
       <div class="stack-grid reveal-stagger">
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/openjdk" alt="Java"></span><span class="name">Java</span><span class="type">Lenguaje</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/python" alt="Python"></span><span class="name">Python</span><span class="type">Lenguaje</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/kotlin" alt="Kotlin"></span><span class="name">Kotlin</span><span class="type">Lenguaje</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/javascript" alt="JavaScript"></span><span class="name">JavaScript</span><span class="type">Lenguaje</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/sap" alt="SAP ABAP"></span><span class="name">SAP ABAP</span><span class="type">Lenguaje</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/html5" alt="HTML/CSS"></span><span class="name">HTML/CSS</span><span class="type">Lenguaje</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/postgresql" alt="SQL"></span><span class="name">SQL</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/openjdk" alt="Java" loading="lazy" decoding="async"></span><span class="name">Java</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/python" alt="Python" loading="lazy" decoding="async"></span><span class="name">Python</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/kotlin" alt="Kotlin" loading="lazy" decoding="async"></span><span class="name">Kotlin</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/javascript" alt="JavaScript" loading="lazy" decoding="async"></span><span class="name">JavaScript</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/sap" alt="SAP ABAP" loading="lazy" decoding="async"></span><span class="name">SAP ABAP</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/html5" alt="HTML/CSS" loading="lazy" decoding="async"></span><span class="name">HTML/CSS</span><span class="type">Lenguaje</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/postgresql" alt="SQL" loading="lazy" decoding="async"></span><span class="name">SQL</span><span class="type">Lenguaje</span></div>
       </div>
       
       <p class="stack-category reveal">Frameworks &amp; Librerías</p>
       <div class="stack-grid reveal-stagger">
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/springboot" alt="Spring Boot"></span><span class="name">Spring Boot</span><span class="type">Backend</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/django" alt="Django"></span><span class="name">Django</span><span class="type">Backend</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/hibernate" alt="JPA/Hibernate"></span><span class="name">JPA/Hibernate</span><span class="type">ORM</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/angular" alt="Angular"></span><span class="name">Angular</span><span class="type">Frontend</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/openjdk" alt="Java Swing"></span><span class="name">Java Swing</span><span class="type">Desktop</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/springboot" alt="Spring Boot" loading="lazy" decoding="async"></span><span class="name">Spring Boot</span><span class="type">Backend</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/django" alt="Django" loading="lazy" decoding="async"></span><span class="name">Django</span><span class="type">Backend</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/hibernate" alt="JPA/Hibernate" loading="lazy" decoding="async"></span><span class="name">JPA/Hibernate</span><span class="type">ORM</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/angular" alt="Angular" loading="lazy" decoding="async"></span><span class="name">Angular</span><span class="type">Frontend</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/openjdk" alt="Java Swing" loading="lazy" decoding="async"></span><span class="name">Java Swing</span><span class="type">Desktop</span></div>
       </div>
       
       <p class="stack-category reveal">Bases de Datos</p>
       <div class="stack-grid reveal-stagger">
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/postgresql" alt="PostgreSQL"></span><span class="name">PostgreSQL</span><span class="type">Relacional</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/mysql" alt="MySQL"></span><span class="name">MySQL</span><span class="type">Relacional</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/mongodb" alt="NoSQL"></span><span class="name">NoSQL</span><span class="type">No relacional</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/postgresql" alt="PostgreSQL" loading="lazy" decoding="async"></span><span class="name">PostgreSQL</span><span class="type">Relacional</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/mysql" alt="MySQL" loading="lazy" decoding="async"></span><span class="name">MySQL</span><span class="type">Relacional</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/mongodb" alt="NoSQL" loading="lazy" decoding="async"></span><span class="name">NoSQL</span><span class="type">No relacional</span></div>
       </div>
       
       <p class="stack-category reveal">Cloud &amp; DevOps</p>
       <div class="stack-grid reveal-stagger">
-        <div class="stack-item"><span class="icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/amazonwebservices.svg" alt="AWS"></span><span class="name">AWS</span><span class="type">Cloud</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/sap" alt="SAP BTP"></span><span class="name">SAP BTP</span><span class="type">Cloud</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/googlecloud" alt="Google Cloud"></span><span class="name">Google Cloud</span><span class="type">Cloud</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/docker" alt="Docker"></span><span class="name">DevOps</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/git" alt="Git"></span><span class="name">Git</span><span class="type">Control versiones</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/amazonwebservices.svg" alt="AWS" loading="lazy" decoding="async"></span><span class="name">AWS</span><span class="type">Cloud</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/sap" alt="SAP BTP" loading="lazy" decoding="async"></span><span class="name">SAP BTP</span><span class="type">Cloud</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/googlecloud" alt="Google Cloud" loading="lazy" decoding="async"></span><span class="name">Google Cloud</span><span class="type">Cloud</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/docker" alt="Docker" loading="lazy" decoding="async"></span><span class="name">DevOps</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/git" alt="Git" loading="lazy" decoding="async"></span><span class="name">Git</span><span class="type">Control versiones</span></div>
       </div>
       
       <p class="stack-category reveal">Herramientas</p>
       <div class="stack-grid reveal-stagger">
-        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/figma" alt="Figma"></span><span class="name">Figma</span><span class="type">Diseño</span></div>
-        <div class="stack-item"><span class="icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/microsoftoffice.svg" alt="Microsoft Office" style="filter:invert(1) brightness(2)"></span><span class="name">Microsoft Office</span><span class="type">Productividad</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.simpleicons.org/figma" alt="Figma" loading="lazy" decoding="async"></span><span class="name">Figma</span><span class="type">Diseño</span></div>
+        <div class="stack-item"><span class="icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/microsoftoffice.svg" alt="Microsoft Office" loading="lazy" decoding="async" style="filter:invert(1) brightness(2)"></span><span class="name">Microsoft Office</span><span class="type">Productividad</span></div>
       </div>
     </section>
 
@@ -1431,6 +1417,31 @@
     })();
   </script>
 
+<script id="project-card-tilt">
+    /* Tilt 3D + foco de luz que sigue al cursor en las tarjetas de proyecto.
+       Solo transform y variables CSS: composición por GPU, cero repintados. */
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (window.matchMedia('(hover: none)').matches) return; /* táctil: fuera tilt */
+      var MAX = 7; /* grados máximos de inclinación */
+      document.querySelectorAll('.display-card').forEach(function (card) {
+        card.addEventListener('pointermove', function (e) {
+          var r = card.getBoundingClientRect();
+          var x = (e.clientX - r.left) / r.width;
+          var y = (e.clientY - r.top) / r.height;
+          card.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+          card.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+          card.style.setProperty('--ry', ((x - 0.5) * 2 * MAX).toFixed(2) + 'deg');
+          card.style.setProperty('--rx', ((0.5 - y) * 2 * MAX).toFixed(2) + 'deg');
+        });
+        card.addEventListener('pointerleave', function () {
+          card.style.setProperty('--rx', '0deg');
+          card.style.setProperty('--ry', '0deg');
+        });
+      });
+    })();
+</script>
+
 <script id="starfield">
     /* Fondo estrellado — warp perspective desde el centro */
     (function () {
@@ -1451,6 +1462,22 @@
       const WARP_SPEED  = 2.8;   // velocidad base de alejamiento
       const MAX_DEPTH   = 1000;
       const STAR_SCALE  = isSmallMobile ? 0.55 : 1;
+
+      /* Respeta la preferencia de movimiento reducido del usuario */
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* Sprite de halo pre-renderizado: evita crear un gradiente radial
+         por estrella y por fotograma (el mayor coste del efecto) */
+      const halo = document.createElement('canvas');
+      halo.width = halo.height = 64;
+      (function () {
+        const h = halo.getContext('2d');
+        const g = h.createRadialGradient(32, 32, 0, 32, 32, 32);
+        g.addColorStop(0, 'rgba(100,200,255,0.3)');
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        h.fillStyle = g;
+        h.fillRect(0, 0, 64, 64);
+      })();
 
       let W, H, CX, CY;
       let stars = [];
@@ -1481,7 +1508,8 @@
 
       let t = 0;
       function draw() {
-        requestAnimationFrame(draw);
+        if (!reduceMotion) requestAnimationFrame(draw);
+        if (document.hidden) return;   /* no dibujar con la pestaña oculta */
         t++;
 
         /* fondo limpio */
@@ -1532,15 +1560,10 @@
           ctx.fillStyle = color;
           ctx.fill();
 
-          /* halo para las más cercanas */
+          /* halo para las más cercanas (sprite pre-renderizado, sin gradientes por frame) */
           if (t_depth > 0.75) {
-            const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 5);
-            g.addColorStop(0, `rgba(100,200,255,${a * 0.3})`);
-            g.addColorStop(1, 'rgba(0,0,0,0)');
-            ctx.beginPath();
-            ctx.arc(sx, sy, r * 5, 0, Math.PI * 2);
-            ctx.fillStyle = g;
-            ctx.fill();
+            const hr = r * 5;
+            ctx.drawImage(halo, sx - hr, sy - hr, hr * 2, hr * 2);
           }
         });
 
@@ -1548,7 +1571,13 @@
 
       window.addEventListener('resize', resize);
       resize();
-      draw();
+      if (reduceMotion) {
+        /* usuario con "movimiento reducido": un fotograma estático y listo */
+        stars.forEach(s => { s.z -= WARP_SPEED; });
+        draw();
+      } else {
+        draw();
+      }
     })();
   </script>
 
